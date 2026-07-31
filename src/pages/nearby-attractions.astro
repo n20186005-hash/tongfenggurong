@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import NearbyCard from "../components/NearbyCard.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { nearbyPlaces } from "../data/nearby";
+
+const breadcrumbs = [
+  { name: "首頁", path: "/" },
+  { name: "附近景點", path: "/nearby-attractions/" },
+];
+---
+
+<BaseLayout
+  title="通樑古榕附近景點"
+  description="通樑古榕附近景點整理：澎湖跨海大橋、小門鯨魚洞、大菓葉柱狀玄武岩、二崁聚落、池西岩瀑與漁翁島燈塔，依北環順路順序排列，附 Google Maps 導航。"
+  path="/nearby-attractions/"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHeader
+    eyebrow="Nearby Attractions"
+    title="通樑古榕附近景點"
+    subtitle="跨海大橋、鯨魚洞、玄武岩與西嶼沿線——這些景點都能和通樑古榕串成一條順路的北環路線。"
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-14 md:px-6">
+    <p class="mb-10 max-w-2xl text-lg leading-relaxed text-banyan-800/85">
+      以下景點依<strong class="text-banyan-900">從馬公出發、跨過大橋往西嶼</strong
+      >的順路順序排列。通樑古榕通常是進入西嶼前的第一站，之後便能一路玩到漁翁島燈塔。
+    </p>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {nearbyPlaces.map((p) => <NearbyCard place={p} />)}
+    </div>
+  </section>
+
+  <RelatedLinks
+    title="把景點串成行程"
+    links={[
+      { label: "澎湖北環一日行程", href: "/north-loop-itinerary/", desc: "完整走完西嶼" },
+      { label: "北環半日行程", href: "/half-day-itinerary/", desc: "時間有限的精選" },
+      { label: "交通與停車", href: "/transportation/", desc: "怎麼到、怎麼停" },
+      { label: "美食補給", href: "/food/", desc: "沿線吃什麼" },
+    ]}
+  />
+</BaseLayout>

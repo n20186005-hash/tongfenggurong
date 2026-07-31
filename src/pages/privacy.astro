@@ -1,0 +1,42 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import { site } from "../data/place";
+---
+
+<ArticleLayout
+  title="隱私權政策"
+  eyebrow="Privacy"
+  subtitle="說明本站如何處理你的資料，以及第三方服務的使用情形。"
+  description="通樑古榕網站隱私權政策：說明本站的資料蒐集、Cookie、第三方服務（如 Google Maps 嵌入）與聯絡方式。"
+  path="/privacy/"
+>
+  <p>
+    本頁說明<strong>{site.name}</strong>（tonglianggurong.com，以下簡稱「本站」）如何處理造訪者的資料。使用本站即表示你了解並同意本政策所述的做法。
+  </p>
+
+  <h2>我們蒐集的資料</h2>
+  <p>
+    本站以提供旅遊資訊為主，<strong>不要求註冊、不蒐集姓名、電話等個人身分資料</strong>，也沒有會員或訂購功能。當你主動來信時，我們才會取得你在信件中提供的電子郵件與內容，且僅用於回覆與處理你的來信。
+  </p>
+
+  <h2>Cookie 與分析</h2>
+  <p>
+    本站可能使用必要的技術性 Cookie，以及匿名的網站流量分析，用來了解頁面使用情形、改善內容品質。這類資料為彙總、匿名形式，不用於識別個人。你可以透過瀏覽器設定管理或清除 Cookie。
+  </p>
+
+  <h2>第三方服務</h2>
+  <ul>
+    <li>
+      <strong>Google Maps：</strong>部分頁面嵌入 Google Maps 地圖或連結至 Google Maps。當你使用這些功能時，將適用 Google 的隱私權政策。
+    </li>
+    <li>
+      <strong>外部連結：</strong>本站可能連往其他網站，這些網站有各自的隱私權政策，本站不負其內容與資料處理之責。
+    </li>
+  </ul>
+
+  <h2>資料安全與更新</h2>
+  <p>
+    我們會以合理方式保護所取得的資料。本政策可能隨服務調整而更新，修訂後將於本頁公布。若對本政策有任何疑問，歡迎來信
+    <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>。
+  </p>
+</ArticleLayout>

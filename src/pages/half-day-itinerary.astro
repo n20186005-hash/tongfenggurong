@@ -1,0 +1,54 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+
+const stops = [
+  { time: "約 40 分鐘", place: "通樑古榕 + 保安宮", note: "氣根長廊、廟埕、仙人掌冰，北環必訪核心。" },
+  { time: "約 20 分鐘", place: "澎湖跨海大橋", note: "步行到橋頭拱門拍照，感受吼門水道強風。" },
+  { time: "約 40 分鐘", place: "小門鯨魚洞", note: "玄武岩海蝕拱門與環島小步道。" },
+  { time: "約 30 分鐘", place: "大菓葉柱狀玄武岩", note: "整齊岩柱與退潮倒影，回程順路。" },
+];
+---
+
+<ArticleLayout
+  title="澎湖北環半日行程"
+  eyebrow="Half-Day Itinerary"
+  subtitle="只有半天也能玩到北環精華：通樑古榕、跨海大橋、鯨魚洞與玄武岩，一趟收齊。"
+  description="澎湖北環半日行程：以通樑古榕為起點，精選跨海大橋、小門鯨魚洞與大菓葉柱狀玄武岩，適合時間有限或下午出發的旅客。"
+  path="/half-day-itinerary/"
+>
+  <p>
+    如果只有半天，或想在下午出發輕鬆玩，可以把北環濃縮成四個重點。整段以<strong>通樑古榕</strong>為起點，全程集中在白沙與西嶼近端，來回約 <strong>3.5 至 4 小時</strong>。
+  </p>
+
+  <h2>半日精選路線</h2>
+  <ol>
+    {stops.map((s) => (
+      <li><strong>{s.place}（{s.time}）：</strong>{s.note}</li>
+    ))}
+  </ol>
+
+  <Callout title="這樣排最順" tone="leaf">
+    <p>
+      從馬公沿台 203 線先到通樑古榕，接著就近走跨海大橋，再往西嶼方向到鯨魚洞；回程順路停大菓葉玄武岩。若時間更緊，可省略玄武岩，把時間留給古榕與大橋。
+    </p>
+  </Callout>
+
+  <Callout title="出發前確認" tone="sea">
+    <p>
+      玄武岩與海邊景點受潮汐影響，建議先查潮汐時間。即時路況與開放狀態請以 Google Maps 為準。
+    </p>
+  </Callout>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "北環一日行程", href: "/north-loop-itinerary/", desc: "完整版路線" },
+        { label: "附近景點", href: "/nearby-attractions/", desc: "各點詳細介紹" },
+        { label: "交通與停車", href: "/transportation/", desc: "如何抵達" },
+        { label: "參觀指南", href: "/visitor-guide/", desc: "古榕停留建議" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

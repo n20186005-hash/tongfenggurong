@@ -1,0 +1,7 @@
+# 統一導向無 www 主域名
+https://www.tonglianggurong.com/* https://tonglianggurong.com/:splat 301!
+
+# 英文別名舊路徑導回首頁
+/tongliang-great-banyan/  /  301
+/tongliang-banyan/        /  301
+/tongliang-ancient-tree/  /  301

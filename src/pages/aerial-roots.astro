@@ -1,0 +1,58 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Figure from "../components/Figure.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { images } from "../data/images";
+---
+
+<ArticleLayout
+  title="一棵榕樹如何長成一片森林"
+  eyebrow="Aerial Roots"
+  subtitle="約 95 根氣根、約 660 平方公尺的樹蔭——通樑古榕「獨木成林」的祕密，就藏在垂下的氣根裡。"
+  description="通樑古榕氣根生態解說：榕樹的氣根如何落地變成支柱根、形成獨木成林，約 95 根氣根撐起約 660 平方公尺樹蔭空間，以及澎湖強風環境下的生長。"
+  path="/aerial-roots/"
+  ogImage="/og/tongliang-gurong.jpg"
+>
+  <p>
+    第一次看到通樑古榕的人，常以為眼前是一整片樹林。其實它們全都來自<strong>同一株榕樹</strong>——祕密就在那些從枝條垂下、一根根插進土裡的氣根。
+  </p>
+
+  <h2>氣根、支柱根與獨木成林</h2>
+  <p>
+    榕樹會從枝幹上長出向下生長的<strong>氣根</strong>。氣根一旦落地、伸入土壤，就會逐漸增粗、木質化，變成能夠支撐重量的<strong>支柱根</strong>。這些支柱根像一根根新的樹幹，撐起不斷向外延伸的枝條與樹冠，於是一棵樹的樹冠可以越擴越廣，形成看似成林、實為一體的「<strong>獨木成林</strong>」奇觀。
+  </p>
+
+  <Figure
+    src={images.banyanCanopyTall}
+    alt="通樑古榕落地增粗的支柱根與人工支撐 Tongliang Great Banyan aerial roots"
+    caption="落地增粗的支柱根與人工支撐交錯，撐起可以走入其中的廣大樹冠。"
+  />
+
+  <h2>約 95 根氣根、約 660 平方公尺樹蔭</h2>
+  <p>
+    官方資料將通樑古榕描述為擁有約 <strong>95 根氣根</strong>的老榕樹；官方英文資料則記載，這些氣根形成約 <strong>660 平方公尺</strong>的樹蔭空間。走在樹下，就像走進一座由樹自己蓋出來的綠色涼棚。
+  </p>
+
+  <Callout title="現場觀察重點" tone="leaf">
+    <p>
+      試著分辨三種角色：從枝條剛垂下、還很細的<strong>氣根</strong>；已經落地變粗、能受力的<strong>支柱根</strong>；以及人工架設、幫忙分擔重量的<strong>棚架</strong>。三者一起撐住了這片樹冠。
+    </p>
+  </Callout>
+
+  <h2>在澎湖強風下生存</h2>
+  <p>
+    澎湖冬季東北季風強勁，一般高大喬木不易存活。榕樹以低矮而橫向擴展的姿態、加上眾多支柱根分散受力，正好適應了這樣的環境；再輔以人工棚架支撐，才讓這片樹蔭得以長年維持。這也是為什麼在多風的澎湖，通樑古榕顯得格外珍貴。
+  </p>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "歷史與傳說", href: "/history/", desc: "樹齡與由來的故事" },
+        { label: "拍照指南", href: "/photo-guide/", desc: "怎麼拍出氣根層次" },
+        { label: "通樑保安宮", href: "/baoan-temple/", desc: "古榕旁的廟宇" },
+        { label: "參觀指南", href: "/visitor-guide/", desc: "停留與觀察建議" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

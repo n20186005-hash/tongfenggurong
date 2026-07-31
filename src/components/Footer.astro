@@ -1,0 +1,76 @@
+---
+import Logo from "./Logo.astro";
+import { mainNav, footerNav } from "../data/navigation";
+import { place, site } from "../data/place";
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 bg-banyan-950 text-sand-100">
+  <div class="mx-auto max-w-6xl px-4 py-14 md:px-6">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <Logo tone="light" />
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-sand-100/80">
+          通樑古榕（Tongliang Great Banyan）深度旅遊指南，整理交通、氣根景觀、保安宮歷史、拍照位置與澎湖北環行程。
+        </p>
+        <p class="mt-4 text-sm text-sand-100/70">
+          {place.address}
+        </p>
+      </div>
+
+      <nav aria-label="主要頁面">
+        <h2 class="text-sm font-bold tracking-wide text-sand-50">探索古榕</h2>
+        <ul class="mt-4 space-y-2 text-sm">
+          {
+            mainNav.map((item) => (
+              <li>
+                <a href={item.href} class="text-sand-100/80 hover:text-sand-50">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="其他頁面">
+        <h2 class="text-sm font-bold tracking-wide text-sand-50">更多資訊</h2>
+        <ul class="mt-4 space-y-2 text-sm">
+          {
+            footerNav.map((item) => (
+              <li>
+                <a href={item.href} class="text-sand-100/80 hover:text-sand-50">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <div class="mt-12 rounded-2xl border border-sand-100/15 bg-banyan-900/40 p-5 text-sm text-sand-100/80">
+      開放狀態、即時路況、停車情形與旅客評論可能隨時變動，出發前請透過
+      <a
+        href={place.googleMapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-semibold text-sand-50 underline">Google Maps</a
+      >
+      查看最新資訊。
+    </div>
+
+    <div
+      class="mt-8 flex flex-col gap-3 border-t border-sand-100/15 pt-6 text-xs text-sand-100/60 md:flex-row md:items-center md:justify-between"
+    >
+      <p>© {year} {site.name} · Tongliang Gurong</p>
+      <p>
+        <a href="/sources/" class="hover:text-sand-50">資料與圖片來源</a>
+        <span class="mx-2">·</span>
+        <a href={`mailto:${site.contactEmail}`} class="hover:text-sand-50"
+          >{site.contactEmail}</a
+        >
+      </p>
+    </div>
+  </div>
+</footer>

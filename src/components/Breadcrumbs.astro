@@ -1,0 +1,34 @@
+---
+interface Crumb {
+  name: string;
+  path: string;
+}
+interface Props {
+  items: Crumb[];
+  tone?: "dark" | "light";
+}
+const { items, tone = "dark" } = Astro.props;
+const base = tone === "light" ? "text-sand-100/80" : "text-banyan-800/70";
+const currentColor = tone === "light" ? "text-sand-50" : "text-banyan-900";
+---
+
+<nav aria-label="麵包屑" class={`text-sm ${base}`}>
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {
+      items.map((item, i) => (
+        <li class="flex items-center gap-1.5">
+          {i > 0 && <span aria-hidden="true">/</span>}
+          {i < items.length - 1 ? (
+            <a href={item.path} class="hover:underline">
+              {item.name}
+            </a>
+          ) : (
+            <span class={`font-semibold ${currentColor}`} aria-current="page">
+              {item.name}
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

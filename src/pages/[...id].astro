@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from "astro:content";
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+
+export async function getStaticPaths() {
+  const guides = await getCollection("guides");
+
+  return guides.map((guide) => ({
+    params: { id: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+const path = `/${guide.id}/`;
+---
+
+<ArticleLayout
+  title={guide.data.title}
+  eyebrow={guide.data.eyebrow}
+  subtitle={guide.data.subtitle}
+  description={guide.data.description}
+  path={path}
+  schemaType="WebPage"
+>
+  <Content />
+
+  {
+    guide.data.related.length > 0 && (
+      <div slot="after">
+        <RelatedLinks links={guide.data.related} />
+      </div>
+    )
+  }
+</ArticleLayout>

@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { nearbyPlaces } from "../data/nearby";
+
+const breadcrumbs = [
+  { name: "首頁", path: "/" },
+  { name: "澎湖北環一日行程", path: "/north-loop-itinerary/" },
+];
+
+// 完整北環一日：以通樑古榕為核心
+const timeline = [
+  { time: "09:00", place: "馬公出發", note: "沿台 203 線往白沙、西嶼方向。", key: false },
+  { time: "09:20", place: "中屯風車", note: "白色風車海岸，短暫停車拍照約 15 分鐘。", key: false },
+  { time: "09:45", place: "通樑古榕", note: "走氣根長廊、看保安宮、吃仙人掌冰，停留 30–40 分鐘。", key: true },
+  { time: "10:30", place: "澎湖跨海大橋", note: "就在古榕旁，橋頭拱門拍照，約 20 分鐘。", key: false },
+  { time: "11:00", place: "小門鯨魚洞", note: "玄武岩海蝕拱門與海景步道，約 40 分鐘。", key: false },
+  { time: "12:00", place: "二崁聚落（午餐）", note: "傳統古厝聚落，杏仁茶與在地小吃，約 1.5 小時。", key: false },
+  { time: "14:00", place: "大菓葉柱狀玄武岩", note: "整齊岩柱與退潮倒影，約 30 分鐘。", key: false },
+  { time: "14:45", place: "池西岩瀑", note: "海崖玄武岩秘境，留意潮汐，約 40 分鐘。", key: false },
+  { time: "16:00", place: "漁翁島燈塔", note: "西嶼最南端白色燈塔，傍晚光線最美，收尾一站。", key: false },
+];
+---
+
+<BaseLayout
+  title="澎湖北環一日行程"
+  description="澎湖北環一日行程：以通樑古榕為核心，串連中屯風車、跨海大橋、小門鯨魚洞、二崁聚落、大菓葉玄武岩、池西岩瀑與漁翁島燈塔的順路路線與時間安排。"
+  path="/north-loop-itinerary/"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHeader
+    eyebrow="North Loop Itinerary"
+    title="澎湖北環一日行程"
+    subtitle="從馬公出發，以通樑古榕為中繼，一路玩到漁翁島燈塔——這是澎湖北環最順、最完整的一日路線。"
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="mx-auto max-w-3xl px-4 py-14 md:px-6">
+    <p class="text-lg leading-relaxed text-banyan-800/85">
+      北環的精華集中在<strong class="text-banyan-900">白沙鄉與西嶼鄉</strong
+      >。通樑古榕與跨海大橋相鄰，是進入西嶼前最自然的休息與拍照點；把它排在上午，接著一路往西嶼推進，動線最順。
+    </p>
+
+    <ol class="mt-10 space-y-0">
+      {
+        timeline.map((t, i) => (
+          <li class="relative flex gap-4 pb-8 last:pb-0">
+            <div class="flex flex-col items-center">
+              <span
+                class:list={[
+                  "grid h-11 w-11 shrink-0 place-items-center rounded-full text-xs font-bold",
+                  t.key ? "bg-banyan-900 text-sand-50" : "bg-sand-200 text-banyan-900",
+                ]}
+              >
+                {t.time}
+              </span>
+              {i < timeline.length - 1 && (
+                <span class="mt-1 w-px flex-1 bg-sand-200" aria-hidden="true" />
+              )}
+            </div>
+            <div class="pt-1.5">
+              <h2 class:list={["text-lg font-bold", t.key ? "text-temple-700" : "text-banyan-900"]}>
+                {t.place}
+                {t.key && <span class="ml-2 rounded-full bg-temple-700/10 px-2 py-0.5 text-xs text-temple-700">本站主角</span>}
+              </h2>
+              <p class="mt-1 text-sm leading-relaxed text-banyan-800/80">{t.note}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-8 rounded-2xl border border-sea-600/35 bg-sea-600/10 p-5 text-sm leading-relaxed text-banyan-800/90">
+      <strong class="text-banyan-900">彈性提醒：</strong>以上時間僅供參考。澎湖天候與潮汐影響大，玄武岩與岩瀑景點請先查潮汐；行程可依體力與天氣增減。即時路況與開放狀態請以 Google Maps 為準。
+    </div>
+
+    <h2 class="mt-12 text-2xl font-bold text-banyan-900">沿線景點快速導覽</h2>
+    <ul class="mt-4 space-y-2 text-banyan-800/85">
+      {
+        nearbyPlaces.map((p) => (
+          <li>
+            <a href={p.mapsUrl} target="_blank" rel="noopener noreferrer" class="font-semibold text-temple-700 underline">{p.name}</a>
+            <span class="text-sm text-banyan-800/70"> — {p.driveFromBanyan}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <RelatedLinks
+    links={[
+      { label: "北環半日行程", href: "/half-day-itinerary/", desc: "時間有限的精選版" },
+      { label: "附近景點", href: "/nearby-attractions/", desc: "每個點的詳細介紹" },
+      { label: "交通與停車", href: "/transportation/", desc: "怎麼到通樑古榕" },
+      { label: "美食補給", href: "/food/", desc: "沿線吃什麼" },
+    ]}
+  />
+</BaseLayout>

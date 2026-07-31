@@ -1,0 +1,19 @@
+---
+interface Props {
+  title?: string;
+  tone?: "leaf" | "temple" | "sea";
+}
+const { title, tone = "leaf" } = Astro.props;
+const tones = {
+  leaf: "border-leaf-500/40 bg-leaf-500/10",
+  temple: "border-temple-700/30 bg-temple-700/8",
+  sea: "border-sea-600/35 bg-sea-600/10",
+};
+---
+
+<aside class={`not-prose my-8 rounded-2xl border p-5 ${tones[tone]}`}>
+  {title && <p class="font-bold text-banyan-900">{title}</p>}
+  <div class="mt-1 text-banyan-800/90 leading-relaxed [&_p]:mt-2 [&_a]:font-semibold [&_a]:text-temple-700 [&_a]:underline">
+    <slot />
+  </div>
+</aside>

@@ -1,0 +1,101 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/place";
+
+interface Crumb {
+  name: string;
+  path: string;
+}
+interface Props {
+  title: string;
+  eyebrow: string;
+  subtitle?: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  schemaType?: "Article" | "WebPage";
+  extraSchema?: Record<string, unknown> | Record<string, unknown>[];
+}
+const {
+  title,
+  eyebrow,
+  subtitle,
+  description,
+  path,
+  ogImage,
+  ogImageAlt,
+  schemaType = "Article",
+  extraSchema,
+} = Astro.props;
+
+const breadcrumbs: Crumb[] = [
+  { name: "首頁", path: "/" },
+  { name: title, path },
+];
+
+const publisher = {
+  "@type": "Organization",
+  name: site.name,
+  url: site.url + "/",
+};
+
+const pageSchema =
+  schemaType === "Article"
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: title,
+        description,
+        inLanguage: "zh-Hant-TW",
+        mainEntityOfPage: new URL(path, site.url).href,
+        image: new URL(ogImage ?? "/og/tongliang-gurong.jpg", site.url).href,
+        author: publisher,
+        publisher,
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description,
+        inLanguage: "zh-Hant-TW",
+        url: new URL(path, site.url).href,
+        isPartOf: {
+          "@type": "WebSite",
+          name: site.name,
+          url: site.url + "/",
+        },
+      };
+
+const schema = [
+  pageSchema,
+  ...(Array.isArray(extraSchema)
+    ? extraSchema
+    : extraSchema
+      ? [extraSchema]
+      : []),
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  ogType={schemaType === "Article" ? "article" : "website"}
+  schema={schema}
+  breadcrumbs={breadcrumbs}
+>
+  <PageHeader
+    eyebrow={eyebrow}
+    title={title}
+    subtitle={subtitle}
+    breadcrumbs={breadcrumbs}
+  />
+  <article class="mx-auto max-w-3xl px-4 py-14 md:px-6 prose-body">
+    <slot />
+  </article>
+  <slot name="after" />
+</BaseLayout>

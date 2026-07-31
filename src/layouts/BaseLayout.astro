@@ -1,0 +1,152 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/place";
+
+interface Crumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: "website" | "article";
+  robots?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumbs?: Crumb[];
+}
+
+const {
+  title,
+  description,
+  path,
+  ogImage = "/og/tongliang-gurong.jpg",
+  ogImageAlt = "通樑古榕氣根、樹蔭與通樑保安宮景觀",
+  ogType = "website",
+  robots = "index, follow, max-image-preview:large",
+  schema,
+  breadcrumbs = [],
+} = Astro.props;
+
+const canonical = new URL(path, site.url).href;
+const ogImageUrl = new URL(ogImage, site.url).href;
+const fullTitle =
+  path === "/" ? title : `${title}｜${site.name} Tongliang Gurong`;
+
+// WebSite schema：全站共用
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  alternateName: [site.brandEnglish, "Tongliang Great Banyan"],
+  url: site.url + "/",
+  description:
+    "通樑古榕深度旅遊指南，整理交通、氣根景觀、保安宮歷史、拍照位置與澎湖北環行程。",
+  inLanguage: "zh-Hant-TW",
+};
+
+// 麵包屑結構化資料
+const breadcrumbSchema =
+  breadcrumbs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((c, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: c.name,
+          item: new URL(c.path, site.url).href,
+        })),
+      }
+    : null;
+
+const schemas = [
+  websiteSchema,
+  breadcrumbSchema,
+  ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
+].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#244a36" />
+    <meta name="format-detection" content="telephone=no" />
+    <link
+      rel="alternate"
+      hreflang="zh-Hant-TW"
+      href={canonical}
+    />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-HXM22WWPKP");
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {
+      schemas.map((s) => (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(s)}
+        />
+      ))
+    }
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:rounded-full focus:bg-banyan-900 focus:px-4 focus:py-2 focus:text-sand-50"
+      >跳至主要內容</a
+    >
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

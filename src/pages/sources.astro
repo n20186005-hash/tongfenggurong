@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { images, credits } from "../data/images";
+import { Image } from "astro:assets";
+
+const breadcrumbs = [
+  { name: "首頁", path: "/" },
+  { name: "資料來源", path: "/sources/" },
+];
+
+const references = [
+  {
+    name: "澎湖國家風景區管理處｜通梁古榕",
+    url: "https://www.penghu-nsa.gov.tw/TravelInformationFoodDetailC001200.aspx?Cond=46d40746-2dc0-4bf5-9d41-736200364654&Language=1028&SearchAdvanced=False",
+  },
+  {
+    name: "交通部觀光署｜通梁古榕",
+    url: "https://www.taiwan.net.tw/m1.aspx?id=11470&sno=0001016",
+  },
+  { name: "Tongliang Great Banyan（Tourism Administration 英文資料）", url: "https://eng.taiwan.net.tw/m1.aspx?id=657&sNo=0002016" },
+  { name: "Google Maps（即時開放狀態、路況與評論）", url: "https://maps.google.com/" },
+];
+---
+
+<BaseLayout
+  title="資料與圖片來源"
+  description="通樑古榕網站的資料與圖片來源：參考澎湖國家風景區管理處、交通部觀光署等公開資料，圖片取自 Wikimedia Commons 並依 Creative Commons 授權標示作者。"
+  path="/sources/"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHeader
+    eyebrow="Sources & Credits"
+    title="資料與圖片來源"
+    subtitle="我們相信可信的旅遊資訊應該公開來源。以下列出本站參考的資料與所有圖片的作者與授權。"
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="mx-auto max-w-3xl px-4 py-14 md:px-6 prose-body">
+    <h2>參考資料</h2>
+    <p>本站內容參考下列公開資料整理撰寫，並以 Google Maps 作為即時資訊的查詢入口：</p>
+    <ul>
+      {
+        references.map((r) => (
+          <li>
+            <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
+          </li>
+        ))
+      }
+      <li>澎湖地方文史資料與現場觀察</li>
+    </ul>
+    <p class="text-sm text-banyan-800/70">
+      關於樹齡等有不同說法的資訊，本站均標示為地方傳說與歷史推測。即時開放狀態、營業時間與旅客評論請以 Google Maps 及相關單位公告為準。
+    </p>
+
+    <h2 class="mt-12">圖片來源與授權</h2>
+    <p>
+      本站使用的照片皆取自 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>，並依 Creative Commons 授權條款標示原作者與授權方式。感謝以下攝影者以開放授權分享作品：
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-16 md:px-6">
+    <ul class="grid gap-4 sm:grid-cols-2 list-none p-0">
+      {
+        credits.map((c) => (
+          <li class="flex gap-4 rounded-2xl border border-sand-200 bg-white p-3">
+            <Image
+              src={images[c.key]}
+              alt={c.caption}
+              widths={[96, 160]}
+              sizes="80px"
+              loading="lazy"
+              class="h-20 w-20 shrink-0 rounded-xl object-cover"
+            />
+            <div class="min-w-0 text-sm">
+              <p class="font-semibold text-banyan-900">{c.caption}</p>
+              <p class="mt-0.5 text-banyan-800/75">攝影：{c.author}</p>
+              <p class="mt-0.5">
+                <a href={c.licenseUrl} target="_blank" rel="noopener noreferrer" class="text-temple-700 underline">{c.license}</a>
+                <span class="mx-1 text-banyan-800/40">·</span>
+                <a href={c.sourceUrl} target="_blank" rel="noopener noreferrer" class="text-temple-700 underline">原始頁面</a>
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

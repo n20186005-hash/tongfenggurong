@@ -1,0 +1,58 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Figure from "../components/Figure.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { images } from "../data/images";
+---
+
+<ArticleLayout
+  title="通樑古榕的歷史與傳說"
+  eyebrow="History & Legend"
+  subtitle="樹齡究竟是 200 年還是 300 年？古榕與保安宮之間，流傳著一段與海、與信仰有關的故事。"
+  description="通樑古榕歷史與傳說：樹齡爭議（200 年或 300 年）、與通樑保安宮的淵源，以及地方口傳的由來。內容標示為地方傳說與歷史推測。"
+  path="/history/"
+  ogImage="/og/tongliang-gurong.jpg"
+>
+  <p>
+    通樑古榕生長在通樑保安宮前的廟埕，是澎湖樹齡最老、樹冠最廣的榕樹之一。它的年紀究竟多大，其實沒有明確的種植紀錄，因此至今仍是<strong>地方傳說與歷史推測</strong>。
+  </p>
+
+  <h2>樹齡：200 年還是 300 年？</h2>
+  <p>
+    關於樹齡，主要有兩種說法。一種認為超過 <strong>300 年</strong>，另一種記載為 <strong>200 多年</strong>。兩種說法都廣為流傳，也都缺乏可考的確切起點。與其糾結精確數字，不如把它理解為「至少兩、三百年的老樹」——這已足以說明它在澎湖自然與人文史上的份量。
+  </p>
+
+  <Callout title="為什麼難以確定樹齡" tone="leaf">
+    <p>
+      榕樹會不斷長出氣根、落地成為新的支柱根，主幹與樹體界線變得模糊，加上早年沒有系統性的種植與量測紀錄，使得樹齡只能推測，難以精確認定。
+    </p>
+  </Callout>
+
+  <h2>與大海和信仰的傳說</h2>
+  <p>
+    地方口傳中，這株榕樹的由來與海運、與保安宮的神明信仰緊密相連：相傳古榕源自一段隨船而來、被種在廟前的因緣，此後在村民與廟宇的照顧下逐漸成蔭，庇護著往來的居民與旅人。這類故事版本不一，正是澎湖離島聚落把自然地景與信仰生活交織在一起的典型體現。
+  </p>
+
+  <Figure
+    src={images.banyanTempleSign}
+    alt="通樑榕樹與保安宮廟牌 Tongliang Banyan and Baoan Temple"
+    caption="古榕與保安宮長年相伴，廟與樹共同構成通樑村的中心。"
+  />
+
+  <h2>古樹與聚落一起長大</h2>
+  <p>
+    對通樑村而言，古榕不只是景點，更是村落的公共客廳。廟埕的樹蔭下曾是居民乘涼、話家常、孩童玩耍的地方；如今它同時承接觀光人潮，成為澎湖北環路線上最具代表性的文化地標。理解這層生活脈絡，再走進樹蔭，會更有感覺。
+  </p>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "氣根生態", href: "/aerial-roots/", desc: "一棵榕樹如何長成一片森林" },
+        { label: "通樑保安宮", href: "/baoan-temple/", desc: "古樹旁的信仰中心" },
+        { label: "參觀指南", href: "/visitor-guide/", desc: "現場怎麼看最有味道" },
+        { label: "常見問題", href: "/faq/", desc: "樹齡與同一棵樹的疑問" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

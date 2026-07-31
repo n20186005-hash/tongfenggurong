@@ -1,0 +1,31 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import { site } from "../data/place";
+---
+
+<ArticleLayout
+  title="聯絡我們"
+  eyebrow="Contact"
+  subtitle="有內容錯誤、補充建議或合作提案？歡迎寫信給我們。"
+  description="聯絡通樑古榕網站：回報內容錯誤、提供補充資訊或合作提案，請來信 hello@tonglianggurong.com。"
+  path="/contact/"
+>
+  <p>
+    無論是發現內容需要更正、想提供更新的現場資訊，或有合作提案，都歡迎與我們聯絡。我們會儘快回覆並更新內容。
+  </p>
+
+  <h2>電子郵件</h2>
+  <p>
+    <a href={`mailto:${site.contactEmail}`} class="text-xl font-semibold">{site.contactEmail}</a>
+  </p>
+
+  <h2>回報內容錯誤</h2>
+  <p>
+    來信時若能附上<strong>頁面網址</strong>與<strong>具體段落</strong>，並簡述正確資訊或來源，將能幫助我們更快確認與修正。感謝你一起讓這份指南更準確。
+  </p>
+
+  <h2>關於即時資訊</h2>
+  <p>
+    開放狀態、營業時間、路況與旅客評論等即時資訊，本站不另行維護，建議直接查看 Google Maps。這類問題來信我們也無法提供即時答覆，敬請見諒。
+  </p>
+</ArticleLayout>

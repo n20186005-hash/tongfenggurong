@@ -1,0 +1,65 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Figure from "../components/Figure.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { images } from "../data/images";
+
+const spots = [
+  { title: "入口正面廣角", text: "從廟埕正面用廣角納入整片樹冠與保安宮，交代環境與規模。" },
+  { title: "氣根長廊往保安宮", text: "站進氣根之間，讓一整排支柱根形成引導線，帶到後方廟宇。" },
+  { title: "從地面向上仰拍樹冠", text: "貼近地面往上拍，讓層層榕葉與透光形成放射狀構圖。" },
+  { title: "廟宇屋脊與榕葉同框", text: "尋找朱紅燕尾脊與深綠榕葉交疊的角度，色彩對比最搶眼。" },
+  { title: "人物站在根系之間", text: "請旅伴站進支柱根之間，用人當比例尺，凸顯古榕的巨大。" },
+  { title: "低角度光影", text: "陽光斜射時，拍地面上斑駁的樹影，畫面最有氛圍。" },
+];
+---
+
+<ArticleLayout
+  title="通樑古榕拍照指南"
+  eyebrow="Photo Guide"
+  subtitle="氣根長廊、廟宇屋脊、斑駁光影——六個最好拍的位置與角度，一次告訴你。"
+  description="通樑古榕拍照指南：氣根長廊、樹冠仰拍、廟宇屋脊與榕葉同框、人物比例與低角度光影等六個取景位置，以及光線與人潮的拍照時機建議。"
+  path="/photo-guide/"
+  ogImage="/og/tongliang-gurong.jpg"
+>
+  <p>
+    通樑古榕是很上鏡的地方，但拍得好不好，關鍵在於<strong>取景位置</strong>與<strong>光線時機</strong>。以下整理六個最推薦的機位，從環境廣角到光影細節都涵蓋。
+  </p>
+
+  <Figure
+    src={images.banyanCanopyTall}
+    alt="通樑古榕樹蔭下的支柱根長廊與斑駁光影 Tongliang Great Banyan"
+    caption="支柱根之間是最有張力的取景區，人物與地面光影都能表現古榕尺度。"
+  />
+
+  <h2>六個推薦機位</h2>
+  <ol>
+    {spots.map((s) => (
+      <li><strong>{s.title}：</strong>{s.text}</li>
+    ))}
+  </ol>
+
+  <Callout title="光線與時機" tone="leaf">
+    <p>
+      <strong>清晨與傍晚</strong>光線柔和、斜射入樹蔭，最能拍出光影層次；正午光線硬、反差大，適合躲進樹下拍細節。人潮方面，中午前後最多，想拍乾淨畫面建議一早前往。
+    </p>
+  </Callout>
+
+  <Callout title="小提醒" tone="sea">
+    <p>
+      樹下光線偏暗，手機記得點一下畫面對焦、稍微提高亮度；廣角拍樹冠時注意別讓天空過曝。拍攝時也請避免攀爬或拉扯氣根，保護這株老樹。
+    </p>
+  </Callout>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "氣根生態", href: "/aerial-roots/", desc: "先懂結構再拍更有味" },
+        { label: "通樑保安宮", href: "/baoan-temple/", desc: "屋脊與榕葉同框" },
+        { label: "附近景點", href: "/nearby-attractions/", desc: "跨海大橋等拍照點" },
+        { label: "參觀指南", href: "/visitor-guide/", desc: "停留時間安排" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

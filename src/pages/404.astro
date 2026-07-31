@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { mainNav } from "../data/navigation";
+---
+
+<BaseLayout
+  title="找不到頁面"
+  description="找不到這個頁面。回到通樑古榕首頁，或瀏覽參觀指南、交通、歷史與北環行程。"
+  path="/404/"
+  robots="noindex, nofollow"
+>
+  <section class="mx-auto max-w-2xl px-4 py-24 text-center md:px-6">
+    <p class="text-7xl font-bold text-leaf-300">404</p>
+    <h1 class="mt-4 text-3xl font-bold text-banyan-900">這條氣根走進了死路</h1>
+    <p class="mt-4 text-banyan-800/80">
+      找不到你要的頁面。也許連結有誤，或頁面已經移動。從下面重新出發吧。
+    </p>
+    <a
+      href="/"
+      class="mt-8 inline-block rounded-full bg-banyan-900 px-6 py-3 font-semibold text-sand-50 hover:bg-banyan-800"
+      >回到通樑古榕首頁</a
+    >
+    <div class="mt-10 flex flex-wrap justify-center gap-2">
+      {
+        mainNav.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-full border border-sand-200 bg-white px-4 py-2 text-sm font-medium text-banyan-800 hover:bg-sand-100"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

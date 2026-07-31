@@ -1,0 +1,76 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Figure from "../components/Figure.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { images } from "../data/images";
+import { place } from "../data/place";
+---
+
+<ArticleLayout
+  title="通樑古榕參觀指南"
+  eyebrow="Visitor Guide"
+  subtitle="值不值得去、要看什麼、停留多久，一次幫你判斷通樑古榕該怎麼安排。"
+  description="通樑古榕參觀指南：值不值得去、看什麼、建議停留時間、適合對象與現場注意事項，並整理與澎湖跨海大橋一起安排的方式。"
+  path="/visitor-guide/"
+  ogImage="/og/tongliang-gurong.jpg"
+>
+  <p>
+    通樑古榕（Tongliang Great Banyan）是澎湖白沙鄉最具代表性的景點之一，就位在<strong
+      >澎湖跨海大橋</strong
+    >白沙端旁的通樑保安宮前。它的魅力不在於「大」，而在於一株榕樹靠著數十根氣根，撐起一整片可以走進去的樹蔭，形成「獨木成林」的奇特景觀。
+  </p>
+
+  <Figure
+    src={images.banyanTrunk}
+    alt="通樑古榕的主幹、支柱根與樹蔭空間 Tongliang Great Banyan"
+    caption="主幹、支柱根與向外伸展的枝條，共同撐起保安宮前的廣大樹蔭。"
+  />
+
+  <h2>值不值得去？</h2>
+  <p>
+    答案取決於你的行程方向。若你正在規劃<strong>澎湖北環</strong>或前往西嶼，通樑古榕幾乎一定會順路經過，非常值得停留 20 到 40 分鐘。它與跨海大橋一橋之隔，是拍照、吃冰、避開烈日的最佳中繼點。
+  </p>
+  <p>
+    如果你的行程完全集中在馬公市區或南環、離島跳島，通樑古榕就不一定順路，這時可以把它和跨海大橋、鯨魚洞排在同一個半日，一次玩完北環精華，而不建議單獨專程往返。
+  </p>
+
+  <h2>建議停留多久</h2>
+  <ul>
+    <li><strong>快速停留（約 20 分鐘）：</strong>走過氣根長廊、看保安宮、拍幾張照。</li>
+    <li><strong>舒適停留（約 40 分鐘）：</strong>加上吃一支仙人掌冰、逛廟埕周邊。</li>
+    <li><strong>慢遊（約 1 小時）：</strong>細看支柱根與人工支撐，搭配跨海大橋一起走。</li>
+  </ul>
+
+  <h2>適合哪些旅客</h2>
+  <ul>
+    <li><strong>親子與長輩：</strong>步行距離短、地面平整、遮蔭充足，是北環少數走起來輕鬆的點。</li>
+    <li><strong>機車環島：</strong>就在台 203 線旁，順路好停，補水吃冰再上路。</li>
+    <li><strong>攝影與文化旅客：</strong>氣根、廟脊與斑駁光影都很耐拍。</li>
+  </ul>
+
+  <Callout title="現場容易忽略的細節" tone="leaf">
+    <p>
+      抬頭看樹冠上架設的棚架與支撐，就能理解「這片樹林其實是同一棵樹」；低頭看地面落下的氣根，會發現它們正一根根變粗、成為新的支柱根。
+    </p>
+  </Callout>
+
+  <Callout title="出發前提醒" tone="sea">
+    <p>
+      開放狀態、停車情形與旅客評論可能隨時變動，出發前請透過
+      <a href={place.googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a>
+      查看最新資訊與現場照片。
+    </p>
+  </Callout>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "交通、停車與導航", href: "/transportation/", desc: "怎麼到通樑古榕、停哪裡" },
+        { label: "拍照指南", href: "/photo-guide/", desc: "最好取景的位置與角度" },
+        { label: "澎湖北環一日行程", href: "/north-loop-itinerary/", desc: "把古榕排進完整路線" },
+        { label: "常見問題", href: "/faq/", desc: "門票、停留、無障礙等疑問" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

@@ -1,0 +1,47 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { site } from "../data/place";
+---
+
+<ArticleLayout
+  title="關於通樑古榕"
+  eyebrow="About"
+  subtitle="我們把通樑古榕與澎湖北環的實用資訊整理成一站，讓你出發前就能規劃好行程。"
+  description="關於通樑古榕網站：我們整理通樑古榕的交通、氣根景觀、保安宮歷史、拍照與澎湖北環行程資訊，目標是成為澎湖北環的實用旅遊入口。"
+  path="/about/"
+>
+  <p>
+    <strong>通樑古榕（Tongliang Great Banyan）</strong>是澎湖白沙鄉最具代表性的自然與人文地標。我們建立這個網站，是希望把散落各處的資訊——交通、停車、氣根景觀、保安宮歷史、拍照位置與北環行程——整理成清楚、好讀、實用的一站式指南。
+  </p>
+
+  <h2>我們想做的事</h2>
+  <ul>
+    <li>用清楚的中文，說明通樑古榕值不值得去、怎麼安排。</li>
+    <li>把古榕放進<strong>澎湖北環</strong>的完整路線，讓行程更順。</li>
+    <li>照顧自由行、機車環島、親子與長輩、攝影文化等不同旅客的需求。</li>
+    <li>對於樹齡等有爭議的資訊，如實標示為地方傳說與歷史推測。</li>
+  </ul>
+
+  <h2>資訊原則</h2>
+  <p>
+    景點的即時資訊變動很快，因此我們<strong>不在站內維護</strong>營業狀態、Google 星級、評論數量或即時停車位；這類資訊一律引導你查看 Google Maps，確保看到的是最新狀況。站內著重相對穩定、能幫助你事前規劃的內容。
+  </p>
+
+  <h2>內容與更正</h2>
+  <p>
+    我們會盡力查證並持續更新內容。若你發現任何錯誤或有補充建議，非常歡迎透過
+    <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a> 與我們聯絡，我們會儘快修正。詳細的資料與圖片來源列於<a href="/sources/">資料來源</a>頁。
+  </p>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "資料與圖片來源", href: "/sources/", desc: "參考資料與授權" },
+        { label: "聯絡我們", href: "/contact/", desc: "回報錯誤與建議" },
+        { label: "隱私權政策", href: "/privacy/", desc: "資料處理說明" },
+        { label: "常見問題", href: "/faq/", desc: "最常見的疑問" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

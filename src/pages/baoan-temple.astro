@@ -1,0 +1,58 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Figure from "../components/Figure.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { images } from "../data/images";
+---
+
+<ArticleLayout
+  title="通樑保安宮與古榕"
+  eyebrow="Baoan Temple"
+  subtitle="古榕之所以動人，是因為它就長在廟前。保安宮與古樹，構成通樑村的信仰與生活中心。"
+  description="通樑保安宮介紹：與通樑古榕相依的信仰中心，供奉的神明、廟埕與古樹共生的空間，以及參觀禮儀。"
+  path="/baoan-temple/"
+  ogImage="/og/tongliang-gurong.jpg"
+>
+  <p>
+    很多人是為了古榕而來，卻常忽略古榕正是長在<strong>通樑保安宮</strong>的廟埕前。廟與樹相依而生，一起構成了通樑村的中心——這也是通樑古榕與其他老樹最不一樣的地方。
+  </p>
+
+  <Figure
+    src={images.banyanTempleSign}
+    alt="通樑保安宮與古榕 Baoan Temple and the Great Banyan"
+    caption="保安宮的朱紅屋脊與翠綠榕葉相映，是通樑最具代表性的畫面。"
+  />
+
+  <h2>村落的信仰中心</h2>
+  <p>
+    保安宮是通樑村的公廟，長年守護著這座濱海聚落的居民。廟埕不只是宗教場所，更是村民日常聚會、乘涼與節慶活動的空間。古榕的樹蔭正好覆蓋在廟埕之上，讓信仰生活始終在綠蔭下進行。
+  </p>
+
+  <h2>廟宇建築細節</h2>
+  <p>
+    走近保安宮，可以留意澎湖廟宇常見的<strong>燕尾屋脊、剪黏與彩繪</strong>裝飾。當廟宇的朱紅、金黃與古榕的深綠同框，就是攝影者最愛的一幕。抬頭時不妨比較「廟脊的曲線」與「榕葉的層次」如何交疊。
+  </p>
+
+  <Callout title="參觀禮儀" tone="temple">
+    <p>
+      保安宮是仍在使用的信仰場所，參觀時請放低音量、尊重正在祭拜的信眾，拍攝神像或儀式前留意現場告示與提醒，衣著以整潔得體為宜。
+    </p>
+  </Callout>
+
+  <h2>廟與樹一起看</h2>
+  <p>
+    建議把保安宮和古榕當成一個整體來欣賞：先在廟埕看廟、再走進氣根長廊看樹，最後找一個能同時框進屋脊與樹冠的角度。這樣一趟下來，你看到的就不只是「一棵老樹」，而是澎湖離島聚落如何把自然與信仰生活緊緊綁在一起。
+  </p>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "歷史與傳說", href: "/history/", desc: "古榕與廟的淵源" },
+        { label: "氣根生態", href: "/aerial-roots/", desc: "獨木成林的原理" },
+        { label: "拍照指南", href: "/photo-guide/", desc: "屋脊與榕葉同框的取景" },
+        { label: "參觀指南", href: "/visitor-guide/", desc: "整體怎麼安排" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  class?: string;
+  tone?: "dark" | "light";
+}
+const { class: className = "", tone = "dark" } = Astro.props;
+const stroke = tone === "light" ? "#faf8f2" : "#244a36";
+const temple = tone === "light" ? "#e7c9b0" : "#a44839";
+const textColor = tone === "light" ? "text-sand-50" : "text-banyan-900";
+const subColor = tone === "light" ? "text-sand-100/80" : "text-leaf-500";
+---
+
+<a href="/" class={`group flex items-center gap-2.5 ${className}`} aria-label="通樑古榕 首頁">
+  <!-- 氣根拱門 + 保安宮屋脊 標誌 -->
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 48 48"
+    fill="none"
+    aria-hidden="true"
+    class="shrink-0"
+  >
+    <!-- 廟脊 -->
+    <path d="M12 30 L24 24 L36 30" stroke={temple} stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M20 27.5 L24 25.5 L28 27.5" stroke={temple} stroke-width="2" stroke-linecap="round" />
+    <!-- 氣根拱門 -->
+    <path d="M6 44 C6 22 18 12 24 6 C30 12 42 22 42 44" stroke={stroke} stroke-width="2.6" stroke-linecap="round" />
+    <path d="M15 44 C15 30 20 22 24 15" stroke={stroke} stroke-width="2.2" stroke-linecap="round" />
+    <path d="M33 44 C33 30 28 22 24 15" stroke={stroke} stroke-width="2.2" stroke-linecap="round" />
+    <path d="M24 15 L24 44" stroke={stroke} stroke-width="2.2" stroke-linecap="round" />
+  </svg>
+  <span class="flex flex-col leading-none">
+    <span class={`text-lg font-bold tracking-wide ${textColor}`}>通樑古榕</span>
+    <span class={`text-[0.6rem] font-semibold tracking-[0.25em] ${subColor}`}
+      >TONGLIANG GURONG</span
+    >
+  </span>
+</a>

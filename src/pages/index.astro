@@ -1,0 +1,315 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GoogleMap from "../components/GoogleMap.astro";
+import FAQList from "../components/FAQList.astro";
+import NearbyCard from "../components/NearbyCard.astro";
+import { place } from "../data/place";
+import { images } from "../data/images";
+import { mainNav } from "../data/navigation";
+import { nearbyPlaces } from "../data/nearby";
+import { faqItems, faqSchema } from "../data/faq";
+
+const homeFaq = faqItems.slice(0, 6);
+
+const touristSchema = {
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  name: place.name,
+  alternateName: [...place.alternateNames],
+  url: "https://tonglianggurong.com/",
+  description:
+    "位於澎湖縣白沙鄉通樑村、以大量氣根與保安宮人文景觀聞名的古榕景點，是澎湖跨海大橋旁、北環路線上的代表性地標。",
+  image: "https://tonglianggurong.com/og/tongliang-gurong.jpg",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: place.addressParts.streetAddress,
+    addressLocality: place.addressParts.addressLocality,
+    addressRegion: place.addressParts.addressRegion,
+    addressCountry: place.addressParts.addressCountry,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: place.coordinates.latitude,
+    longitude: place.coordinates.longitude,
+  },
+  hasMap: place.googleMapsUrl,
+  isAccessibleForFree: true,
+  touristType: ["自由行", "親子", "長輩", "攝影", "機車旅行"],
+};
+
+const facts = [
+  { label: "位置", value: "澎湖縣白沙鄉通樑村" },
+  { label: "類型", value: "古樹、廟宇、村落文化" },
+  { label: "特色", value: "約 95 根氣根形成單木成林" },
+  { label: "建議搭配", value: "澎湖跨海大橋與北環路線" },
+];
+
+const reasons = [
+  {
+    title: "一棵樹形成一片綠蔭",
+    body: "氣根落地後逐漸增粗成為支柱根，看起來像許多棵樹，其實源自同一株古榕，撐起約 660 平方公尺的樹蔭空間。",
+    image: images.banyanTrunk,
+    alt: "通樑古榕的支柱根與樹頭 Tongliang Great Banyan aerial roots",
+  },
+  {
+    title: "古樹與廟宇共生",
+    body: "古榕枝幹、通樑保安宮的朱紅屋脊、廟埕與居民生活交織在一起，是澎湖少見的人文與自然共構空間。",
+    image: images.banyanTempleSign,
+    alt: "通樑榕樹與保安宮廟牌 Tongliang Banyan and Baoan Temple",
+  },
+  {
+    title: "北環途中最舒適的休息點",
+    body: "濃密樹蔭適合避開澎湖烈日，吃一支仙人掌冰、拍照，再前往一橋之隔的跨海大橋，是北環最自然的中繼站。",
+    image: images.heroTempleBanyanAerial,
+    alt: "通樑古榕、保安宮與通樑村空拍景觀 Tongliang Great Banyan and village",
+  },
+];
+
+const firstVisit = [
+  { n: "01", title: "氣根形成的天然長廊", text: "支柱根與棚架撐起低垂樹冠，形成可以走進去的綠色廊道。" },
+  { n: "02", title: "樹冠下的斑駁光影", text: "陽光穿過層層榕葉灑落地面，是最耐看的細節。" },
+  { n: "03", title: "古榕與保安宮屋頂", text: "廟宇燕尾脊與翠綠榕葉同框，展現澎湖廟宇文化。" },
+  { n: "04", title: "主幹、支柱根與人工支撐", text: "觀察哪些是自然落地的氣根、哪些是後來架設的支撐。" },
+];
+
+const routeStops = [
+  "馬公", "中屯", "通樑古榕", "澎湖跨海大橋", "小門鯨魚洞", "二崁聚落", "大菓葉柱狀玄武岩", "漁翁島燈塔",
+];
+---
+
+<BaseLayout
+  title="通樑古榕｜交通、拍照、保安宮與澎湖北環行程"
+  description="通樑古榕完整旅遊指南，整理交通、停車、氣根景觀、保安宮歷史、拍照位置與澎湖北環行程。最新開放狀態、路況與旅客評論請透過 Google Maps 查看。"
+  path="/"
+  schema={[touristSchema, faqSchema(homeFaq)]}
+>
+  <!-- Hero -->
+  <section class="relative isolate overflow-hidden bg-banyan-950 text-sand-50">
+    <Image
+      src={images.banyanCanopyTall}
+      alt="通樑古榕氣根形成的樹蔭長廊 Tongliang Great Banyan aerial-root corridor"
+      widths={[480, 768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_52%]"
+    />
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-t from-banyan-950 via-banyan-950/75 to-banyan-950/40"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="mx-auto max-w-6xl px-4 py-24 md:px-6 md:py-36">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold tracking-[0.3em] text-leaf-300 uppercase">
+          澎湖 · 白沙鄉通樑村
+        </p>
+        <h1 class="mt-4 text-5xl font-bold tracking-tight md:text-7xl">通樑古榕</h1>
+        <p class="mt-3 text-lg font-medium text-sand-100/90">
+          Tongliang Great Banyan
+        </p>
+        <p class="mt-6 text-2xl font-semibold text-sand-50 md:text-3xl">
+          一棵樹，長成一片森林
+        </p>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-sand-100/85">
+          走進氣根交織而成的綠蔭，認識通樑保安宮、古榕傳說與澎湖北環最具代表性的自然人文地標。
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href={place.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-sand-50 px-6 py-3.5 font-semibold text-banyan-950 transition-colors hover:bg-sand-100"
+          >
+            在 Google Maps 導航
+          </a>
+          <a
+            href="/north-loop-itinerary/"
+            class="inline-flex items-center gap-2 rounded-full border border-sand-100/40 px-6 py-3.5 font-semibold text-sand-50 transition-colors hover:bg-sand-50/10"
+          >
+            查看北環行程
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 快速認識 -->
+  <section aria-labelledby="facts-title" class="mx-auto max-w-6xl px-4 py-16 md:px-6">
+    <h2 id="facts-title" class="sr-only">快速認識通樑古榕</h2>
+    <dl class="grid grid-cols-2 gap-4 md:grid-cols-4">
+      {
+        facts.map((f) => (
+          <div class="rounded-2xl border border-sand-200 bg-white p-5">
+            <dt class="text-sm font-semibold text-temple-700">{f.label}</dt>
+            <dd class="mt-2 text-base font-medium text-banyan-900">{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- 為什麼值得去 -->
+  <section aria-labelledby="why-title" class="mx-auto max-w-6xl px-4 py-12 md:px-6">
+    <div class="mb-10 max-w-2xl">
+      <p class="text-sm font-semibold tracking-wide text-temple-700">為什麼值得去</p>
+      <h2 id="why-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
+        走進古榕樹蔭下
+      </h2>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        reasons.map((r) => (
+          <article class="overflow-hidden rounded-3xl border border-sand-200 bg-white shadow-sm">
+            <div class="aspect-[4/3] overflow-hidden">
+              <Image
+                src={r.image}
+                alt={r.alt}
+                widths={[360, 540, 720]}
+                sizes="(min-width: 768px) 30vw, 90vw"
+                loading="lazy"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-banyan-900">{r.title}</h3>
+              <p class="mt-3 leading-relaxed text-banyan-800/85">{r.body}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 第一次來看什麼 -->
+  <section aria-labelledby="first-title" class="bg-sand-100/60">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6">
+      <div class="mb-10 max-w-2xl">
+        <p class="text-sm font-semibold tracking-wide text-temple-700">第一次來看什麼</p>
+        <h2 id="first-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
+          四個不能錯過的細節
+        </h2>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          firstVisit.map((c) => (
+            <div class="rounded-3xl border border-sand-200 bg-white p-6">
+              <span class="text-3xl font-bold text-leaf-300">{c.n}</span>
+              <h3 class="mt-3 text-lg font-bold text-banyan-900">{c.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-banyan-800/80">{c.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 深入了解（內部連結） -->
+  <section aria-labelledby="explore-title" class="mx-auto max-w-6xl px-4 py-16 md:px-6">
+    <div class="mb-10 max-w-2xl">
+      <p class="text-sm font-semibold tracking-wide text-temple-700">深入了解</p>
+      <h2 id="explore-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
+        規劃你的通樑古榕之旅
+      </h2>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        mainNav.map((item) => (
+          <a
+            href={item.href}
+            class="group rounded-2xl border border-sand-200 bg-white p-5 transition-colors hover:border-banyan-700"
+          >
+            <h3 class="flex items-center justify-between text-lg font-bold text-banyan-900">
+              {item.label}
+              <span class="text-leaf-500 transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+            </h3>
+            <p class="mt-2 text-sm text-banyan-800/75">{item.desc}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Google Maps -->
+  <GoogleMap />
+
+  <!-- 北環路線簡版 -->
+  <section aria-labelledby="route-title" class="bg-banyan-950 text-sand-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6">
+      <div class="mb-8 max-w-2xl">
+        <p class="text-sm font-semibold tracking-wide text-leaf-300">澎湖北環路線</p>
+        <h2 id="route-title" class="mt-2 text-3xl font-bold md:text-4xl">
+          從馬公一路玩到漁翁島
+        </h2>
+        <p class="mt-3 text-sand-100/85">
+          通樑古榕是北環路線上最自然的休息點，串連跨海大橋與整條西嶼海岸。
+        </p>
+      </div>
+      <ol class="flex flex-wrap items-center gap-x-2 gap-y-3 text-sm md:text-base">
+        {
+          routeStops.map((stop, i) => (
+            <li class="flex items-center gap-2">
+              <span
+                class:list={[
+                  "rounded-full px-4 py-2 font-medium",
+                  stop === "通樑古榕"
+                    ? "bg-sand-50 text-banyan-950 font-bold"
+                    : "bg-banyan-900/70 text-sand-100",
+                ]}
+              >
+                {stop}
+              </span>
+              {i < routeStops.length - 1 && (
+                <span class="text-leaf-300" aria-hidden="true">→</span>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+      <a
+        href="/north-loop-itinerary/"
+        class="mt-8 inline-flex items-center gap-2 rounded-full bg-sand-50 px-6 py-3 font-semibold text-banyan-950 hover:bg-sand-100"
+      >
+        查看完整北環一日行程 <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 附近景點 -->
+  <section aria-labelledby="nearby-title" class="mx-auto max-w-6xl px-4 py-16 md:px-6">
+    <div class="mb-10 max-w-2xl">
+      <p class="text-sm font-semibold tracking-wide text-temple-700">附近景點</p>
+      <h2 id="nearby-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
+        跨海大橋與西嶼沿線
+      </h2>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {nearbyPlaces.slice(0, 3).map((p) => <NearbyCard place={p} />)}
+    </div>
+    <a
+      href="/nearby-attractions/"
+      class="mt-8 inline-flex items-center gap-2 font-semibold text-banyan-900 hover:text-temple-700"
+    >
+      查看全部附近景點 <span aria-hidden="true">→</span>
+    </a>
+  </section>
+
+  <!-- FAQ -->
+  <section aria-labelledby="faq-title" class="bg-sand-100/60">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6">
+      <div class="mb-8 text-center">
+        <p class="text-sm font-semibold tracking-wide text-temple-700">常見問題</p>
+        <h2 id="faq-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
+          出發前想知道的事
+        </h2>
+      </div>
+      <FAQList items={homeFaq} />
+      <div class="mt-8 text-center">
+        <a href="/faq/" class="font-semibold text-banyan-900 hover:text-temple-700">
+          查看全部常見問題 →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

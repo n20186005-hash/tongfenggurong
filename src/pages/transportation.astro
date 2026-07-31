@@ -1,0 +1,65 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import GoogleMap from "../components/GoogleMap.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { place } from "../data/place";
+---
+
+<ArticleLayout
+  title="通樑古榕交通、停車與導航"
+  eyebrow="Transportation"
+  subtitle="不管是自駕、租機車還是搭公車，這頁整理最實用的到達方式與停車資訊。"
+  description="通樑古榕怎麼去？整理自駕、機車、公車路線、停車資訊與 Google Maps 導航。位於澎湖縣白沙鄉通樑村149號，就在澎湖跨海大橋白沙端旁。"
+  path="/transportation/"
+>
+  <p>
+    通樑古榕位於<strong>{place.address}</strong>，就在台 203 線、澎湖跨海大橋白沙端旁的通樑保安宮前，是北環路線上最好找的地標之一。
+  </p>
+
+  <h2>開車或租機車（最推薦）</h2>
+  <p>
+    澎湖景點分散、班次有限，<strong>租機車或開車</strong>是玩北環最有效率的方式。從馬公市區出發，沿台 203 線往白沙、西嶼方向行駛，約 25 至 30 分鐘即可抵達通樑，途中會先經過中屯風車。看到跨海大橋前的通樑保安宮，就到了。
+  </p>
+  <ul>
+    <li><strong>從馬公市區：</strong>約 25–30 分鐘車程。</li>
+    <li><strong>從澎湖機場：</strong>約 30–35 分鐘車程。</li>
+    <li><strong>從跨海大橋西嶼端：</strong>過橋往回約 1–2 分鐘。</li>
+  </ul>
+
+  <h2>停車</h2>
+  <p>
+    通樑保安宮周邊與廟埕外側設有停車空間，汽車與機車皆可停放，一般平日不難找到車位；假日與旅遊旺季人潮較多時，建議提早或錯開中午尖峰。實際停車格與收費情形可能調整，以現場標示為準。
+  </p>
+
+  <h2>搭公車</h2>
+  <p>
+    澎湖公車有行經通樑的路線，可從馬公總站搭乘往西嶼方向的班次，於通樑站下車後步行即可抵達。公車班次較少、需事先查好時刻，較適合時間彈性、不趕行程的旅客。若同行有長輩或小孩，建議仍以租車或包車較為方便。
+  </p>
+
+  <Callout title="澎湖騎車小提醒" tone="temple">
+    <p>
+      澎湖風勢強、日照烈，跨海大橋上尤其明顯。騎機車務必戴穩安全帽、注意側風，夏季記得防曬補水。通樑古榕的濃密樹蔭正好是上橋前後最佳的休息與遮陽點。
+    </p>
+  </Callout>
+
+  <Callout title="即時路況與導航" tone="sea">
+    <p>
+      即時路況、施工封閉與停車情形可能變動，出發前與現場請以
+      <a href={place.googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a>
+      為準。下方地圖可直接規劃路線。
+    </p>
+  </Callout>
+
+  <div slot="after">
+    <GoogleMap />
+    <RelatedLinks
+      links={[
+        { label: "參觀指南", href: "/visitor-guide/", desc: "值不值得去、停留多久" },
+        { label: "澎湖跨海大橋", href: "/nearby-attractions/", desc: "就在古榕旁的地標" },
+        { label: "北環一日行程", href: "/north-loop-itinerary/", desc: "怎麼安排最順路" },
+        { label: "美食補給", href: "/food/", desc: "仙人掌冰與周邊小吃" },
+      ]}
+    />
+  </div>
+</ArticleLayout>

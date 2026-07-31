@@ -1,0 +1,53 @@
+---
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Callout from "../components/Callout.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import { place } from "../data/place";
+---
+
+<ArticleLayout
+  title="通樑古榕附近小吃與休息補給"
+  eyebrow="Food & Rest"
+  subtitle="來通樑古榕，一定要吃一支仙人掌冰。這頁整理古榕周邊與北環沿線的補給選擇。"
+  description="通樑古榕附近美食與補給：招牌仙人掌冰、廟埕周邊小吃、二崁聚落杏仁茶，以及北環沿線的休息與補水建議。"
+  path="/food/"
+>
+  <p>
+    通樑古榕的樹蔭本身就是最好的休息點，而廟埕周邊也聚集了幾攤在地小吃。玩北環走走停停，這裡很適合中途補給、吃點消暑的東西再上路。
+  </p>
+
+  <h2>招牌：仙人掌冰</h2>
+  <p>
+    澎湖名產<strong>仙人掌冰</strong>是來通樑古榕幾乎必吃的一味。用澎湖野生仙人掌果實製成，色澤桃紅、口感酸甜清爽，在炎熱的島上吃一支特別過癮。廟埕周邊就有販售仙人掌冰與相關冰品的店家。
+  </p>
+
+  <h2>廟埕周邊小吃</h2>
+  <ul>
+    <li><strong>各式冰品與飲品：</strong>仙人掌相關冰品、清涼飲料，適合避暑。</li>
+    <li><strong>在地海產與小點：</strong>視店家而定，可嚐嚐澎湖風味小吃。</li>
+    <li><strong>伴手禮：</strong>仙人掌、風茹茶等澎湖特產。</li>
+  </ul>
+
+  <h2>北環沿線補給</h2>
+  <p>
+    往西嶼方向，<strong>二崁聚落</strong>是很好的補給與午餐點，聚落裡有杏仁茶、二崁傳香（金瓜粿）等在地小食；西嶼沿線市區也有便利商店與餐飲。建議把午餐安排在二崁，動線最順。
+  </p>
+
+  <Callout title="小提醒" tone="sea">
+    <p>
+      各店家營業時間、品項與是否營業可能隨季節與天候變動，本站不維護即時營業狀態。實際營業情形與評價，請出發前查看
+      <a href={place.googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a>。
+    </p>
+  </Callout>
+
+  <div slot="after">
+    <RelatedLinks
+      links={[
+        { label: "北環一日行程", href: "/north-loop-itinerary/", desc: "把午餐排進路線" },
+        { label: "二崁聚落等附近景點", href: "/nearby-attractions/", desc: "沿線景點" },
+        { label: "參觀指南", href: "/visitor-guide/", desc: "停留時間安排" },
+        { label: "交通與停車", href: "/transportation/", desc: "怎麼到" },
+      ]}
+    />
+  </div>
+</ArticleLayout>
