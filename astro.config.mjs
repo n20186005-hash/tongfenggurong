@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // إعداد النطاق الوحيد للمشروع: ضع النطاق النهائي هنا فقط عند توفره.
 // بعد شراء النطاق، ضع الرابط الحقيقي في المتغير التالي ثم أعد البناء.
-const site = '';
+const site = 'https://tongfenggurong.com';
 
 export default defineConfig({
   site: site || undefined,

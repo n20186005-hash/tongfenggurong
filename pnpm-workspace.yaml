@@ -1,0 +1,9 @@
+# pnpm 12 configuration file.
+# Allow only these dependencies to run their install/build scripts.
+# Without this, install fails with ERR_PNPM_IGNORED_BUILDS.
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: true
+minimumReleaseAgeExclude:
+  - '@rolldown/binding-openharmony-arm64@1.2.8'

@@ -1,0 +1,52 @@
+{
+  "id": "/",
+  "name": "النصب التذكاري للجندي البحري المجهول — الإسكندرية",
+  "short_name": "الجندي المجهول",
+  "description": "دليل زيارة النصب التذكاري للجندي البحري المجهول في ميدان المنشية بالإسكندرية، مصر: التاريخ، الموقع، الخريطة والمعالم القريبة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07151f",
+  "theme_color": "#07151f",
+  "categories": ["travel", "education", "navigation"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الوصول والخريطة",
+      "short_name": "الخريطة",
+      "url": "/#map"
+    },
+    {
+      "name": "الأسئلة الشائعة",
+      "short_name": "الأسئلة",
+      "url": "/#faq"
+    }
+  ]
+}

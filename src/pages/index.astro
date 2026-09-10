@@ -1,24 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { SITE, absoluteUrl } from '../data/site';
 
-const title = 'النصب التذكاري للجندي البحري المجهول | دليل زيارة المنشية – الإسكندرية';
-const description = 'دليل عربي مستقل لزيارة النصب التذكاري للجندي البحري المجهول في ميدان الجندي المجهول بالمنشية: القصة، الوصول، أفضل وقت، المواقف، الطعام والمعالم القريبة.';
+const title = `${SITE.fullNameAr} (${SITE.cityAr}) – دليل الزيارة والموقع`;
+const description = `اكتشف النصب التذكاري للجندي البحري المجهول، المعلم الشهير في ${SITE.cityAr}، ${SITE.governorateAr}، ${SITE.countryAr}. اطّلع على الموقع والخريطة، وتفاصيل الزيارة، و${SITE.nearbyLandmarksAr[0]} و${SITE.nearbyLandmarksAr[1]}، ونصائح الوصول.`;
+const heroImageAlt = `${SITE.fullNameAr} – المنظر الرئيسي في ${SITE.cityAr}، ${SITE.countryAr}`;
 const pageUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
 
 const photoDefs = [
-  { local: '/images/memorial-front.jpg', file: '../../public/images/memorial-front.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_01.jpg?width=1800', alt: 'واجهة النصب التذكاري للجندي البحري المجهول في المنشية بالإسكندرية', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
-  { local: '/images/memorial-columns.jpg', file: '../../public/images/memorial-columns.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_04.jpg?width=1400', alt: 'تفاصيل الأعمدة والكتابات في نصب الجندي البحري المجهول بالإسكندرية', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
-  { local: '/images/memorial-side.jpg', file: '../../public/images/memorial-side.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_06.jpg?width=1400', alt: 'منظور جانبي للنصب التذكاري البحري والسماء في الإسكندرية', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
-  { local: '/images/memorial-square.jpg', file: '../../public/images/memorial-square.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Monument_of_the_Navy_Unknown_Soldier_in_Alexandria_(6).jpg?width=1400', alt: 'النصب التذكاري البحري كما يبدو من ميدان المنشية', credit: 'Moro 2088 / Wikimedia Commons — CC BY-SA 3.0' }
+  { local: '/images/memorial-front.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_01.jpg?width=1800', alt: `${SITE.fullNameAr} – المنظر الرئيسي في ${SITE.cityAr}، ${SITE.countryAr}`, credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-columns.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_04.jpg?width=1400', alt: `تفاصيل الأعمدة والكتابات في ${SITE.fullNameAr} بالمنشية، ${SITE.cityAr}`, credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-side.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_06.jpg?width=1400', alt: `منظور جانبي لـ${SITE.fullNameAr} في ${SITE.cityAr}`, credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-square.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Monument_of_the_Navy_Unknown_Soldier_in_Alexandria_(6).jpg?width=1400', alt: `${SITE.fullNameAr} كما يبدو من ميدان المنشية في ${SITE.cityAr}`, credit: 'Moro 2088 / Wikimedia Commons — CC BY-SA 3.0' }
 ];
 
-const photos = photoDefs.map((photo) => ({
+type Photo = (typeof photoDefs)[number] & { src: string };
+
+// نستخدم مسار مشروع البناء (process.cwd) لأن مسار import.meta.url يتغير بعد الحزم،
+// مع الإبقاء على رابط Wikimedia كبديل احتياطي إذا حُذفت الصورة المحلية.
+const hasLocalPhoto = (localPath: string) => existsSync(join(process.cwd(), 'public', localPath.replace(/^\//, '')));
+
+const photos = photoDefs.map((photo): Photo => ({
   ...photo,
-  src: existsSync(new URL(photo.file, import.meta.url)) ? photo.local : photo.remote
-}));
+  src: hasLocalPhoto(photo.local) ? photo.local : photo.remote
+})) as [Photo, Photo, Photo, Photo];
 
 const faqItems = [
+  {
+    q: `أين يقع ${SITE.fullNameAr}؟`,
+    a: `يقع النصب التذكاري للجندي البحري المجهول في ميدان الجندي المجهول، المنشية الكبرى، قسم المنشية، ${SITE.cityAr} ${SITE.postalCode}، ${SITE.countryAr}. الرمز المختصر (Plus Code) هو ${SITE.plusCode}، ويمكن الوصول إليه مشياً من محطة الرمل أو سانت كاترين في وسط البلد.`
+  },
   {
     q: 'هل زيارة النصب مجانية؟',
     a: 'نعم. النصب يقع في ميدان عام بالمنشية ولا توجد بوابة تذاكر للمرور إلى ساحة المشاهدة المعتادة.'
@@ -46,31 +59,57 @@ const faqItems = [
   {
     q: 'هل الزيارة مناسبة لذوي صعوبة الحركة؟',
     a: 'يمكن مشاهدة النصب من مستوى الميدان، لكن التصميم يتضمن درجات ومنصات مرتفعة. من الأفضل تقييم المسار عند الوصول واختيار نقاط المشاهدة الأقل اعتماداً على السلالم.'
+  },
+  {
+    q: `ما المعالم القريبة من ${SITE.shortNameAr}؟`,
+    a: `أبرز المعالم المجاورة هي ${SITE.nearbyLandmarksAr[0]} (نحو 28–30 دقيقة مشياً) و${SITE.nearbyLandmarksAr[1]} (نحو 20 دقيقة مشياً)، إضافة إلى آثار كوم الدكة في وسط المدينة ومكتبة الإسكندرية شرقاً على الكورنيش.`
   }
 ];
+
+const breadcrumbItems = [
+  { name: 'الرئيسية', url: pageUrl ?? '/' },
+  { name: SITE.countryAr, url: undefined },
+  { name: SITE.governorateAr, url: undefined },
+  { name: SITE.districtAr, url: undefined },
+  { name: SITE.fullNameAr, url: undefined }
+];
+
+const attractionId = `${SITE.url}/#attraction`;
+const organizationId = `${SITE.url}/#organization`;
+const websiteId = `${SITE.url}/#website`;
+const webpageId = `${SITE.url}/#webpage`;
 
 const attractionJsonLd = {
   '@context': 'https://schema.org',
   '@type': ['TouristAttraction', 'LocalBusiness'],
-  name: 'النصب التذكاري للجندي البحري المجهول',
-  alternateName: ['النصب التذكاري للجندي المجهول بالإسكندرية', 'Alexandria Naval Unknown Soldier Memorial'],
+  '@id': attractionId,
+  name: SITE.fullNameAr,
+  alternateName: [
+    SITE.shortNameAr,
+    `${SITE.cityAr} ${SITE.fullNameAr}`,
+    SITE.fullNameEn,
+    'النصب التذكاري للجندي المجهول بالإسكندرية',
+    'Naval Unknown Soldier Memorial'
+  ],
   description,
   ...(pageUrl ? { url: pageUrl } : {}),
-  hasMap: 'https://maps.app.goo.gl/Hzrwki23zawzREuz8',
-  image: photos.map((photo) => photo.src),
+  hasMap: SITE.mapsShareUrl,
+  image: photos.map((photo) => (photo.src.startsWith('/') ? absoluteUrl(photo.src) : photo.src)),
   isAccessibleForFree: true,
+  publicAccess: true,
+  touristType: ['نصب تذكاري', 'معلم تاريخي'],
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'ميدان الجندي المجهول، المنشية الكبرى',
-    addressLocality: 'المنشية',
-    addressRegion: 'محافظة الإسكندرية',
-    postalCode: '5361033',
-    addressCountry: 'EG'
+    streetAddress: SITE.streetAddressAr,
+    addressLocality: SITE.cityAr,
+    addressRegion: SITE.governorateAr,
+    postalCode: SITE.postalCode,
+    addressCountry: SITE.countryCode
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 31.19972,
-    longitude: 29.89361
+    latitude: SITE.latitude,
+    longitude: SITE.longitude
   },
   openingHoursSpecification: [{
     '@type': 'OpeningHoursSpecification',
@@ -88,16 +127,73 @@ const attractionJsonLd = {
   }],
   aggregateRating: {
     '@type': 'AggregateRating',
-    ratingValue: 4.4,
-    reviewCount: 18296,
+    ratingValue: SITE.rating,
+    reviewCount: SITE.reviewCount,
     bestRating: 5,
     worstRating: 1
-  }
+  },
+  sameAs: [
+    SITE.mapsShareUrl,
+    SITE.wikipediaUrl,
+    SITE.wikidataUrl,
+    SITE.govtTourismUrl
+  ]
+};
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': organizationId,
+  name: `${SITE.fullNameAr} · دليل الزيارة`,
+  url: SITE.url,
+  logo: absoluteUrl('/brand/logo.svg'),
+  description: `موقع إرشادي مستقل وغير رسمي لتعريف الزوار بـ${SITE.fullNameAr} في ${SITE.districtAr}، ${SITE.cityAr}، ${SITE.countryAr}.`,
+  slogan: 'ذاكرة على حافة المتوسط'
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: SITE.url,
+  name: `${SITE.fullNameAr} (${SITE.cityAr})`,
+  description,
+  inLanguage: 'ar',
+  publisher: { '@id': organizationId },
+  about: { '@id': attractionId }
+};
+
+const webpageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': webpageId,
+  url: pageUrl,
+  name: title,
+  description,
+  inLanguage: 'ar-EG',
+  isPartOf: { '@id': websiteId },
+  about: { '@id': attractionId },
+  primaryImageOfPage: absoluteUrl(SITE.heroImage),
+  datePublished: SITE.lastUpdated,
+  dateModified: SITE.lastUpdated
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${SITE.url}/#breadcrumb`,
+  itemListElement: breadcrumbItems.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    ...(item.url ? { item: item.url } : {})
+  }))
 };
 
 const faqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  '@id': `${SITE.url}/#faq`,
   mainEntity: faqItems.map((item) => ({
     '@type': 'Question',
     name: item.q,
@@ -108,33 +204,47 @@ const faqJsonLd = {
   }))
 };
 ---
-<BaseLayout title={title} description={description} jsonLd={[attractionJsonLd, faqJsonLd]}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImageAlt={heroImageAlt}
+  jsonLd={[attractionJsonLd, organizationJsonLd, websiteJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd]}
+>
   <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
     <div class="container flex min-h-20 items-center justify-between gap-6">
-      <a href="#top" aria-label="العودة إلى بداية الصفحة" class="shrink-0">
-        <img src="/brand/logo.svg" alt="شعار النصب التذكاري للجندي البحري المجهول" class="h-14 w-auto" />
+      <a href="#top" aria-label={`${SITE.fullNameAr} — العودة إلى بداية الصفحة`} class="flex shrink-0 items-center gap-3">
+        <img src="/brand/logo.svg" alt={`شعار ${SITE.fullNameAr}`} class="h-14 w-auto" />
+        <span class="brand-text">
+          <strong>النصب التذكاري للجندي البحري المجهول</strong>
+          <small>المنشية · الإسكندرية · مصر · 5VXV+XG</small>
+        </span>
       </a>
-      <nav aria-label="التنقل الرئيسي" class="hidden items-center gap-6 text-sm font-bold lg:flex">
+      <nav aria-label="التنقل الرئيسي" class="hidden items-center gap-4 text-[13px] font-bold lg:flex xl:gap-6 xl:text-sm">
+        <a class="nav-link" href="#about">نبذة</a>
         <a class="nav-link" href="#story">الحكاية</a>
         <a class="nav-link" href="#visit">الزيارة</a>
         <a class="nav-link" href="#map">الوصول</a>
-        <a class="nav-link" href="#around">حولنا</a>
+        <a class="nav-link" href="#around">المعالم</a>
         <a class="nav-link" href="#faq">الأسئلة</a>
       </nav>
-      <a class="btn-ghost text-sm" href="https://maps.app.goo.gl/Hzrwki23zawzREuz8" target="_blank" rel="noreferrer">فتح الخريطة ↗</a>
+      <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">فتح الخريطة ↗</a>
     </div>
   </header>
 
   <main id="top">
     <section class="relative min-h-[94vh] overflow-hidden pt-20">
-      <img src={photos[0].src} alt={photos[0].alt} fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" />
+      <img src={photos[0].src} alt={heroImageAlt} fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" />
       <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,11,16,.18),rgba(3,11,16,.62)_45%,rgba(3,11,16,.94)),linear-gradient(0deg,rgba(3,11,16,.92),transparent_45%)]"></div>
       <div class="absolute inset-y-0 right-[8%] hidden w-px bg-[#d2aa68]/35 lg:block"></div>
       <div class="container relative z-10 grid min-h-[calc(94vh-5rem)] items-end py-14 lg:grid-cols-[1.15fr_.85fr] lg:gap-12 lg:pb-20">
         <div class="lg:col-start-2">
           <span class="eyebrow">ذاكرة على حافة المتوسط</span>
-          <h1 class="mt-4 max-w-[12ch] text-[clamp(3rem,8vw,7.4rem)] font-black leading-[.94] tracking-[-.055em]">الجندي البحري<br/><span class="text-[#d2aa68]">المجهول</span></h1>
+          <h1 class="hero-title">
+            النصب التذكاري <span class="text-[#d2aa68]">للجندي البحري المجهول</span>
+            <span class="hero-title-loc">الإسكندرية · المنشية · مصر</span>
+          </h1>
           <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">نصب بحري كلاسيكي يطل على شرق الميناء من قلب المنشية؛ مكان قصير الزيارة، ثقيل الذاكرة، وممتاز كبداية لجولة مشي على كورنيش الإسكندرية القديمة.</p>
+          <p class="hero-alias">يُعرف محلياً باسم «الجندي المجهول»، وبالإنجليزية Alexandria Naval Unknown Soldier Memorial.</p>
           <div class="mt-7 flex flex-wrap gap-3">
             <a class="btn-primary" href="#visit">خطط للزيارة ↓</a>
             <a class="btn-ghost" href="#story">اقرأ الحكاية</a>
@@ -154,11 +264,55 @@ const faqJsonLd = {
 
     <div class="brass-rule"></div>
 
+    <section id="about" class="py-20 md:py-28">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="مسار التنقل داخل الموقع">
+          <ol>
+            <li><a href={pageUrl ?? '/'}>الرئيسية</a></li>
+            <li><span>مصر</span></li>
+            <li><span>محافظة الإسكندرية</span></li>
+            <li><span>المنشية</span></li>
+            <li aria-current="page">النصب التذكاري للجندي البحري المجهول</li>
+          </ol>
+        </nav>
+        <div class="mt-9 grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
+          <div>
+            <span class="eyebrow">نبذة تعريفية</span>
+            <h2 class="section-title">حول النصب التذكاري للجندي البحري المجهول</h2>
+            <p class="section-copy">مرحباً بكم في <strong>النصب التذكاري للجندي البحري المجهول</strong>، المعروف على نطاق واسع باسم <strong>«الجندي المجهول»</strong> في الإسكندرية. يقع في قلب مدينة <strong>الإسكندرية</strong>، محافظة الإسكندرية، <strong>مصر</strong>، ويُعد هذا الموقع نقطة انطلاق أساسية للزوار الذين يبدأون جولتهم من وسط المدينة القديمة.</p>
+            <p class="section-copy mt-4">عند زيارة النصب التذكاري للجندي البحري المجهول، يستطيع الزائر استكشاف المعالم التاريخية ونقاط الاهتمام المحيطة بسهولة، ومنها <strong>قلعة قايتباي</strong> و<strong>مسجد أبو العباس المرسي</strong>، إضافة إلى أسواق المنشية وكورنيش بحري وشرق الميناء.</p>
+            <p class="section-copy mt-4">التسلسل المكاني للكيان: النصب التذكاري للجندي البحري المجهول ← المنشية ← الإسكندرية ← محافظة الإسكندرية ← مصر ← ساحل البحر المتوسط.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a class="btn-ghost" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">الموقع على خرائط Google ↗</a>
+              <a class="btn-ghost" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">البوابة السياحية الرسمية ↗</a>
+            </div>
+          </div>
+          <div class="shell-border p-6 md:p-8">
+            <span class="eyebrow">بطاقة المعلومات السريعة</span>
+            <h3 class="mt-2 text-2xl font-black">بيانات النصب والعنوان</h3>
+            <dl class="facts">
+              <div><dt>الاسم الرسمي</dt><dd>النصب التذكاري للجندي البحري المجهول (Alexandria Naval Unknown Soldier Memorial)</dd></div>
+              <div><dt>الاسم المتداول</dt><dd>الجندي المجهول — المنشية</dd></div>
+              <div><dt>المدينة / المحافظة</dt><dd>الإسكندرية — محافظة الإسكندرية، مصر</dd></div>
+              <div><dt>العنوان</dt><dd>ميدان الجندي المجهول، المنشية الكبرى، قسم المنشية، الإسكندرية 5361033</dd></div>
+              <div><dt>الرمز المختصر</dt><dd>5VXV+XG</dd></div>
+              <div><dt>الإحداثيات</dt><dd>31.199999° شمالاً، 29.891177° شرقاً</dd></div>
+              <div><dt>ساعات الوصول</dt><dd>ساحة عامة متاحة عادةً على مدار اليوم</dd></div>
+              <div><dt>التكلفة</dt><dd>مجاني — لا توجد تذاكر للساحة العامة</dd></div>
+              <div><dt>تقييم خرائط Google</dt><dd>★ 4.4 من 18,296 مراجعة</dd></div>
+              <div><dt>آخر تحديث للمحتوى</dt><dd>10 سبتمبر 2026</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="story" class="arch-motif py-24 md:py-32">
       <div class="container grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
         <div>
           <span class="eyebrow">القصة</span>
-          <h2 class="section-title">من ذكرى الخديوي<br/>إلى ذاكرة البحر.</h2>
+          <h2 class="section-title">تاريخ وأهمية النصب التذكاري للجندي البحري المجهول</h2>
+          <p class="section-sub">من ذكرى الخديوي إلى ذاكرة البحر.</p>
           <p class="section-copy">النصب في صورته المعمارية الحالية يسبق وظيفته التذكارية البحرية. شُيّد في ثلاثينيات القرن العشرين بمبادرة من الجالية الإيطالية تكريماً للخديوي إسماعيل، ثم تغيّر مع التحولات السياسية في مصر ليصبح لاحقاً نصباً للجندي البحري المجهول.</p>
         </div>
         <div class="max-w-3xl">
@@ -211,8 +365,9 @@ const faqJsonLd = {
     <section id="visit" class="border-y border-[#d2aa68]/20 bg-[#0a1c25] py-24 md:py-28">
       <div class="container grid gap-14 lg:grid-cols-[.95fr_1.05fr]">
         <div>
-          <span class="eyebrow">الزيارة</span>
-          <h2 class="section-title">زيارة قصيرة،<br/>لكنها ليست عابرة.</h2>
+          <span class="eyebrow">الزيارة والموقع</span>
+          <h2 class="section-title">الموقع وكيفية زيارة الجندي المجهول في الإسكندرية</h2>
+          <p class="section-sub">زيارة قصيرة، لكنها ليست عابرة.</p>
           <p class="section-copy">النصب ليس متحفاً مغلقاً ولا يحتاج إلى برنامج طويل. قوته في موقعه: تقف أمام ذاكرة بحرية، ثم تخرج مباشرة إلى المنشية والأسواق وواجهة شرق الميناء.</p>
           <div class="mt-8 grid gap-5 sm:grid-cols-2">
             <div class="visit-card"><h3>التذاكر / التكلفة</h3><p>لا توجد تذكرة دخول للساحة العامة؛ المشاهدة المعتادة مجانية.</p></div>
@@ -251,12 +406,18 @@ const faqJsonLd = {
         </div>
         <div class="map-wrap mt-10">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6070.070081511815!2d29.89117661285759!3d31.19999877425533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5c3ef832cefdb%3A0x304d50967e6abf61!2sAlexandria%20Naval%20Unknown%20Soldier%20Memorial!5e1!3m2!1sar!2seg!4v1789025602093!5m2!1sar!2seg"
+            src={SITE.mapsEmbedSrc}
             title="خريطة النصب التذكاري للجندي البحري المجهول في المنشية"
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen></iframe>
         </div>
+        <p class="mt-5 text-sm text-slate-400">
+          للحصول على معلومات محدّثة ورسمية، راجع
+          <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer"> {SITE.govtTourismLabelAr}</a>
+          و<a class="source-link" href={SITE.alexandriaGovUrl} target="_blank" rel="noopener noreferrer">{SITE.alexandriaGovLabelAr}</a>،
+          أو افتح <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">النصب على خرائط Google ↗</a>.
+        </p>
       </div>
     </section>
 
@@ -276,25 +437,32 @@ const faqJsonLd = {
     </section>
 
     <section id="around" class="border-y border-[#d2aa68]/20 bg-[#081820] py-24 md:py-32">
-      <div class="container grid gap-14 lg:grid-cols-2 lg:gap-20">
-        <div>
-          <span class="eyebrow">حولنا · أكل إسكندراني</span>
-          <h2 class="section-title">من الساحة إلى الطاولة.</h2>
-          <div class="mt-5">
-            <article class="place-card"><small>سندوتشات سريعة · المنشية</small><strong>كبدة أبو حلمي</strong><p>اختيار محلي مباشر لتجربة الكبدة الإسكندراني بعد جولة قصيرة في الميدان.</p></article>
-            <article class="place-card"><small>أسماك ومأكولات بحرية · المنشية</small><strong>قدورة</strong><p>من الأسماء المعروفة في الإسكندرية لتجربة السمك والمأكولات البحرية على الطريقة المحلية.</p></article>
-            <article class="place-card"><small>فول وطعمية · وسط البلد</small><strong>محمد أحمد</strong><p>مطعم كلاسيكي قريب من نطاق محطة الرمل، مناسب لفطور أو وجبة مصرية بسيطة قبل أو بعد المشي.</p></article>
-          </div>
-          <p class="mt-5 text-xs text-slate-500">ساعات عمل المطاعم والأسعار تتغير؛ تحقق منها قبل الذهاب.</p>
+      <div class="container">
+        <div class="max-w-3xl">
+          <span class="eyebrow">المحيط</span>
+          <h2 class="section-title">المعالم والتجاذبات حول الجندي المجهول</h2>
+          <p class="section-copy">عند زيارة النصب التذكاري للجندي البحري المجهول، يمكن للزوار استكشاف المعالم التاريخية ونقاط الاهتمام المحيطة بسهولة، ومنها <strong>قلعة قايتباي</strong> و<strong>مسجد أبو العباس المرسي</strong>، إلى جانب مطاعم المنشية ومكتبة الإسكندرية.</p>
         </div>
-        <div>
-          <span class="eyebrow">حولنا · معالم</span>
-          <h2 class="section-title">أكمل خط الميناء.</h2>
-          <div class="mt-5">
-            <article class="place-card"><small>حوالي 20 دقيقة مشياً</small><strong>مسجد أبو العباس المرسي</strong><p>أحد أبرز معالم بحري، وقبة بارزة في المشهد العمراني القريب من الميناء.</p></article>
-            <article class="place-card"><small>حوالي 28–30 دقيقة مشياً</small><strong>قلعة قايتباي</strong><p>قلعة مملوكية على طرف الميناء الشرقي، أُنشئت في القرن الخامس عشر في موضع فنار الإسكندرية القديم.</p></article>
-            <article class="place-card"><small>وسط المدينة</small><strong>آثار كوم الدكة</strong><p>موقع أثري روماني يضيف طبقة مختلفة تماماً من تاريخ الإسكندرية إلى اليوم نفسه.</p></article>
-            <article class="place-card"><small>شرقاً على الكورنيش</small><strong>مكتبة الإسكندرية</strong><p>معلم ثقافي حديث يمكن الوصول إليه بسيارة أجرة أو بالمواصلات من وسط البلد.</p></article>
+        <div class="mt-12 grid gap-14 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <span class="eyebrow">حولنا · أكل إسكندراني</span>
+            <h3 class="section-title">من الساحة إلى الطاولة.</h3>
+            <div class="mt-5">
+              <article class="place-card"><small>سندوتشات سريعة · المنشية</small><strong>كبدة أبو حلمي</strong><p>اختيار محلي مباشر لتجربة الكبدة الإسكندراني بعد جولة قصيرة في الميدان.</p></article>
+              <article class="place-card"><small>أسماك ومأكولات بحرية · المنشية</small><strong>قدورة</strong><p>من الأسماء المعروفة في الإسكندرية لتجربة السمك والمأكولات البحرية على الطريقة المحلية.</p></article>
+              <article class="place-card"><small>فول وطعمية · وسط البلد</small><strong>محمد أحمد</strong><p>مطعم كلاسيكي قريب من نطاق محطة الرمل، مناسب لفطور أو وجبة مصرية بسيطة قبل أو بعد المشي.</p></article>
+            </div>
+            <p class="mt-5 text-xs text-slate-500">ساعات عمل المطاعم والأسعار تتغير؛ تحقق منها قبل الذهاب.</p>
+          </div>
+          <div>
+            <span class="eyebrow">حولنا · معالم</span>
+            <h3 class="section-title">أكمل خط الميناء.</h3>
+            <div class="mt-5">
+              <article class="place-card"><small>حوالي 20 دقيقة مشياً</small><strong>مسجد أبو العباس المرسي</strong><p>أحد أبرز معالم بحري، وقبة بارزة في المشهد العمراني القريب من الميناء.</p></article>
+              <article class="place-card"><small>حوالي 28–30 دقيقة مشياً</small><strong>قلعة قايتباي</strong><p>قلعة مملوكية على طرف الميناء الشرقي، أُنشئت في القرن الخامس عشر في موضع فنار الإسكندرية القديم.</p></article>
+              <article class="place-card"><small>وسط المدينة</small><strong>آثار كوم الدكة</strong><p>موقع أثري روماني يضيف طبقة مختلفة تماماً من تاريخ الإسكندرية إلى اليوم نفسه.</p></article>
+              <article class="place-card"><small>شرقاً على الكورنيش</small><strong>مكتبة الإسكندرية</strong><p>معلم ثقافي حديث يمكن الوصول إليه بسيارة أجرة أو بالمواصلات من وسط البلد.</p></article>
+            </div>
           </div>
         </div>
       </div>
@@ -318,18 +486,22 @@ const faqJsonLd = {
       </div>
     </section>
 
-    <section class="pb-24 md:pb-32" aria-labelledby="sources-heading">
+    <section id="sources" class="pb-24 md:pb-32" aria-labelledby="sources-heading">
       <div class="container shell-border p-7 md:p-10">
         <span class="eyebrow">مصادر موثوقة</span>
         <h2 id="sources-heading" class="mt-3 text-2xl font-black">للتاريخ والسياق والتخطيط</h2>
         <p class="mt-3 max-w-3xl text-sm text-slate-400">اعتمد هذا الدليل على بيانات الموقع المقدمة من خرائط Google، ومراجع موسوعية وخرائط محلية ومصادر رسمية للمعالم المجاورة. المعلومات المتغيرة مثل المواعيد الخارجية والتذاكر تستحق إعادة التحقق قبل الزيارة.</p>
         <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-          <a class="source-link" href="https://en.wikipedia.org/wiki/Alexandria_Naval_Unknown_Soldier_Memorial" target="_blank" rel="noreferrer">Wikipedia — النصب البحري ↗</a>
-          <a class="source-link" href="https://www.wikidata.org/wiki/Q3013168" target="_blank" rel="noreferrer">Wikidata — الإحداثيات والهوية ↗</a>
-          <a class="source-link" href="https://commons.wikimedia.org/wiki/Category:Unknown_Soldier_Memorial_(Alexandria)" target="_blank" rel="noreferrer">Wikimedia Commons — الصور ↗</a>
-          <a class="source-link" href="https://egymonuments.gov.eg/monuments/qaitbay-citadel/" target="_blank" rel="noreferrer">وزارة السياحة والآثار — قلعة قايتباي ↗</a>
-          <a class="source-link" href="https://www.bibalex.org/en/Page/visits" target="_blank" rel="noreferrer">مكتبة الإسكندرية — معلومات الزيارة ↗</a>
+          <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">الهيئة المصرية العامة للتنشيط السياحي ↗</a>
+          <a class="source-link" href={SITE.alexandriaGovUrl} target="_blank" rel="noopener noreferrer">محافظة الإسكندرية — البوابة الرسمية ↗</a>
+          <a class="source-link" href={SITE.monumentsUrl} target="_blank" rel="noopener noreferrer">وزارة السياحة والآثار — قلعة قايتباي ↗</a>
+          <a class="source-link" href="https://www.bibalex.org/en/Page/visits" target="_blank" rel="noopener noreferrer">مكتبة الإسكندرية — معلومات الزيارة ↗</a>
+          <a class="source-link" href={SITE.wikipediaUrl} target="_blank" rel="noopener noreferrer">Wikipedia — النصب البحري ↗</a>
+          <a class="source-link" href={SITE.wikidataUrl} target="_blank" rel="noopener noreferrer">Wikidata — الإحداثيات والهوية ↗</a>
+          <a class="source-link" href="https://commons.wikimedia.org/wiki/Category:Unknown_Soldier_Memorial_(Alexandria)" target="_blank" rel="noopener noreferrer">Wikimedia Commons — الصور ↗</a>
         </div>
+        <p class="mt-6 text-xs text-slate-500">آخر تحديث للمحتوى: 10 سبتمبر 2026.</p>
+        <p class="photo-credit">الصور المستخدمة في هذا الموقع صور حقيقية للنصب من Wikimedia Commons، وجميع حقوق الصور وملكيتها الفكرية تعود لمصوّريها الأصليين حسب التراخيص الموضحة مع كل صورة وفي ملف PHOTO_SOURCES.md.</p>
       </div>
     </section>
   </main>
@@ -337,8 +509,19 @@ const faqJsonLd = {
   <footer class="border-t border-[#d2aa68]/20 bg-[#040e14] py-12">
     <div class="container grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
       <div>
-        <img src="/brand/logo.svg" alt="شعار النصب التذكاري للجندي البحري المجهول" class="h-16 w-auto" loading="lazy" />
+        <img src="/brand/logo.svg" alt={`شعار ${SITE.fullNameAr}`} class="h-16 w-auto" loading="lazy" />
+        <div class="footer-nap">
+          <strong>النصب التذكاري للجندي البحري المجهول (Alexandria Naval Unknown Soldier Memorial)</strong>
+          <span>ميدان الجندي المجهول، المنشية الكبرى، قسم المنشية، الإسكندرية 5361033، مصر</span>
+          <span>الرمز المختصر: 5VXV+XG · الإحداثيات: 31.199999, 29.891177</span>
+          <span>
+            <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">خرائط Google ↗</a>
+            ·
+            <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">الهيئة المصرية العامة للتنشيط السياحي ↗</a>
+          </span>
+        </div>
         <p class="mt-4 max-w-2xl text-sm text-slate-400">هذا موقع إرشادي مستقل وغير رسمي، ولا يتبع القوات البحرية المصرية أو أي جهة حكومية.</p>
+        <p class="photo-credit">جميع الصور المعروضة في هذا الموقع هي ملك لمصوّريها الأصليين، وتعود حقوقها الفكرية إليهم.</p>
       </div>
       <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400">
         <button type="button" data-cookie-settings class="cursor-pointer border-0 bg-transparent p-0 text-inherit underline decoration-[#d2aa68]/50 underline-offset-4 hover:text-[#d2aa68]">إعدادات الخصوصية</button>

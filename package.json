@@ -9,7 +9,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "deploy": "pnpm build && wrangler deploy",
-    "photos:download": "node scripts/fetch-photos.mjs"
+    "photos:download": "node scripts/fetch-photos.mjs",
+    "check:dist": "node scripts/check-dist.mjs",
+    "assets:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-assets.ps1"
   },
   "dependencies": {
     "astro": "7.3.2"
