@@ -1,18 +1,19 @@
-// @ts-check
-import { defineConfig } from "astro/config";
-import sitemap from "@astrojs/sitemap";
-import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
+
+// إعداد النطاق الوحيد للمشروع: ضع النطاق النهائي هنا فقط عند توفره.
+// بعد شراء النطاق، ضع الرابط الحقيقي في المتغير التالي ثم أعد البناء.
+const site = '';
 
 export default defineConfig({
-  site: "https://tonglianggurong.com",
-  output: "static",
-  trailingSlash: "always",
-  integrations: [
-    sitemap({
-      filter: (page) => page !== "https://tonglianggurong.com/404/",
-    }),
-  ],
-  vite: {
-    plugins: [tailwindcss()],
+  site: site || undefined,
+  output: 'static',
+  build: {
+    format: 'directory'
   },
+  integrations: site ? [sitemap()] : [],
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });

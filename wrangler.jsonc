@@ -1,8 +1,9 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "tongfenggurong",
-  "compatibility_date": "2026-07-27",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "alexandria-naval-memorial",
+  "compatibility_date": "2026-09-10",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "not_found_handling": "404-page"
   }
 }

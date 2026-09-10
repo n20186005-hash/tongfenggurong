@@ -1,19 +1,31 @@
 {
-  "name": "tongfenggurong",
-  "type": "module",
+  "name": "alexandria-naval-unknown-soldier-memorial",
   "version": "1.0.0",
-  "packageManager": "pnpm@10.13.1",
+  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "wrangler deploy"
+    "deploy": "pnpm build && wrangler deploy",
+    "photos:download": "node scripts/fetch-photos.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.1.3",
-    "sharp": "^0.34.5",
-    "tailwindcss": "^4.3.3"
-  }
+    "astro": "7.3.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@astrojs/sitemap": "3.7.4",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "24.13.3",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "vite": "8.2.2",
+    "wrangler": "4.130.0"
+  },
+  "engines": {
+    "node": "24.21.0"
+  },
+  "packageManager": "pnpm@12.3.4"
 }

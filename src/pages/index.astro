@@ -1,315 +1,349 @@
 ---
-import { Image } from "astro:assets";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import GoogleMap from "../components/GoogleMap.astro";
-import FAQList from "../components/FAQList.astro";
-import NearbyCard from "../components/NearbyCard.astro";
-import { place } from "../data/place";
-import { images } from "../data/images";
-import { mainNav } from "../data/navigation";
-import { nearbyPlaces } from "../data/nearby";
-import { faqItems, faqSchema } from "../data/faq";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { existsSync } from 'node:fs';
 
-const homeFaq = faqItems.slice(0, 6);
+const title = 'النصب التذكاري للجندي البحري المجهول | دليل زيارة المنشية – الإسكندرية';
+const description = 'دليل عربي مستقل لزيارة النصب التذكاري للجندي البحري المجهول في ميدان الجندي المجهول بالمنشية: القصة، الوصول، أفضل وقت، المواقف، الطعام والمعالم القريبة.';
+const pageUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
 
-const touristSchema = {
-  "@context": "https://schema.org",
-  "@type": "TouristAttraction",
-  name: place.name,
-  alternateName: [...place.alternateNames],
-  url: "https://tonglianggurong.com/",
-  description:
-    "位於澎湖縣白沙鄉通樑村、以大量氣根與保安宮人文景觀聞名的古榕景點，是澎湖跨海大橋旁、北環路線上的代表性地標。",
-  image: "https://tonglianggurong.com/og/tongliang-gurong.jpg",
+const photoDefs = [
+  { local: '/images/memorial-front.jpg', file: '../../public/images/memorial-front.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_01.jpg?width=1800', alt: 'واجهة النصب التذكاري للجندي البحري المجهول في المنشية بالإسكندرية', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-columns.jpg', file: '../../public/images/memorial-columns.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_04.jpg?width=1400', alt: 'تفاصيل الأعمدة والكتابات في نصب الجندي البحري المجهول بالإسكندرية', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-side.jpg', file: '../../public/images/memorial-side.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_06.jpg?width=1400', alt: 'منظور جانبي للنصب التذكاري البحري والسماء في الإسكندرية', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-square.jpg', file: '../../public/images/memorial-square.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Monument_of_the_Navy_Unknown_Soldier_in_Alexandria_(6).jpg?width=1400', alt: 'النصب التذكاري البحري كما يبدو من ميدان المنشية', credit: 'Moro 2088 / Wikimedia Commons — CC BY-SA 3.0' }
+];
+
+const photos = photoDefs.map((photo) => ({
+  ...photo,
+  src: existsSync(new URL(photo.file, import.meta.url)) ? photo.local : photo.remote
+}));
+
+const faqItems = [
+  {
+    q: 'هل زيارة النصب مجانية؟',
+    a: 'نعم. النصب يقع في ميدان عام بالمنشية ولا توجد بوابة تذاكر للمرور إلى ساحة المشاهدة المعتادة.'
+  },
+  {
+    q: 'ما أفضل وقت للزيارة؟',
+    a: 'الصباح المبكر مناسب للهدوء والتصوير، وقبل الغروب يمنح الحجر ضوءاً أكثر دفئاً. في المساء يصبح المشهد أكثر حضرية مع إنارة المنطقة وحركة الكورنيش.'
+  },
+  {
+    q: 'كم أحتاج من الوقت؟',
+    a: 'غالباً تكفي 15 إلى 30 دقيقة لمشاهدة النصب وقراءة تفاصيله والتقاط الصور، ويمكن تمديد الزيارة بربطها بجولة في المنشية وبحري.'
+  },
+  {
+    q: 'هل المكان مفتوح طوال اليوم؟',
+    a: 'تتعامل الخرائط المحلية مع الساحة باعتبارها مفتوحة على مدار اليوم. قد تتغير إمكانية الاقتراب أثناء المراسم الرسمية أو ترتيبات الأمن، لذلك اتبع الإرشادات الموجودة في الموقع.'
+  },
+  {
+    q: 'كيف أصل إليه بالمواصلات العامة؟',
+    a: 'المنشية في قلب شبكة وسط الإسكندرية. يمكن النزول قرب محطات وسط البلد مثل سانت كاترين أو محطة الرمل ثم إكمال المسافة سيراً، كما أن سيارات الأجرة وتطبيقات النقل تصل مباشرة إلى ميدان الجندي المجهول.'
+  },
+  {
+    q: 'هل يوجد موقف سيارات مخصص؟',
+    a: 'لا تعتمد على وجود موقف خاص بالنصب. مواقف الشوارع في المنشية محدودة وتتغير حسب الزحام، لذلك يفضَّل استخدام موقف عام قريب أو سيارة أجرة إذا كنت تزور المنطقة في وقت مزدحم.'
+  },
+  {
+    q: 'هل الزيارة مناسبة لذوي صعوبة الحركة؟',
+    a: 'يمكن مشاهدة النصب من مستوى الميدان، لكن التصميم يتضمن درجات ومنصات مرتفعة. من الأفضل تقييم المسار عند الوصول واختيار نقاط المشاهدة الأقل اعتماداً على السلالم.'
+  }
+];
+
+const attractionJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: 'النصب التذكاري للجندي البحري المجهول',
+  alternateName: ['النصب التذكاري للجندي المجهول بالإسكندرية', 'Alexandria Naval Unknown Soldier Memorial'],
+  description,
+  ...(pageUrl ? { url: pageUrl } : {}),
+  hasMap: 'https://maps.app.goo.gl/Hzrwki23zawzREuz8',
+  image: photos.map((photo) => photo.src),
+  isAccessibleForFree: true,
   address: {
-    "@type": "PostalAddress",
-    streetAddress: place.addressParts.streetAddress,
-    addressLocality: place.addressParts.addressLocality,
-    addressRegion: place.addressParts.addressRegion,
-    addressCountry: place.addressParts.addressCountry,
+    '@type': 'PostalAddress',
+    streetAddress: 'ميدان الجندي المجهول، المنشية الكبرى',
+    addressLocality: 'المنشية',
+    addressRegion: 'محافظة الإسكندرية',
+    postalCode: '5361033',
+    addressCountry: 'EG'
   },
   geo: {
-    "@type": "GeoCoordinates",
-    latitude: place.coordinates.latitude,
-    longitude: place.coordinates.longitude,
+    '@type': 'GeoCoordinates',
+    latitude: 31.19972,
+    longitude: 29.89361
   },
-  hasMap: place.googleMapsUrl,
-  isAccessibleForFree: true,
-  touristType: ["自由行", "親子", "長輩", "攝影", "機車旅行"],
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [
+      'https://schema.org/Monday',
+      'https://schema.org/Tuesday',
+      'https://schema.org/Wednesday',
+      'https://schema.org/Thursday',
+      'https://schema.org/Friday',
+      'https://schema.org/Saturday',
+      'https://schema.org/Sunday'
+    ],
+    opens: '00:00',
+    closes: '23:59'
+  }],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: 4.4,
+    reviewCount: 18296,
+    bestRating: 5,
+    worstRating: 1
+  }
 };
 
-const facts = [
-  { label: "位置", value: "澎湖縣白沙鄉通樑村" },
-  { label: "類型", value: "古樹、廟宇、村落文化" },
-  { label: "特色", value: "約 95 根氣根形成單木成林" },
-  { label: "建議搭配", value: "澎湖跨海大橋與北環路線" },
-];
-
-const reasons = [
-  {
-    title: "一棵樹形成一片綠蔭",
-    body: "氣根落地後逐漸增粗成為支柱根，看起來像許多棵樹，其實源自同一株古榕，撐起約 660 平方公尺的樹蔭空間。",
-    image: images.banyanTrunk,
-    alt: "通樑古榕的支柱根與樹頭 Tongliang Great Banyan aerial roots",
-  },
-  {
-    title: "古樹與廟宇共生",
-    body: "古榕枝幹、通樑保安宮的朱紅屋脊、廟埕與居民生活交織在一起，是澎湖少見的人文與自然共構空間。",
-    image: images.banyanTempleSign,
-    alt: "通樑榕樹與保安宮廟牌 Tongliang Banyan and Baoan Temple",
-  },
-  {
-    title: "北環途中最舒適的休息點",
-    body: "濃密樹蔭適合避開澎湖烈日，吃一支仙人掌冰、拍照，再前往一橋之隔的跨海大橋，是北環最自然的中繼站。",
-    image: images.heroTempleBanyanAerial,
-    alt: "通樑古榕、保安宮與通樑村空拍景觀 Tongliang Great Banyan and village",
-  },
-];
-
-const firstVisit = [
-  { n: "01", title: "氣根形成的天然長廊", text: "支柱根與棚架撐起低垂樹冠，形成可以走進去的綠色廊道。" },
-  { n: "02", title: "樹冠下的斑駁光影", text: "陽光穿過層層榕葉灑落地面，是最耐看的細節。" },
-  { n: "03", title: "古榕與保安宮屋頂", text: "廟宇燕尾脊與翠綠榕葉同框，展現澎湖廟宇文化。" },
-  { n: "04", title: "主幹、支柱根與人工支撐", text: "觀察哪些是自然落地的氣根、哪些是後來架設的支撐。" },
-];
-
-const routeStops = [
-  "馬公", "中屯", "通樑古榕", "澎湖跨海大橋", "小門鯨魚洞", "二崁聚落", "大菓葉柱狀玄武岩", "漁翁島燈塔",
-];
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a
+    }
+  }))
+};
 ---
-
-<BaseLayout
-  title="通樑古榕｜交通、拍照、保安宮與澎湖北環行程"
-  description="通樑古榕完整旅遊指南，整理交通、停車、氣根景觀、保安宮歷史、拍照位置與澎湖北環行程。最新開放狀態、路況與旅客評論請透過 Google Maps 查看。"
-  path="/"
-  schema={[touristSchema, faqSchema(homeFaq)]}
->
-  <!-- Hero -->
-  <section class="relative isolate overflow-hidden bg-banyan-950 text-sand-50">
-    <Image
-      src={images.banyanCanopyTall}
-      alt="通樑古榕氣根形成的樹蔭長廊 Tongliang Great Banyan aerial-root corridor"
-      widths={[480, 768, 1280, 1920]}
-      sizes="100vw"
-      loading="eager"
-      fetchpriority="high"
-      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_52%]"
-    />
-    <div
-      class="absolute inset-0 -z-10 bg-gradient-to-t from-banyan-950 via-banyan-950/75 to-banyan-950/40"
-      aria-hidden="true"
-    >
+<BaseLayout title={title} description={description} jsonLd={[attractionJsonLd, faqJsonLd]}>
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
+    <div class="container flex min-h-20 items-center justify-between gap-6">
+      <a href="#top" aria-label="العودة إلى بداية الصفحة" class="shrink-0">
+        <img src="/brand/logo.svg" alt="شعار النصب التذكاري للجندي البحري المجهول" class="h-14 w-auto" />
+      </a>
+      <nav aria-label="التنقل الرئيسي" class="hidden items-center gap-6 text-sm font-bold lg:flex">
+        <a class="nav-link" href="#story">الحكاية</a>
+        <a class="nav-link" href="#visit">الزيارة</a>
+        <a class="nav-link" href="#map">الوصول</a>
+        <a class="nav-link" href="#around">حولنا</a>
+        <a class="nav-link" href="#faq">الأسئلة</a>
+      </nav>
+      <a class="btn-ghost text-sm" href="https://maps.app.goo.gl/Hzrwki23zawzREuz8" target="_blank" rel="noreferrer">فتح الخريطة ↗</a>
     </div>
-    <div class="mx-auto max-w-6xl px-4 py-24 md:px-6 md:py-36">
-      <div class="max-w-2xl">
-        <p class="text-sm font-semibold tracking-[0.3em] text-leaf-300 uppercase">
-          澎湖 · 白沙鄉通樑村
-        </p>
-        <h1 class="mt-4 text-5xl font-bold tracking-tight md:text-7xl">通樑古榕</h1>
-        <p class="mt-3 text-lg font-medium text-sand-100/90">
-          Tongliang Great Banyan
-        </p>
-        <p class="mt-6 text-2xl font-semibold text-sand-50 md:text-3xl">
-          一棵樹，長成一片森林
-        </p>
-        <p class="mt-4 max-w-xl text-lg leading-relaxed text-sand-100/85">
-          走進氣根交織而成的綠蔭，認識通樑保安宮、古榕傳說與澎湖北環最具代表性的自然人文地標。
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a
-            href={place.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-full bg-sand-50 px-6 py-3.5 font-semibold text-banyan-950 transition-colors hover:bg-sand-100"
-          >
-            在 Google Maps 導航
-          </a>
-          <a
-            href="/north-loop-itinerary/"
-            class="inline-flex items-center gap-2 rounded-full border border-sand-100/40 px-6 py-3.5 font-semibold text-sand-50 transition-colors hover:bg-sand-50/10"
-          >
-            查看北環行程
-          </a>
+  </header>
+
+  <main id="top">
+    <section class="relative min-h-[94vh] overflow-hidden pt-20">
+      <img src={photos[0].src} alt={photos[0].alt} fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" />
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,11,16,.18),rgba(3,11,16,.62)_45%,rgba(3,11,16,.94)),linear-gradient(0deg,rgba(3,11,16,.92),transparent_45%)]"></div>
+      <div class="absolute inset-y-0 right-[8%] hidden w-px bg-[#d2aa68]/35 lg:block"></div>
+      <div class="container relative z-10 grid min-h-[calc(94vh-5rem)] items-end py-14 lg:grid-cols-[1.15fr_.85fr] lg:gap-12 lg:pb-20">
+        <div class="lg:col-start-2">
+          <span class="eyebrow">ذاكرة على حافة المتوسط</span>
+          <h1 class="mt-4 max-w-[12ch] text-[clamp(3rem,8vw,7.4rem)] font-black leading-[.94] tracking-[-.055em]">الجندي البحري<br/><span class="text-[#d2aa68]">المجهول</span></h1>
+          <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">نصب بحري كلاسيكي يطل على شرق الميناء من قلب المنشية؛ مكان قصير الزيارة، ثقيل الذاكرة، وممتاز كبداية لجولة مشي على كورنيش الإسكندرية القديمة.</p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a class="btn-primary" href="#visit">خطط للزيارة ↓</a>
+            <a class="btn-ghost" href="#story">اقرأ الحكاية</a>
+          </div>
+        </div>
+        <div class="mt-12 self-end lg:mt-0">
+          <div class="shell-border grid overflow-hidden rounded-sm sm:grid-cols-2">
+            <div class="info-cell"><span class="info-kicker">التقييم على خرائط Google</span><span class="info-value">★ 4.4 · 18,296 مراجعة</span></div>
+            <div class="info-cell"><span class="info-kicker">الموقع</span><span class="info-value">المنشية · الإسكندرية</span></div>
+            <div class="info-cell"><span class="info-kicker">الدخول</span><span class="info-value">مجاني</span></div>
+            <div class="info-cell"><span class="info-kicker">المدة المعتادة</span><span class="info-value">15–30 دقيقة</span></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="absolute bottom-3 left-4 z-10 text-[10px] text-white/60">{photos[0].credit}</div>
+    </section>
 
-  <!-- 快速認識 -->
-  <section aria-labelledby="facts-title" class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-    <h2 id="facts-title" class="sr-only">快速認識通樑古榕</h2>
-    <dl class="grid grid-cols-2 gap-4 md:grid-cols-4">
-      {
-        facts.map((f) => (
-          <div class="rounded-2xl border border-sand-200 bg-white p-5">
-            <dt class="text-sm font-semibold text-temple-700">{f.label}</dt>
-            <dd class="mt-2 text-base font-medium text-banyan-900">{f.value}</dd>
+    <div class="brass-rule"></div>
+
+    <section id="story" class="arch-motif py-24 md:py-32">
+      <div class="container grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
+        <div>
+          <span class="eyebrow">القصة</span>
+          <h2 class="section-title">من ذكرى الخديوي<br/>إلى ذاكرة البحر.</h2>
+          <p class="section-copy">النصب في صورته المعمارية الحالية يسبق وظيفته التذكارية البحرية. شُيّد في ثلاثينيات القرن العشرين بمبادرة من الجالية الإيطالية تكريماً للخديوي إسماعيل، ثم تغيّر مع التحولات السياسية في مصر ليصبح لاحقاً نصباً للجندي البحري المجهول.</p>
+        </div>
+        <div class="max-w-3xl">
+          <div class="timeline-item">
+            <strong class="text-[#d2aa68]">1933 · أصل معماري كلاسيكي</strong>
+            <p class="mt-2 text-slate-300">ارتبط البناء الأول بذكرى الخديوي إسماعيل، وصممه المعماري الإيطالي إرنستو فيروتشي بروح النصب الكلاسيكية ذات الأعمدة والكتلة الحجرية المهيبة.</p>
           </div>
-        ))
-      }
-    </dl>
-  </section>
-
-  <!-- 為什麼值得去 -->
-  <section aria-labelledby="why-title" class="mx-auto max-w-6xl px-4 py-12 md:px-6">
-    <div class="mb-10 max-w-2xl">
-      <p class="text-sm font-semibold tracking-wide text-temple-700">為什麼值得去</p>
-      <h2 id="why-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
-        走進古榕樹蔭下
-      </h2>
-    </div>
-    <div class="grid gap-6 md:grid-cols-3">
-      {
-        reasons.map((r) => (
-          <article class="overflow-hidden rounded-3xl border border-sand-200 bg-white shadow-sm">
-            <div class="aspect-[4/3] overflow-hidden">
-              <Image
-                src={r.image}
-                alt={r.alt}
-                widths={[360, 540, 720]}
-                sizes="(min-width: 768px) 30vw, 90vw"
-                loading="lazy"
-                class="h-full w-full object-cover"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-banyan-900">{r.title}</h3>
-              <p class="mt-3 leading-relaxed text-banyan-800/85">{r.body}</p>
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- 第一次來看什麼 -->
-  <section aria-labelledby="first-title" class="bg-sand-100/60">
-    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-      <div class="mb-10 max-w-2xl">
-        <p class="text-sm font-semibold tracking-wide text-temple-700">第一次來看什麼</p>
-        <h2 id="first-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
-          四個不能錯過的細節
-        </h2>
+          <div class="timeline-item">
+            <strong class="text-[#d2aa68]">بعد ثورة 1952 · معنى جديد للميدان</strong>
+            <p class="mt-2 text-slate-300">تغيرت الدلالة السياسية والرمزية للموقع، ومع الوقت جرى تحويل النصب من تخليد حاكم إلى تخليد جنود فقدوا في البحر.</p>
+          </div>
+          <div class="timeline-item">
+            <strong class="text-[#d2aa68]">منتصف الستينيات · الجندي البحري المجهول</strong>
+            <p class="mt-2 text-slate-300">صدر قرار التحويل في الستينيات، واستقر الاسم والوظيفة التذكارية المرتبطة بالقوات البحرية وشهداء المعارك البحرية.</p>
+          </div>
+          <div class="timeline-item">
+            <strong class="text-[#d2aa68]">اليوم · نقطة ذاكرة في المشهد اليومي</strong>
+            <p class="mt-2 text-slate-300">يبقى النصب جزءاً من الحياة اليومية في المنشية، وفي الوقت نفسه إطاراً للمراسم ووضع أكاليل الزهور في مناسبات رسمية.</p>
+          </div>
+        </div>
       </div>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          firstVisit.map((c) => (
-            <div class="rounded-3xl border border-sand-200 bg-white p-6">
-              <span class="text-3xl font-bold text-leaf-300">{c.n}</span>
-              <h3 class="mt-3 text-lg font-bold text-banyan-900">{c.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-banyan-800/80">{c.text}</p>
-            </div>
-          ))
-        }
+    </section>
+
+    <section class="pb-24 md:pb-32" aria-labelledby="gallery-heading">
+      <div class="container">
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <span class="eyebrow">تفاصيل الحجر</span>
+            <h2 id="gallery-heading" class="section-title mb-0">النصب كما تراه من الميدان.</h2>
+          </div>
+          <p class="max-w-md text-sm text-slate-400">صور حقيقية موثقة من Wikimedia Commons. تظهر الاعتمادات والتراخيص مع كل صورة.</p>
+        </div>
+        <div class="grid auto-rows-[220px] gap-3 md:grid-cols-12 md:auto-rows-[260px]">
+          <figure class="photo-frame m-0 md:col-span-7 md:row-span-2">
+            <img src={photos[1].src} alt={photos[1].alt} loading="lazy" decoding="async" />
+            <figcaption class="photo-caption">واجهة الأعمدة · {photos[1].credit}</figcaption>
+          </figure>
+          <figure class="photo-frame m-0 md:col-span-5">
+            <img src={photos[2].src} alt={photos[2].alt} loading="lazy" decoding="async" />
+            <figcaption class="photo-caption">منظور جانبي · {photos[2].credit}</figcaption>
+          </figure>
+          <figure class="photo-frame m-0 md:col-span-5">
+            <img src={photos[3].src} alt={photos[3].alt} loading="lazy" decoding="async" />
+            <figcaption class="photo-caption">من الميدان · {photos[3].credit}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="visit" class="border-y border-[#d2aa68]/20 bg-[#0a1c25] py-24 md:py-28">
+      <div class="container grid gap-14 lg:grid-cols-[.95fr_1.05fr]">
+        <div>
+          <span class="eyebrow">الزيارة</span>
+          <h2 class="section-title">زيارة قصيرة،<br/>لكنها ليست عابرة.</h2>
+          <p class="section-copy">النصب ليس متحفاً مغلقاً ولا يحتاج إلى برنامج طويل. قوته في موقعه: تقف أمام ذاكرة بحرية، ثم تخرج مباشرة إلى المنشية والأسواق وواجهة شرق الميناء.</p>
+          <div class="mt-8 grid gap-5 sm:grid-cols-2">
+            <div class="visit-card"><h3>التذاكر / التكلفة</h3><p>لا توجد تذكرة دخول للساحة العامة؛ المشاهدة المعتادة مجانية.</p></div>
+            <div class="visit-card"><h3>ساعات الوصول</h3><p>الساحة متاحة على مدار اليوم عادةً، مع احتمال قيود مؤقتة أثناء المراسم.</p></div>
+            <div class="visit-card"><h3>أفضل وقت</h3><p>الصباح للهدوء، وقبل الغروب لضوء دافئ على الحجر، والمساء لأجواء الكورنيش.</p></div>
+            <div class="visit-card"><h3>مدة مناسبة</h3><p>15–30 دقيقة للنصب وحده؛ ساعتان أو أكثر إذا ربطته بجولة المنشية وبحري.</p></div>
+          </div>
+        </div>
+        <div class="shell-border p-7 md:p-10">
+          <span class="text-xs font-black tracking-widest text-[#d2aa68]">مسار مقترح</span>
+          <h3 class="mt-2 text-2xl font-black">من المنشية إلى بحري على إيقاع البحر</h3>
+          <ol class="mt-7 grid gap-5 text-slate-300">
+            <li class="grid grid-cols-[2.4rem_1fr] gap-3"><span class="grid h-9 w-9 place-items-center rounded-full border border-[#d2aa68]/50 text-[#d2aa68]">١</span><div><strong class="text-white">ابدأ بالنصب.</strong><br/>شاهد الواجهة والأعمدة والكتابات وخذ صورة واسعة من الميدان.</div></li>
+            <li class="grid grid-cols-[2.4rem_1fr] gap-3"><span class="grid h-9 w-9 place-items-center rounded-full border border-[#d2aa68]/50 text-[#d2aa68]">٢</span><div><strong class="text-white">اتجه غرباً نحو الأنفوشي.</strong><br/>يمتد المسار عبر أحياء مرتبطة بالميناء والأسواق القديمة.</div></li>
+            <li class="grid grid-cols-[2.4rem_1fr] gap-3"><span class="grid h-9 w-9 place-items-center rounded-full border border-[#d2aa68]/50 text-[#d2aa68]">٣</span><div><strong class="text-white">مرّ بمسجد أبي العباس المرسي.</strong><br/>معلم كبير في بحري ويمكن الوصول إليه تقريباً خلال عشرين دقيقة مشياً.</div></li>
+            <li class="grid grid-cols-[2.4rem_1fr] gap-3"><span class="grid h-9 w-9 place-items-center rounded-full border border-[#d2aa68]/50 text-[#d2aa68]">٤</span><div><strong class="text-white">اختم بقلعة قايتباي.</strong><br/>تقريباً نصف ساعة مشياً من النصب، مع امتداد واضح لواجهة الميناء الشرقي.</div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="map" class="py-24 md:py-32">
+      <div class="container">
+        <div class="grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
+          <div>
+            <span class="eyebrow">الوصول</span>
+            <h2 class="section-title">ميدان الجندي المجهول، المنشية.</h2>
+            <p class="section-copy">العنوان: ميدان الجندي المجهول، المنشية الكبرى، قسم المنشية، محافظة الإسكندرية 5361033. الرمز المختصر: 5VXV+XG.</p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="visit-card"><h3>من محطة الرمل</h3><p>نحو 12 دقيقة مشياً بحسب المسار، أو رحلة قصيرة بسيارة أجرة داخل وسط البلد.</p></div>
+            <div class="visit-card"><h3>من سانت كاترين</h3><p>نحو 8 دقائق مشياً إلى محيط الميدان؛ خيار جيد إذا وصلت بترام أو مواصلات وسط البلد.</p></div>
+            <div class="visit-card"><h3>من محطة مصر</h3><p>يمكن السير في حدود 20–25 دقيقة تقريباً أو استخدام سيارة أجرة لتجنب ازدحام الشوارع.</p></div>
+            <div class="visit-card"><h3>بسيارة أجرة</h3><p>اطلب «ميدان الجندي المجهول – المنشية». الاسم معروف ويضعك مباشرة في قلب المنطقة.</p></div>
+          </div>
+        </div>
+        <div class="map-wrap mt-10">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6070.070081511815!2d29.89117661285759!3d31.19999877425533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5c3ef832cefdb%3A0x304d50967e6abf61!2sAlexandria%20Naval%20Unknown%20Soldier%20Memorial!5e1!3m2!1sar!2seg!4v1789025602093!5m2!1sar!2seg"
+            title="خريطة النصب التذكاري للجندي البحري المجهول في المنشية"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-24 md:pb-32" aria-labelledby="parking-heading">
+      <div class="container grid gap-8 lg:grid-cols-2">
+        <div class="shell-border p-7 md:p-9">
+          <span class="eyebrow">المواقف</span>
+          <h2 id="parking-heading" class="mt-3 text-3xl font-black">لا تراهن على ركن السيارة أمام النصب.</h2>
+          <p class="mt-4 text-slate-300">المنشية منطقة كثيفة الحركة، ومواقف الشارع تتغير بسرعة وقد تكون محدودة. إذا كنت بالسيارة فابحث عن موقف عام قانوني في وسط البلد واترك آخر جزء للمشي. في أوقات الذروة، سيارة الأجرة أو تطبيقات النقل غالباً أكثر راحة.</p>
+        </div>
+        <div class="shell-border p-7 md:p-9">
+          <span class="eyebrow">نصيحة حركة</span>
+          <h2 class="mt-3 text-3xl font-black">اجعل المشي جزءاً من الزيارة.</h2>
+          <p class="mt-4 text-slate-300">النصب قريب من شبكة شوارع وسط الإسكندرية، لذلك من السهل الجمع بينه وبين محطة الرمل والمنشية وبحري في مسار واحد. تجنب التوقف العشوائي على الكورنيش أو في مناطق تعيق المرور.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="around" class="border-y border-[#d2aa68]/20 bg-[#081820] py-24 md:py-32">
+      <div class="container grid gap-14 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <span class="eyebrow">حولنا · أكل إسكندراني</span>
+          <h2 class="section-title">من الساحة إلى الطاولة.</h2>
+          <div class="mt-5">
+            <article class="place-card"><small>سندوتشات سريعة · المنشية</small><strong>كبدة أبو حلمي</strong><p>اختيار محلي مباشر لتجربة الكبدة الإسكندراني بعد جولة قصيرة في الميدان.</p></article>
+            <article class="place-card"><small>أسماك ومأكولات بحرية · المنشية</small><strong>قدورة</strong><p>من الأسماء المعروفة في الإسكندرية لتجربة السمك والمأكولات البحرية على الطريقة المحلية.</p></article>
+            <article class="place-card"><small>فول وطعمية · وسط البلد</small><strong>محمد أحمد</strong><p>مطعم كلاسيكي قريب من نطاق محطة الرمل، مناسب لفطور أو وجبة مصرية بسيطة قبل أو بعد المشي.</p></article>
+          </div>
+          <p class="mt-5 text-xs text-slate-500">ساعات عمل المطاعم والأسعار تتغير؛ تحقق منها قبل الذهاب.</p>
+        </div>
+        <div>
+          <span class="eyebrow">حولنا · معالم</span>
+          <h2 class="section-title">أكمل خط الميناء.</h2>
+          <div class="mt-5">
+            <article class="place-card"><small>حوالي 20 دقيقة مشياً</small><strong>مسجد أبو العباس المرسي</strong><p>أحد أبرز معالم بحري، وقبة بارزة في المشهد العمراني القريب من الميناء.</p></article>
+            <article class="place-card"><small>حوالي 28–30 دقيقة مشياً</small><strong>قلعة قايتباي</strong><p>قلعة مملوكية على طرف الميناء الشرقي، أُنشئت في القرن الخامس عشر في موضع فنار الإسكندرية القديم.</p></article>
+            <article class="place-card"><small>وسط المدينة</small><strong>آثار كوم الدكة</strong><p>موقع أثري روماني يضيف طبقة مختلفة تماماً من تاريخ الإسكندرية إلى اليوم نفسه.</p></article>
+            <article class="place-card"><small>شرقاً على الكورنيش</small><strong>مكتبة الإسكندرية</strong><p>معلم ثقافي حديث يمكن الوصول إليه بسيارة أجرة أو بالمواصلات من وسط البلد.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-24 md:py-32">
+      <div class="container grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
+        <div>
+          <span class="eyebrow">الأسئلة الشائعة</span>
+          <h2 class="section-title">قبل أن تذهب.</h2>
+          <p class="section-copy">إجابات عملية مختصرة لزيارة النصب من دون تحويلها إلى برنامج معقد.</p>
+        </div>
+        <div>
+          {faqItems.map((item) => (
+            <details class="faq">
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-24 md:pb-32" aria-labelledby="sources-heading">
+      <div class="container shell-border p-7 md:p-10">
+        <span class="eyebrow">مصادر موثوقة</span>
+        <h2 id="sources-heading" class="mt-3 text-2xl font-black">للتاريخ والسياق والتخطيط</h2>
+        <p class="mt-3 max-w-3xl text-sm text-slate-400">اعتمد هذا الدليل على بيانات الموقع المقدمة من خرائط Google، ومراجع موسوعية وخرائط محلية ومصادر رسمية للمعالم المجاورة. المعلومات المتغيرة مثل المواعيد الخارجية والتذاكر تستحق إعادة التحقق قبل الزيارة.</p>
+        <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          <a class="source-link" href="https://en.wikipedia.org/wiki/Alexandria_Naval_Unknown_Soldier_Memorial" target="_blank" rel="noreferrer">Wikipedia — النصب البحري ↗</a>
+          <a class="source-link" href="https://www.wikidata.org/wiki/Q3013168" target="_blank" rel="noreferrer">Wikidata — الإحداثيات والهوية ↗</a>
+          <a class="source-link" href="https://commons.wikimedia.org/wiki/Category:Unknown_Soldier_Memorial_(Alexandria)" target="_blank" rel="noreferrer">Wikimedia Commons — الصور ↗</a>
+          <a class="source-link" href="https://egymonuments.gov.eg/monuments/qaitbay-citadel/" target="_blank" rel="noreferrer">وزارة السياحة والآثار — قلعة قايتباي ↗</a>
+          <a class="source-link" href="https://www.bibalex.org/en/Page/visits" target="_blank" rel="noreferrer">مكتبة الإسكندرية — معلومات الزيارة ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#d2aa68]/20 bg-[#040e14] py-12">
+    <div class="container grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <img src="/brand/logo.svg" alt="شعار النصب التذكاري للجندي البحري المجهول" class="h-16 w-auto" loading="lazy" />
+        <p class="mt-4 max-w-2xl text-sm text-slate-400">هذا موقع إرشادي مستقل وغير رسمي، ولا يتبع القوات البحرية المصرية أو أي جهة حكومية.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+        <button type="button" data-cookie-settings class="cursor-pointer border-0 bg-transparent p-0 text-inherit underline decoration-[#d2aa68]/50 underline-offset-4 hover:text-[#d2aa68]">إعدادات الخصوصية</button>
+        <a class="nav-link" href="#top">أعلى الصفحة ↑</a>
       </div>
     </div>
-  </section>
-
-  <!-- 深入了解（內部連結） -->
-  <section aria-labelledby="explore-title" class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-    <div class="mb-10 max-w-2xl">
-      <p class="text-sm font-semibold tracking-wide text-temple-700">深入了解</p>
-      <h2 id="explore-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
-        規劃你的通樑古榕之旅
-      </h2>
-    </div>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        mainNav.map((item) => (
-          <a
-            href={item.href}
-            class="group rounded-2xl border border-sand-200 bg-white p-5 transition-colors hover:border-banyan-700"
-          >
-            <h3 class="flex items-center justify-between text-lg font-bold text-banyan-900">
-              {item.label}
-              <span class="text-leaf-500 transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
-            </h3>
-            <p class="mt-2 text-sm text-banyan-800/75">{item.desc}</p>
-          </a>
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- Google Maps -->
-  <GoogleMap />
-
-  <!-- 北環路線簡版 -->
-  <section aria-labelledby="route-title" class="bg-banyan-950 text-sand-50">
-    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-      <div class="mb-8 max-w-2xl">
-        <p class="text-sm font-semibold tracking-wide text-leaf-300">澎湖北環路線</p>
-        <h2 id="route-title" class="mt-2 text-3xl font-bold md:text-4xl">
-          從馬公一路玩到漁翁島
-        </h2>
-        <p class="mt-3 text-sand-100/85">
-          通樑古榕是北環路線上最自然的休息點，串連跨海大橋與整條西嶼海岸。
-        </p>
-      </div>
-      <ol class="flex flex-wrap items-center gap-x-2 gap-y-3 text-sm md:text-base">
-        {
-          routeStops.map((stop, i) => (
-            <li class="flex items-center gap-2">
-              <span
-                class:list={[
-                  "rounded-full px-4 py-2 font-medium",
-                  stop === "通樑古榕"
-                    ? "bg-sand-50 text-banyan-950 font-bold"
-                    : "bg-banyan-900/70 text-sand-100",
-                ]}
-              >
-                {stop}
-              </span>
-              {i < routeStops.length - 1 && (
-                <span class="text-leaf-300" aria-hidden="true">→</span>
-              )}
-            </li>
-          ))
-        }
-      </ol>
-      <a
-        href="/north-loop-itinerary/"
-        class="mt-8 inline-flex items-center gap-2 rounded-full bg-sand-50 px-6 py-3 font-semibold text-banyan-950 hover:bg-sand-100"
-      >
-        查看完整北環一日行程 <span aria-hidden="true">→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 附近景點 -->
-  <section aria-labelledby="nearby-title" class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-    <div class="mb-10 max-w-2xl">
-      <p class="text-sm font-semibold tracking-wide text-temple-700">附近景點</p>
-      <h2 id="nearby-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
-        跨海大橋與西嶼沿線
-      </h2>
-    </div>
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {nearbyPlaces.slice(0, 3).map((p) => <NearbyCard place={p} />)}
-    </div>
-    <a
-      href="/nearby-attractions/"
-      class="mt-8 inline-flex items-center gap-2 font-semibold text-banyan-900 hover:text-temple-700"
-    >
-      查看全部附近景點 <span aria-hidden="true">→</span>
-    </a>
-  </section>
-
-  <!-- FAQ -->
-  <section aria-labelledby="faq-title" class="bg-sand-100/60">
-    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-      <div class="mb-8 text-center">
-        <p class="text-sm font-semibold tracking-wide text-temple-700">常見問題</p>
-        <h2 id="faq-title" class="mt-2 text-3xl font-bold text-banyan-900 md:text-4xl">
-          出發前想知道的事
-        </h2>
-      </div>
-      <FAQList items={homeFaq} />
-      <div class="mt-8 text-center">
-        <a href="/faq/" class="font-semibold text-banyan-900 hover:text-temple-700">
-          查看全部常見問題 →
-        </a>
-      </div>
-    </div>
-  </section>
+  </footer>
 </BaseLayout>
