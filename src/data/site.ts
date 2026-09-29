@@ -1,5 +1,6 @@
 // مصدر واحد لبيانات الكيان (الاسم الرسمي، العنوان NAP، الإحداثيات، الروابط الرسمية).
-// عدّل هذا الملف فقط عند تغيّر بيانات النصب، وستتحدّث معه الصفحة والبيانات المنظّمة والوسوم الوصفية.
+// عدّل هذا الملف فقط عند تغيّر بيانات النصب، وستتحدّث معه الصفحات والبيانات المنظّمة والوسوم الوصفية.
+// الحقول متعددة اللغات: Ar / En / Zh. اللغة العربية هي الافتراضية.
 
 export const SITE = {
   // النطاق
@@ -9,20 +10,33 @@ export const SITE = {
   // أسماء الكيان (الرسمي + المتداول) — تُستخدم في H1 والبيانات المنظّمة والوسوم
   fullNameAr: 'النصب التذكاري للجندي البحري المجهول',
   fullNameEn: 'Alexandria Naval Unknown Soldier Memorial',
+  fullNameZh: '亚历山大海军无名烈士纪念碑',
   shortNameAr: 'الجندي المجهول',
   shortNameEn: 'Naval Unknown Soldier Memorial',
+  shortNameZh: '无名烈士纪念碑',
 
-  // NAP — يجب أن يطابق الاسم والعنوان ما هو مسجّل في خرائط Google
+  // الموقع الجغرافي (متعدد اللغات)
   cityAr: 'الإسكندرية',
+  cityEn: 'Alexandria',
+  cityZh: '亚历山大',
   districtAr: 'المنشية',
+  districtEn: 'Mansheya',
+  districtZh: '曼希亚',
   districtFullAr: 'المنشية الكبرى',
+  districtFullEn: 'Al Mansheyah Al Kubra',
+  districtFullZh: '曼希亚库布拉',
   governorateAr: 'محافظة الإسكندرية',
+  governorateEn: 'Alexandria Governorate',
+  governorateZh: '亚历山大省',
   countryAr: 'مصر',
+  countryEn: 'Egypt',
+  countryZh: '埃及',
   countryCode: 'EG',
   postalCode: '5361033',
   plusCode: '5VXV+XG',
   streetAddressAr: 'ميدان الجندي المجهول، المنشية الكبرى، قسم المنشية',
   streetAddressEn: 'Al Gonday Al Maghool Sq., Al Mansheyah Al Kubra, Qesm Al Mansheyah',
+  streetAddressZh: '无名烈士广场，曼希亚库布拉，曼希亚区',
 
   // الإحداثيات (مركز الخريطة المضمّنة المقدّمة للمشروع)
   latitude: 31.199999,
@@ -36,10 +50,16 @@ export const SITE = {
   // الجهات الرسمية (روابط خارجية موثوقة)
   govtTourismUrl: 'https://www.egypt.travel/',
   govtTourismLabelAr: 'الهيئة المصرية العامة للتنشيط السياحي',
+  govtTourismLabelEn: 'Egyptian Tourism Authority',
+  govtTourismLabelZh: '埃及旅游局',
   alexandriaGovUrl: 'http://www.alexandria.gov.eg/',
   alexandriaGovLabelAr: 'محافظة الإسكندرية — البوابة الرسمية',
+  alexandriaGovLabelEn: 'Alexandria Governorate — Official Portal',
+  alexandriaGovLabelZh: '亚历山大省政府官网',
   monumentsUrl: 'https://egymonuments.gov.eg/monuments/qaitbay-citadel/',
   monumentsLabelAr: 'وزارة السياحة والآثار — قلعة قايتباي',
+  monumentsLabelEn: 'Ministry of Tourism & Antiquities — Qaitbay Citadel',
+  monumentsLabelZh: '旅游与文物部 — 盖特贝城堡',
   wikidataUrl: 'https://www.wikidata.org/wiki/Q3013168',
   wikipediaUrl: 'https://en.wikipedia.org/wiki/Alexandria_Naval_Unknown_Soldier_Memorial',
 
@@ -50,6 +70,7 @@ export const SITE = {
   // المعالم المجاورة (تُستخدم في النص والوسوم الوصفية)
   nearbyLandmarksAr: ['قلعة قايتباي', 'مسجد أبو العباس المرسي'],
   nearbyLandmarksEn: ['Qaitbay Citadel', 'Abu al-Abbas al-Mursi Mosque'],
+  nearbyLandmarksZh: ['盖特贝城堡', '阿布·阿巴斯·莫尔西清真寺'],
 
   // الصورة الرئيسية المستخدمة في og:image والبيانات المنظّمة
   heroImage: '/images/memorial-front.jpg',

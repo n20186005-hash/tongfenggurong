@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, absoluteUrl } from '../data/site';
+import { type Locale, localizedPath, entityName, cityName } from '../i18n';
+import { ar } from '../content/ar';
+import { en } from '../content/en';
+import { zh } from '../content/zh';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const guide = { ar, en, zh }[locale];
+
+const ui = {
+  ar: {
+    eyebrow: 'المعالم المجاورة',
+    heroTitle: 'ماذا حول النصب؟',
+    heroSub: `خريطة مصغّرة للمعالم والأكل في قلب ${SITE.cityAr}، على بُعد خطوات من النصب.`,
+    landmarksTitle: 'معالم على بُعد خطوات',
+    foodsTitle: 'أكل قريب من الميدان',
+    foodsNote: guide.around.foodNote,
+    transportTitle: 'كيف تنتقل بينها',
+    transportText: 'كل المعالم المذكورة على بُعد مشي قصير أو رحلة تاكسي داخل وسط البلد. ابدأ من النصب، ثم سر نحو بحري وشرق الميناء، واربطها بسهولة في مسار واحد.',
+    backHome: 'العودة إلى دليل الزيارة ↓',
+    backHomeLabel: guide.nav.visit,
+    sourcesTitle: guide.sources.eyebrow,
+    sourcesText: guide.sources.intro,
+    updated: guide.sources.updated
+  },
+  en: {
+    eyebrow: 'Nearby sights',
+    heroTitle: 'What is around the memorial?',
+    heroSub: `A mini-map of sights and food in the heart of ${SITE.cityEn}, a short walk from the memorial.`,
+    landmarksTitle: 'Sights within a few steps',
+    foodsTitle: 'Food near the square',
+    foodsNote: guide.around.foodNote,
+    transportTitle: 'How to move between them',
+    transportText: 'All listed sights are a short walk or a quick city-centre taxi apart. Start at the memorial, head toward Bahari and the eastern harbour, and link them easily into one route.',
+    backHome: 'Back to the visitor guide ↓',
+    backHomeLabel: guide.nav.visit,
+    sourcesTitle: guide.sources.eyebrow,
+    sourcesText: guide.sources.intro,
+    updated: guide.sources.updated
+  },
+  zh: {
+    eyebrow: '周边景点',
+    heroTitle: '纪念碑周边有什么？',
+    heroSub: `${SITE.cityZh}市中心、距纪念碑几步之遥的景点与美食小地图。`,
+    landmarksTitle: '几步之遥的景点',
+    foodsTitle: '广场附近的美食',
+    foodsNote: guide.around.foodNote,
+    transportTitle: '如何在景点间移动',
+    transportText: '所列景点皆步行不远，或从市中心乘短途出租车可达。从纪念碑出发，前往巴赫里与东港，轻松串成一条路线。',
+    backHome: '返回参观指南 ↓',
+    backHomeLabel: guide.nav.visit,
+    sourcesTitle: guide.sources.eyebrow,
+    sourcesText: guide.sources.intro,
+    updated: guide.sources.updated
+  }
+}[locale];
+
+const homeLabel = { ar: 'الرئيسية', en: 'Home', zh: '首页' }[locale];
+const pageUrl = Astro.site ? new URL(localizedPath(locale, '/nearby-attractions/'), Astro.site).toString() : localizedPath(locale, '/nearby-attractions/');
+
+const webpageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${SITE.url}/#nearby`,
+  url: pageUrl,
+  name: ui.heroTitle,
+  description: ui.heroSub,
+  inLanguage: locale === 'ar' ? 'ar-EG' : locale === 'en' ? 'en-US' : 'zh-CN',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#attraction` },
+  primaryImageOfPage: absoluteUrl(SITE.heroImage),
+  datePublished: SITE.lastUpdated,
+  dateModified: SITE.lastUpdated
+};
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: homeLabel, item: Astro.site ? new URL(localizedPath(locale, '/'), Astro.site).toString() : localizedPath(locale, '/') },
+    { '@type': 'ListItem', position: 2, name: guide.nav.nearby }
+  ]
+};
+const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale);
+---
+
+<BaseLayout
+  title={`${guide.nav.nearby} · ${entityName(locale)}`}
+  description={ui.heroSub}
+  ogImageAlt={`${entityName(locale)} — ${guide.nav.nearby}`}
+  locale={locale}
+  path="/nearby-attractions/"
+  jsonLd={[webpageJsonLd, breadcrumbJsonLd]}
+>
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
+    <div class="container flex min-h-20 items-center justify-between gap-6">
+      <a href={localizedPath(locale, '/')} aria-label={`${entityName(locale)} — ${homeLabel}`} class="flex shrink-0 items-center gap-3">
+        <img src="/brand/logo.svg" alt={`شعار ${entityName(locale)}`} class="h-14 w-auto" />
+        <span class="brand-text">
+          <strong>{entityName(locale)}</strong>
+          <small>{cityName(locale)} · {SITE.countryAr} · {SITE.plusCode}</small>
+        </span>
+      </a>
+      <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">📍</a>
+    </div>
+    <div class="container flex items-center gap-2 py-1 text-xs">
+      {otherLocales.map((l) => (
+        <a class="lang-switch" href={localizedPath(l, '/nearby-attractions/')} hreflang={l}>{l === 'ar' ? 'العربية' : l === 'en' ? 'EN' : '中文'}</a>
+      ))}
+    </div>
+  </header>
+
+  <main id="top" class="pt-28">
+    <section class="relative overflow-hidden py-20 md:py-28">
+      <div class="container">
+        <span class="eyebrow">{ui.eyebrow}</span>
+        <h1 class="hero-title">{ui.heroTitle}</h1>
+        <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">{ui.heroSub}</p>
+        <p class="mt-6">
+          <a class="btn-primary" href={localizedPath(locale, '/') + '#visit'}>{ui.backHome}</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-20">
+      <div class="container">
+        <span class="eyebrow">{ui.landmarksTitle}</span>
+        <h2 class="section-title">{ui.landmarksTitle}</h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          {guide.around.landmarks.map((l) => (
+            <div class="shell-border p-6">
+              <small class="text-[#d2aa68]">{l.distance}</small>
+              <h3 class="mt-1 text-2xl font-black">{l.name}</h3>
+              <p class="mt-2 text-slate-300" set:html={l.desc} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y border-[#d2aa68]/20 bg-[#081820] py-16 md:py-20">
+      <div class="container">
+        <span class="eyebrow">{ui.foodsTitle}</span>
+        <h2 class="section-title">{ui.foodsTitle}</h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          {guide.around.foods.map((f) => (
+            <div class="shell-border p-6">
+              <small class="text-[#d2aa68]">{f.tag}</small>
+              <h3 class="mt-1 text-xl font-black">{f.name}</h3>
+              <p class="mt-2 text-slate-300" set:html={f.desc} />
+            </div>
+          ))}
+        </div>
+        <p class="mt-5 text-xs text-slate-500">{ui.foodsNote}</p>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-20">
+      <div class="container grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
+        <div>
+          <span class="eyebrow">{ui.transportTitle}</span>
+          <h2 class="section-title">{ui.transportTitle}</h2>
+          <p class="section-copy">{ui.transportText}</p>
+          <p class="mt-6"><a class="btn-ghost" href={localizedPath(locale, '/') + '#map'}>{guide.nav.around} ↗</a></p>
+        </div>
+        <div class="map-wrap">
+          <iframe src={SITE.mapsEmbedSrc} title={ui.heroTitle} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-20" aria-labelledby="sources-heading">
+      <div class="container shell-border p-7 md:p-10">
+        <span class="eyebrow">{ui.sourcesTitle}</span>
+        <h2 id="sources-heading" class="mt-3 text-2xl font-black">{ui.sourcesTitle}</h2>
+        <p class="mt-3 max-w-3xl text-sm text-slate-400" set:html={ui.sourcesText} />
+        <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {guide.sources.links.map((l) => (
+            <a class="source-link" href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a>
+          ))}
+        </div>
+        <p class="mt-6 text-xs text-slate-500">{ui.updated}</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#d2aa68]/20 bg-[#040e14] py-12">
+    <div class="container flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400">
+      <span>{entityName(locale)} · {SITE.plusCode}</span>
+      <div class="flex items-center gap-3">
+        {(['ar', 'en', 'zh'] as Locale[]).map((l) => (
+          <a class="lang-switch" href={localizedPath(l, '/nearby-attractions/')} hreflang={l}>{l === 'ar' ? 'العربية' : l === 'en' ? 'EN' : '中文'}</a>
+        ))}
+        <a class="nav-link" href={localizedPath(locale, '/')}>{homeLabel} ↑</a>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>

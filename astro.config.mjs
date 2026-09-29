@@ -12,7 +12,20 @@ export default defineConfig({
   build: {
     format: 'directory'
   },
-  integrations: site ? [sitemap()] : [],
+  integrations: site
+    ? [
+        sitemap({
+          i18n: {
+            defaultLocale: 'ar',
+            locales: {
+              ar: 'https://tongfenggurong.com',
+              en: 'https://tongfenggurong.com/en',
+              zh: 'https://tongfenggurong.com/zh'
+            }
+          }
+        })
+      ]
+    : [],
   vite: {
     plugins: [tailwindcss()]
   }

@@ -1,0 +1,512 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WeatherSection from './WeatherSection.astro';
+import { SITE, absoluteUrl } from '../data/site';
+import {
+  type Locale,
+  localizedPath,
+  entityName,
+  cityName
+} from '../i18n';
+import type { GuideContent } from '../content/types';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props {
+  content: GuideContent;
+  /** المسار الحيادي داخل اللغة (مثل '/' أو '/nearby-attractions/'). */
+  path: string;
+}
+const { content, path } = Astro.props;
+const locale = content.locale;
+
+const homeLabel = { ar: 'الرئيسية', en: 'Home', zh: '首页' }[locale];
+const visitGuideLabel = { ar: 'دليل الزيارة', en: 'Visitor Guide', zh: '参观指南' }[locale];
+
+const countryName = { ar: SITE.countryAr, en: SITE.countryEn, zh: SITE.countryZh }[locale];
+const governorateName = { ar: SITE.governorateAr, en: SITE.governorateEn, zh: SITE.governorateZh }[locale];
+const districtName = { ar: SITE.districtAr, en: SITE.districtEn, zh: SITE.districtZh }[locale];
+const streetAddress = { ar: SITE.streetAddressAr, en: SITE.streetAddressEn, zh: SITE.streetAddressZh }[locale];
+
+const infoKickers = {
+  rating: { ar: 'التقييم على خرائط Google', en: 'Google rating', zh: 'Google 评分' },
+  location: { ar: 'الموقع', en: 'Location', zh: '位置' },
+  entry: { ar: 'الدخول', en: 'Entry', zh: '入场' },
+  duration: { ar: 'المدة المعتادة', en: 'Typical duration', zh: '建议时长' }
+}[locale];
+
+const pageUrl = Astro.site ? new URL(localizedPath(locale, path), Astro.site).toString() : localizedPath(locale, path);
+const nearbyUrl = Astro.site ? new URL(localizedPath(locale, '/nearby-attractions/'), Astro.site).toString() : localizedPath(locale, '/nearby-attractions/');
+
+const PHOTOS = [
+  { local: '/images/memorial-front.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_01.jpg?width=1800', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-columns.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_04.jpg?width=1400', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-side.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_06.jpg?width=1400', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
+  { local: '/images/memorial-square.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Monument_of_the_Navy_Unknown_Soldier_in_Alexandria_(6).jpg?width=1400', credit: 'Moro 2088 / Wikimedia Commons — CC BY-SA 3.0' }
+];
+
+const hasLocalPhoto = (p: string): boolean =>
+  existsSync(join(process.cwd(), 'public', p.replace(/^\//, '')));
+
+type Photo = (typeof PHOTOS)[number] & { src: string; alt: string };
+const photos: Photo[] = PHOTOS.map((p, i) => ({
+  ...p,
+  src: hasLocalPhoto(p.local) ? p.local : p.remote,
+  alt: content.photosAlt[i]
+})) as Photo[];
+
+const breadcrumbItems = [
+  { name: homeLabel, url: localizedPath(locale, '/') },
+  { name: countryName, url: undefined },
+  { name: governorateName, url: undefined },
+  { name: districtName, url: undefined },
+  { name: entityName(locale), url: undefined }
+];
+
+const attractionId = `${SITE.url}/#attraction`;
+const organizationId = `${SITE.url}/#organization`;
+const websiteId = `${SITE.url}/#website`;
+const webpageId = `${SITE.url}/#webpage`;
+
+const attractionJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@id': attractionId,
+  name: entityName(locale),
+  alternateName: [
+    SITE.shortNameAr, SITE.shortNameEn, SITE.shortNameZh,
+    `${cityName(locale)} ${entityName(locale)}`,
+    SITE.fullNameAr, SITE.fullNameEn, SITE.fullNameZh,
+    'النصب التذكاري للجندي المجهول بالإسكندرية',
+    'Naval Unknown Soldier Memorial'
+  ],
+  description: content.description,
+  ...(pageUrl ? { url: pageUrl } : {}),
+  hasMap: SITE.mapsShareUrl,
+  image: photos.map((p) => (p.src.startsWith('/') ? absoluteUrl(p.src) : p.src)),
+  isAccessibleForFree: true,
+  publicAccess: true,
+  touristType: ['نصب تذكاري', 'معلم تاريخي', 'Memorial', 'Historic landmark', '纪念碑', '历史地标'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress,
+    addressLocality: cityName(locale),
+    addressRegion: governorateName,
+    postalCode: SITE.postalCode,
+    addressCountry: SITE.countryCode
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: SITE.latitude, longitude: SITE.longitude },
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((d) => `https://schema.org/${d}`),
+    opens: '00:00', closes: '23:59'
+  }],
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: SITE.rating, reviewCount: SITE.reviewCount, bestRating: 5, worstRating: 1 },
+  sameAs: [SITE.mapsShareUrl, SITE.wikipediaUrl, SITE.wikidataUrl, SITE.govtTourismUrl]
+};
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': organizationId,
+  name: `${entityName(locale)} · ${visitGuideLabel}`,
+  url: SITE.url,
+  logo: absoluteUrl('/brand/logo.svg'),
+  description: `موقع إرشادي مستقل وغير رسمي لتعريف الزوار بـ${SITE.fullNameAr} في ${SITE.districtAr}، ${SITE.cityAr}، ${SITE.countryAr}.`,
+  slogan: 'ذاكرة على حافة المتوسط'
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: SITE.url,
+  name: `${entityName(locale)} (${cityName(locale)})`,
+  description: content.description,
+  inLanguage: locale,
+  publisher: { '@id': organizationId },
+  about: { '@id': attractionId }
+};
+
+const webpageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': webpageId,
+  url: pageUrl,
+  name: content.title,
+  description: content.description,
+  inLanguage: locale === 'ar' ? 'ar-EG' : locale === 'en' ? 'en-US' : 'zh-CN',
+  isPartOf: { '@id': websiteId },
+  about: { '@id': attractionId },
+  primaryImageOfPage: absoluteUrl(SITE.heroImage),
+  datePublished: SITE.lastUpdated,
+  dateModified: SITE.lastUpdated
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${SITE.url}/#breadcrumb`,
+  itemListElement: breadcrumbItems.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    ...(item.url ? { item: item.url } : {})
+  }))
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE.url}/#faq`,
+  mainEntity: content.faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a }
+  }))
+};
+
+const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale);
+---
+
+<BaseLayout
+  title={content.title}
+  description={content.description}
+  ogImageAlt={content.heroImageAlt}
+  locale={locale}
+  path={path}
+  jsonLd={[attractionJsonLd, organizationJsonLd, websiteJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd]}
+>
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
+    <div class="container flex min-h-20 items-center justify-between gap-6">
+      <a href={localizedPath(locale, '/')} aria-label={`${entityName(locale)} — ${homeLabel}`} class="flex shrink-0 items-center gap-3">
+        <img src="/brand/logo.svg" alt={`شعار ${entityName(locale)}`} class="h-14 w-auto" />
+        <span class="brand-text">
+          <strong>{entityName(locale)}</strong>
+          <small>{cityName(locale)} · {countryName} · {SITE.plusCode}</small>
+        </span>
+      </a>
+      <nav aria-label="التنقل الرئيسي" class="hidden items-center gap-4 text-[13px] font-bold lg:flex xl:gap-6 xl:text-sm">
+        <a class="nav-link" href={`#about`}>{content.nav.about}</a>
+        <a class="nav-link" href={`#story`}>{content.nav.story}</a>
+        <a class="nav-link" href={`#visit`}>{content.nav.visit}</a>
+        <a class="nav-link" href={`#weather`}>{content.nav.weather}</a>
+        <a class="nav-link" href={`#around`}>{content.nav.around}</a>
+        <a class="nav-link" href={`#faq`}>{content.nav.faq}</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a class="btn-ghost text-sm" href={nearbyUrl}>{content.nav.nearby} ↗</a>
+        <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">📍</a>
+      </div>
+    </div>
+    <div class="container flex flex-wrap items-center gap-2 border-t border-white/5 py-2 text-xs lg:hidden">
+      <a class="nav-link" href={`#about`}>{content.nav.about}</a>
+      <a class="nav-link" href={`#story`}>{content.nav.story}</a>
+      <a class="nav-link" href={`#visit`}>{content.nav.visit}</a>
+      <a class="nav-link" href={`#weather`}>{content.nav.weather}</a>
+      <a class="nav-link" href={`#around`}>{content.nav.around}</a>
+      <a class="nav-link" href={`#faq`}>{content.nav.faq}</a>
+      <a class="nav-link" href={nearbyUrl}>{content.nav.nearby}</a>
+    </div>
+    <div class="container flex items-center gap-2 py-1 text-xs">
+      {otherLocales.map((l) => (
+        <a class="lang-switch" href={localizedPath(l, path)} hreflang={l}>{l === 'ar' ? 'العربية' : l === 'en' ? 'EN' : '中文'}</a>
+      ))}
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="relative min-h-[94vh] overflow-hidden pt-32 lg:pt-20">
+      <img src={photos[0].src} alt={content.heroImageAlt} fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" />
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,11,16,.18),rgba(3,11,16,.62)_45%,rgba(3,11,16,.94)),linear-gradient(0deg,rgba(3,11,16,.92),transparent_45%)]"></div>
+      <div class="absolute inset-y-0 right-[8%] hidden w-px bg-[#d2aa68]/35 lg:block"></div>
+      <div class="container relative z-10 grid min-h-[calc(94vh-5rem)] items-end py-14 lg:grid-cols-[1.15fr_.85fr] lg:gap-12 lg:pb-20">
+        <div class="lg:col-start-2">
+          <span class="eyebrow">{content.hero.eyebrow}</span>
+          <h1 class="hero-title">
+            {content.hero.titleMain} <span class="text-[#d2aa68]">{content.hero.titleAccent}</span>
+            <span class="hero-title-loc">{content.hero.titleLoc}</span>
+          </h1>
+          <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">{content.hero.lead}</p>
+          <p class="hero-alias">{content.hero.alias}</p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a class="btn-primary" href="#visit">{content.hero.ctaPlan}</a>
+            <a class="btn-ghost" href="#story">{content.hero.ctaStory}</a>
+          </div>
+        </div>
+        <div class="mt-12 self-end lg:mt-0">
+          <div class="shell-border grid overflow-hidden rounded-sm sm:grid-cols-2">
+            <div class="info-cell"><span class="info-kicker">{infoKickers.rating}</span><span class="info-value">{content.infoBox.rating}</span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.location}</span><span class="info-value">{content.infoBox.location}</span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.entry}</span><span class="info-value">{content.infoBox.entry}</span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.duration}</span><span class="info-value">{content.infoBox.duration}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-3 left-4 z-10 text-[10px] text-white/60">{photos[0].credit}</div>
+    </section>
+
+    <div class="brass-rule"></div>
+
+    <section id="about" class="py-20 md:py-28">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="مسار التنقل داخل الموقع">
+          <ol>
+            {breadcrumbItems.map((item, i) => (
+              <li><a href={item.url ?? '#'}>{item.name}</a></li>
+            ))}
+          </ol>
+        </nav>
+        <div class="mt-9 grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
+          <div>
+            <span class="eyebrow">{content.about.eyebrow}</span>
+            <h2 class="section-title">{content.about.title}</h2>
+            {content.about.paras.map((p) => <p class="section-copy" set:html={p} />)}
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a class="btn-ghost" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{SITE.cityAr} ↗</a>
+              <a class="btn-ghost" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[0].label}</a>
+            </div>
+          </div>
+          <div class="shell-border p-6 md:p-8">
+            <span class="eyebrow">{content.about.factsTitle}</span>
+            <h3 class="mt-2 text-2xl font-black">{content.about.factsTitle}</h3>
+            <dl class="facts">
+              {content.about.facts.map((f) => (
+                <div><dt>{f.k}</dt><dd set:html={f.v} /></div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="story" class="arch-motif py-24 md:py-32">
+      <div class="container grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
+        <div>
+          <span class="eyebrow">{content.story.eyebrow}</span>
+          <h2 class="section-title">{content.story.title}</h2>
+          <p class="section-sub">{content.story.sub}</p>
+          <p class="section-copy" set:html={content.story.intro} />
+        </div>
+        <div class="max-w-3xl">
+          {content.story.timeline.map((t) => (
+            <div class="timeline-item">
+              <strong class="text-[#d2aa68]">{t.when}</strong>
+              <p class="mt-2 text-slate-300" set:html={t.text} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-24 md:pb-32" aria-labelledby="gallery-heading">
+      <div class="container">
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <span class="eyebrow">{content.gallery.eyebrow}</span>
+            <h2 id="gallery-heading" class="section-title mb-0">{content.gallery.title}</h2>
+          </div>
+          <p class="max-w-md text-sm text-slate-400">{content.gallery.note}</p>
+        </div>
+        <div class="grid auto-rows-[220px] gap-3 md:grid-cols-12 md:auto-rows-[260px]">
+          <figure class="photo-frame m-0 md:col-span-7 md:row-span-2">
+            <img src={photos[1].src} alt={photos[1].alt} loading="lazy" decoding="async" />
+            <figcaption class="photo-caption">واجهة الأعمدة · {photos[1].credit}</figcaption>
+          </figure>
+          <figure class="photo-frame m-0 md:col-span-5">
+            <img src={photos[2].src} alt={photos[2].alt} loading="lazy" decoding="async" />
+            <figcaption class="photo-caption">{photos[2].alt}</figcaption>
+          </figure>
+          <figure class="photo-frame m-0 md:col-span-5">
+            <img src={photos[3].src} alt={photos[3].alt} loading="lazy" decoding="async" />
+            <figcaption class="photo-caption">{photos[3].alt}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="visit" class="border-y border-[#d2aa68]/20 bg-[#0a1c25] py-24 md:py-28">
+      <div class="container grid gap-14 lg:grid-cols-[.95fr_1.05fr]">
+        <div>
+          <span class="eyebrow">{content.visit.eyebrow}</span>
+          <h2 class="section-title">{content.visit.title}</h2>
+          <p class="section-sub">{content.visit.sub}</p>
+          <p class="section-copy" set:html={content.visit.intro} />
+          <div class="mt-8 grid gap-5 sm:grid-cols-2">
+            {content.visit.cards.map((c) => (
+              <div class="visit-card"><h3>{c.title}</h3><p set:html={c.text} /></div>
+            ))}
+          </div>
+        </div>
+        <div class="shell-border p-7 md:p-10">
+          <span class="text-xs font-black tracking-widest text-[#d2aa68]">{content.visit.routeSub}</span>
+          <h3 class="mt-2 text-2xl font-black">{content.visit.routeTitle}</h3>
+          <ol class="mt-7 grid gap-5 text-slate-300">
+            {content.visit.route.map((r, i) => (
+              <li class="grid grid-cols-[2.4rem_1fr] gap-3">
+                <span class="grid h-9 w-9 place-items-center rounded-full border border-[#d2aa68]/50 text-[#d2aa68]">{i + 1}</span>
+                <div><strong class="text-white">{r.title}</strong><br /><span set:html={r.text} /></div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <WeatherSection locale={locale} />
+
+    <section class="border-y border-[#d2aa68]/20 bg-[#081820] py-24 md:py-32">
+      <div class="container">
+        <div class="max-w-3xl">
+          <span class="eyebrow">{content.climate.eyebrow}</span>
+          <h2 class="section-title">{content.climate.title}</h2>
+          <p class="section-copy" set:html={content.climate.sub} />
+        </div>
+        <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {content.climate.seasons.map((s) => (
+            <div class="shell-border p-6">
+              <h3 class="mt-0 text-xl font-black text-[#d2aa68]">{s.season}</h3>
+              <p class="mt-3 text-sm text-slate-300" set:html={s.text} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="map" class="py-24 md:py-32">
+      <div class="container">
+        <div class="grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
+          <div>
+            <span class="eyebrow">{content.map.eyebrow}</span>
+            <h2 class="section-title">{content.map.title}</h2>
+            <p class="section-copy" set:html={content.map.address} />
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {content.map.cards.map((c) => (
+              <div class="visit-card"><h3>{c.title}</h3><p set:html={c.text} /></div>
+            ))}
+          </div>
+        </div>
+        <div class="map-wrap mt-10">
+          <iframe src={SITE.mapsEmbedSrc} title={content.map.title} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="mt-5 text-sm text-slate-400" set:html={content.map.sourceNote}></p>
+        <p class="mt-2 text-sm text-slate-400">
+          <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[0].label}</a>
+          ·
+          <a class="source-link" href={SITE.alexandriaGovUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[1].label}</a>
+          ·
+          <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{SITE.cityAr} ↗</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="pb-24 md:pb-32" aria-labelledby="parking-heading">
+      <div class="container grid gap-8 lg:grid-cols-2">
+        {content.parking.map((p) => (
+          <div class="shell-border p-7 md:p-9">
+            <span class="eyebrow">{p.eyebrow}</span>
+            <h2 id="parking-heading" class="mt-3 text-3xl font-black">{p.title}</h2>
+            <p class="mt-4 text-slate-300" set:html={p.text} />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="around" class="border-y border-[#d2aa68]/20 bg-[#081820] py-24 md:py-32">
+      <div class="container">
+        <div class="max-w-3xl">
+          <span class="eyebrow">{content.around.eyebrow}</span>
+          <h2 class="section-title">{content.around.title}</h2>
+          <p class="section-copy" set:html={content.around.intro} />
+        </div>
+        <div class="mt-12 grid gap-14 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <span class="eyebrow">{content.around.foodEyebrow}</span>
+            <h3 class="section-title">{content.around.foodTitle}</h3>
+            <div class="mt-5">
+              {content.around.foods.map((f) => (
+                <article class="place-card"><small>{f.tag}</small><strong>{f.name}</strong><p set:html={f.desc} /></article>
+              ))}
+            </div>
+            <p class="mt-5 text-xs text-slate-500">{content.around.foodNote}</p>
+          </div>
+          <div>
+            <span class="eyebrow">{content.around.landmarkEyebrow}</span>
+            <h3 class="section-title">{content.around.landmarkTitle}</h3>
+            <div class="mt-5">
+              {content.around.landmarks.map((l) => (
+                <article class="place-card"><small>{l.distance}</small><strong>{l.name}</strong><p set:html={l.desc} /></article>
+              ))}
+            </div>
+            <p class="mt-7">
+              <a class="btn-ghost text-sm" href={nearbyUrl}>{content.nav.nearby} ↗</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-24 md:py-32">
+      <div class="container grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
+        <div>
+          <span class="eyebrow">{content.nav.faq}</span>
+          <h2 class="section-title">{content.nav.faq}</h2>
+          <p class="section-copy">{content.faq.length} {locale === 'ar' ? 'سؤالاً شائعاً' : locale === 'en' ? 'common questions' : '个常见问题'}</p>
+        </div>
+        <div>
+          {content.faq.map((item) => (
+            <details class="faq">
+              <summary>{item.q}</summary>
+              <p set:html={item.a} />
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="sources" class="pb-24 md:pb-32" aria-labelledby="sources-heading">
+      <div class="container shell-border p-7 md:p-10">
+        <span class="eyebrow">{content.sources.eyebrow}</span>
+        <h2 id="sources-heading" class="mt-3 text-2xl font-black">{content.sources.title}</h2>
+        <p class="mt-3 max-w-3xl text-sm text-slate-400" set:html={content.sources.intro} />
+        <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {content.sources.links.map((l) => (
+            <a class="source-link" href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a>
+          ))}
+        </div>
+        <p class="mt-6 text-xs text-slate-500">{content.sources.updated}</p>
+        <p class="photo-credit">{content.sources.credit}</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#d2aa68]/20 bg-[#040e14] py-12">
+    <div class="container grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <img src="/brand/logo.svg" alt={`شعار ${entityName(locale)}`} class="h-16 w-auto" loading="lazy" />
+        <div class="footer-nap">
+          <strong>{entityName(locale)} ({SITE.fullNameEn})</strong>
+          <span>{SITE.streetAddressAr} {SITE.postalCode}، {SITE.countryAr}</span>
+          <span>{SITE.plusCode} · {SITE.latitude}, {SITE.longitude}</span>
+          <span>
+            <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{SITE.cityAr} ↗</a>
+            ·
+            <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[0].label}</a>
+          </span>
+        </div>
+        <p class="mt-4 max-w-2xl text-sm text-slate-400">هذا موقع إرشادي مستقل وغير رسمي، ولا يتبع القوات البحرية المصرية أو أي جهة حكومية.</p>
+        <p class="photo-credit">{content.sources.credit}</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+        <div class="flex items-center gap-2">
+          {(['ar', 'en', 'zh'] as Locale[]).map((l) => (
+            <a class="lang-switch" href={localizedPath(l, path)} hreflang={l}>{l === 'ar' ? 'العربية' : l === 'en' ? 'EN' : '中文'}</a>
+          ))}
+        </div>
+        <button type="button" data-cookie-settings class="cursor-pointer border-0 bg-transparent p-0 text-inherit underline decoration-[#d2aa68]/50 underline-offset-4 hover:text-[#d2aa68]">{locale === 'ar' ? 'إعدادات الخصوصية' : locale === 'en' ? 'Privacy settings' : '隐私设置'}</button>
+        <a class="nav-link" href="#top">{locale === 'ar' ? 'أعلى الصفحة ↑' : locale === 'en' ? 'Top ↑' : '返回顶部 ↑'}</a>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>

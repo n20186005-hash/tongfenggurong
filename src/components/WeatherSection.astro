@@ -1,0 +1,159 @@
+---
+import type { Locale } from '../i18n';
+import { SITE } from '../data/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ui = {
+  ar: {
+    eyebrow: 'الطقس الآن',
+    title: 'الظروف الجوية الحالية عند النصب',
+    sub: 'تُحمَّل لحظياً من خدمة مناخية مفتوحة، مع نصائح محايدة للزيارة.',
+    loading: 'جارٍ تحميل الطقس…',
+    error: 'تعذّر تحميل الطقس الآن؛ جرّب لاحقاً.',
+    feelsLike: 'الإحساس', humidity: 'الرطوبة', wind: 'الرياح', precip: 'المطر',
+    bft: 'بوفورت', source: 'البيانات المناخية مقدَّمة عبر خدمة مناخية مفتوحة.'
+  },
+  en: {
+    eyebrow: 'Weather now',
+    title: 'Current conditions at the memorial',
+    sub: 'Loaded live from an open weather service, with neutral visit advice.',
+    loading: 'Loading weather…',
+    error: 'Weather unavailable right now; try again later.',
+    feelsLike: 'Feels like', humidity: 'Humidity', wind: 'Wind', precip: 'Rain',
+    bft: 'Beaufort', source: 'Climate data provided by an open weather service.'
+  },
+  zh: {
+    eyebrow: '实时天气',
+    title: '纪念碑当前天气状况',
+    sub: '由开放的气象服务实时加载，并附中性的参观建议。',
+    loading: '正在加载天气…',
+    error: '暂时无法加载天气，请稍后再试。',
+    feelsLike: '体感', humidity: '湿度', wind: '风力', precip: '降水',
+    bft: '蒲福风级', source: '气候数据由开放的气象服务方提供。'
+  }
+}[locale];
+---
+
+<section id="weather" class="py-20 md:py-28">
+  <div class="container">
+    <span class="eyebrow">{ui.eyebrow}</span>
+    <h2 class="section-title">{ui.title}</h2>
+    <p class="section-copy">{ui.sub}</p>
+    <div
+      id="weather-live"
+      class="mt-8 shell-border grid gap-6 p-6 md:grid-cols-[1.1fr_1fr] md:p-9"
+      data-locale={locale}
+      data-lat={String(SITE.latitude)}
+      data-lon={String(SITE.longitude)}
+    >
+      <p class="m-0 text-slate-300">{ui.loading}</p>
+    </div>
+    <p class="mt-4 text-xs text-slate-500">{ui.source}</p>
+  </div>
+</section>
+
+<script>
+  import { buildWeatherUrl, translateWmo, kmhToBeaufort, buildAdvice, weatherUi } from '../lib/weather';
+  import type { Locale } from '../i18n';
+
+  const mount = document.getElementById('weather-live');
+  if (mount) {
+    const locale = (mount.dataset.locale ?? 'ar') as Locale;
+    const lat = parseFloat(mount.dataset.lat ?? '31.2');
+    const lon = parseFloat(mount.dataset.lon ?? '29.89');
+    const ui = weatherUi(locale);
+
+    function esc(s: string): string {
+      return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+    }
+    function dayLabel(iso: string, loc: Locale): string {
+      const d = new Date(iso + 'T00:00:00');
+      const names = {
+        ar: ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+        en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+        zh: ['日','一','二','三','四','五','六']
+      }[loc];
+      return names[d.getDay()];
+    }
+
+    function render(data: { current: any; daily: any[] }) {
+      const w = data.current;
+      const bft = kmhToBeaufort(w.windKmh);
+      const wDesc = translateWmo(w.weatherCode, locale);
+      const advice = buildAdvice(data as any, locale);
+      const dailyRows = data.daily
+        .slice(0, 7)
+        .map((d: any) => {
+          const desc = translateWmo(d.code, locale);
+          return `<li class="grid grid-cols-[2.4rem_1fr_auto] items-center gap-3 border-t border-[rgba(210,170,104,.14)] py-2.5 text-sm">
+            <span class="text-[#d2aa68] font-black">${esc(dayLabel(d.date, locale))}</span>
+            <span class="text-slate-200">${esc(desc)}</span>
+            <span class="text-slate-400">${Math.round(d.tMin)}° / ${Math.round(d.tMax)}°</span>
+          </li>`;
+        })
+        .join('');
+
+      const adviceBlock = (title: string, items: string[], tone: 'risk' | 'normal') => {
+        if (!items.length) return '';
+        const cls = tone === 'risk' ? 'border-[#e0795a]/50 text-[#f0b6a3]' : 'border-[#d2aa68]/30 text-[#e6ddcf]';
+        return `<div class="shell-border p-4"><h4 class="mt-0 mb-2 text-sm font-black ${cls}">${esc(title)}</h4>
+          <ul class="m-0 list-disc ps-5 text-sm text-slate-300">${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>`;
+      };
+
+      mount.innerHTML = `
+        <div>
+          <div class="flex items-end gap-3">
+            <span class="text-5xl font-black">${Math.round(w.temperature)}°</span>
+            <span class="mb-1 text-slate-300">${esc(wDesc)}</span>
+          </div>
+          <dl class="mt-4 grid grid-cols-2 gap-y-2 text-sm text-slate-300">
+            <div><dt class="text-[#d2aa68]">${esc(ui.feelsLike)}</dt><dd class="m-0">${Math.round(w.apparent)}°</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.humidity)}</dt><dd class="m-0">${Math.round(w.humidity)}%</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.wind)}</dt><dd class="m-0">${Math.round(w.windKmh)} km/h · ${bft} ${esc(ui.bft)}</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.precip)}</dt><dd class="m-0">${Math.round(w.precipitationProbability)}%</dd></div>
+          </dl>
+        </div>
+        <div>
+          <h3 class="mb-2 text-lg font-black">${esc(ui.forecast)}</h3>
+          <ul class="m-0 list-none p-0">${dailyRows}</ul>
+          <div class="mt-5 grid gap-3">
+            ${adviceBlock(ui.riskTitle, advice.risk, 'risk')}
+            ${adviceBlock(ui.outfitTitle, advice.outfit, 'normal')}
+            ${adviceBlock(ui.planTitle, advice.plan, 'normal')}
+            ${adviceBlock(ui.itemsTitle, advice.items, 'normal')}
+          </div>
+        </div>`;
+    }
+
+    fetch(buildWeatherUrl(lat, lon))
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('bad'))))
+      .then((j) => {
+        const data = {
+          current: {
+            temperature: j.current.temperature_2m,
+            apparent: j.current.apparent_temperature,
+            humidity: j.current.relative_humidity_2m,
+            windKmh: j.current.wind_speed_10m,
+            precipitationProbability: j.current.precipitation_probability ?? 0,
+            weatherCode: j.current.weather_code
+          },
+          daily: (j.daily.time as string[]).map((date: string, i: number) => ({
+            date,
+            code: j.daily.weather_code[i],
+            tMax: j.daily.temperature_2m_max[i],
+            tMin: j.daily.temperature_2m_min[i],
+            precipProbability: j.daily.precipitation_probability_max?.[i] ?? 0,
+            uvMax: j.daily.uv_index_max?.[i] ?? 0,
+            windMaxKmh: j.daily.wind_speed_10m_max?.[i] ?? 0
+          }))
+        };
+        render(data);
+      })
+      .catch(() => {
+        mount.innerHTML = `<p class="m-0 text-slate-300">${esc(ui.error)}</p>`;
+      });
+  }
+</script>

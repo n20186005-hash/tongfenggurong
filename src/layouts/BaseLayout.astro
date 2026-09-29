@@ -1,6 +1,14 @@
 ---
 import '../styles/global.css';
 import { SITE, absoluteUrl } from '../data/site';
+import {
+  type Locale,
+  localeMeta,
+  localizedPath,
+  hreflangAlternates,
+  entityName,
+  cityName
+} from '../i18n';
 
 interface Props {
   title: string;
@@ -9,6 +17,9 @@ interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   robots?: string;
+  locale: Locale;
+  /** المسار الحيادي داخل اللغة (مثل '/' أو '/nearby-attractions/') لحساب canonical و hreflang. */
+  path?: string;
 }
 
 const {
@@ -17,14 +28,24 @@ const {
   jsonLd = [],
   ogImage,
   ogImageAlt,
-  robots = 'index,follow,max-image-preview:large'
+  robots = 'index,follow,max-image-preview:large',
+  locale,
+  path = '/'
 } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+
+const meta = localeMeta[locale];
+const canonical = Astro.site ? new URL(localizedPath(locale, path), Astro.site).toString() : undefined;
 const ogImageUrl = absoluteUrl(ogImage ?? SITE.heroImage);
-const ogImageAltText = ogImageAlt ?? `${SITE.fullNameAr} في ${SITE.cityAr}`;
+const ogImageAltText = ogImageAlt ?? `${entityName(locale)} في ${cityName(locale)}`;
+const alternates = hreflangAlternates(path);
+const ogSiteName = `${entityName(locale)} · ${cityName(locale)}`;
+const ogLocaleAlternates = (Object.keys(localeMeta) as Locale[])
+  .filter((l) => l !== locale)
+  .map((l) => localeMeta[l].ogLocale);
 ---
+
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang={meta.htmlLang} dir={meta.dir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -34,18 +55,20 @@ const ogImageAltText = ogImageAlt ?? `${SITE.fullNameAr} في ${SITE.cityAr}`;
     <meta name="description" content={description} />
     <title>{title}</title>
     {canonical && <link rel="canonical" href={canonical} />}
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content={SITE.shortNameAr} />
+    <meta name="apple-mobile-web-app-title" content={cityName(locale)} />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="format-detection" content="telephone=no" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={`${SITE.fullNameAr} · ${SITE.cityAr}`} />
-    <meta property="og:locale" content="ar_EG" />
+    <meta property="og:site_name" content={ogSiteName} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    {ogLocaleAlternates.map((l) => <meta property="og:locale:alternate" content={l} />)}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
