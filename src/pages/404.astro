@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { guideUi } from '../i18n';
 ---
 <BaseLayout
   title="الصفحة غير موجودة | النصب التذكاري للجندي البحري المجهول"
@@ -17,4 +18,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <a class="btn-primary mt-6" href="/">العودة إلى الرئيسية</a>
     </div>
   </main>
+  <p class="container pb-8 text-center text-sm text-slate-400">{guideUi.ar.disclaimer}</p>
 </BaseLayout>

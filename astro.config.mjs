@@ -18,9 +18,9 @@ export default defineConfig({
           i18n: {
             defaultLocale: 'ar',
             locales: {
-              ar: 'https://tongfenggurong.com',
-              en: 'https://tongfenggurong.com/en',
-              zh: 'https://tongfenggurong.com/zh'
+              ar: 'ar-EG',
+              en: 'en-US',
+              zh: 'zh-CN'
             }
           }
         })

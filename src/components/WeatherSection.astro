@@ -76,10 +76,10 @@ const ui = {
         en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
         zh: ['日','一','二','三','四','五','六']
       }[loc];
-      return names[d.getDay()];
+      return names[d.getDay()] ?? iso;
     }
 
-    function render(data: { current: any; daily: any[] }) {
+    const render = (data: { current: any; daily: any[] }) => {
       const w = data.current;
       const bft = kmhToBeaufort(w.windKmh);
       const wDesc = translateWmo(w.weatherCode, locale);
@@ -91,7 +91,7 @@ const ui = {
           return `<li class="grid grid-cols-[2.4rem_1fr_auto] items-center gap-3 border-t border-[rgba(210,170,104,.14)] py-2.5 text-sm">
             <span class="text-[#d2aa68] font-black">${esc(dayLabel(d.date, locale))}</span>
             <span class="text-slate-200">${esc(desc)}</span>
-            <span class="text-slate-400">${Math.round(d.tMin)}° / ${Math.round(d.tMax)}°</span>
+            <span class="text-slate-400" dir="ltr">${Math.round(d.tMin)}° / ${Math.round(d.tMax)}°</span>
           </li>`;
         })
         .join('');
@@ -110,10 +110,10 @@ const ui = {
             <span class="mb-1 text-slate-300">${esc(wDesc)}</span>
           </div>
           <dl class="mt-4 grid grid-cols-2 gap-y-2 text-sm text-slate-300">
-            <div><dt class="text-[#d2aa68]">${esc(ui.feelsLike)}</dt><dd class="m-0">${Math.round(w.apparent)}°</dd></div>
-            <div><dt class="text-[#d2aa68]">${esc(ui.humidity)}</dt><dd class="m-0">${Math.round(w.humidity)}%</dd></div>
-            <div><dt class="text-[#d2aa68]">${esc(ui.wind)}</dt><dd class="m-0">${Math.round(w.windKmh)} km/h · ${bft} ${esc(ui.bft)}</dd></div>
-            <div><dt class="text-[#d2aa68]">${esc(ui.precip)}</dt><dd class="m-0">${Math.round(w.precipitationProbability)}%</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.feelsLike)}</dt><dd class="m-0" dir="ltr">${Math.round(w.apparent)}°</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.humidity)}</dt><dd class="m-0" dir="ltr">${Math.round(w.humidity)}%</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.wind)}</dt><dd class="m-0" dir="ltr">${Math.round(w.windKmh)} km/h · ${bft} ${esc(ui.bft)}</dd></div>
+            <div><dt class="text-[#d2aa68]">${esc(ui.precip)}</dt><dd class="m-0" dir="ltr">${Math.round(w.precipitationProbability)}%</dd></div>
           </dl>
         </div>
         <div>

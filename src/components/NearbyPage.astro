@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE, absoluteUrl } from '../data/site';
-import { type Locale, localizedPath, entityName, cityName } from '../i18n';
+import { guideUi, type Locale, localizedPath, entityName, cityName } from '../i18n';
 import { ar } from '../content/ar';
 import { en } from '../content/en';
 import { zh } from '../content/zh';
@@ -16,12 +16,12 @@ const ui = {
   ar: {
     eyebrow: 'المعالم المجاورة',
     heroTitle: 'ماذا حول النصب؟',
-    heroSub: `خريطة مصغّرة للمعالم والأكل في قلب ${SITE.cityAr}، على بُعد خطوات من النصب.`,
-    landmarksTitle: 'معالم على بُعد خطوات',
-    foodsTitle: 'أكل قريب من الميدان',
+    heroSub: 'أفكار لمعالم وطعام في الإسكندرية؛ تحقق من مسار كل وجهة على حدة.',
+    landmarksTitle: 'معالم لجولة ممتدة',
+    foodsTitle: 'أفكار للطعام',
     foodsNote: guide.around.foodNote,
     transportTitle: 'كيف تنتقل بينها',
-    transportText: 'كل المعالم المذكورة على بُعد مشي قصير أو رحلة تاكسي داخل وسط البلد. ابدأ من النصب، ثم سر نحو بحري وشرق الميناء، واربطها بسهولة في مسار واحد.',
+    transportText: 'هذه اقتراحات لتخطيط جولة، وليست مساراً موثقاً. تحقق من المسافة والمعابر وإمكان الوصول ووسيلة النقل لكل وجهة.',
     backHome: 'العودة إلى دليل الزيارة ↓',
     backHomeLabel: guide.nav.visit,
     sourcesTitle: guide.sources.eyebrow,
@@ -31,12 +31,12 @@ const ui = {
   en: {
     eyebrow: 'Nearby sights',
     heroTitle: 'What is around the memorial?',
-    heroSub: `A mini-map of sights and food in the heart of ${SITE.cityEn}, a short walk from the memorial.`,
-    landmarksTitle: 'Sights within a few steps',
-    foodsTitle: 'Food near the square',
+    heroSub: 'Ideas for sights and food in Alexandria; check the route to each destination.',
+    landmarksTitle: 'Sights for a longer city walk',
+    foodsTitle: 'Food ideas',
     foodsNote: guide.around.foodNote,
     transportTitle: 'How to move between them',
-    transportText: 'All listed sights are a short walk or a quick city-centre taxi apart. Start at the memorial, head toward Bahari and the eastern harbour, and link them easily into one route.',
+    transportText: 'These are ideas for planning an outing, not a verified itinerary. Check the distance, crossings, access and transport for each destination separately.',
     backHome: 'Back to the visitor guide ↓',
     backHomeLabel: guide.nav.visit,
     sourcesTitle: guide.sources.eyebrow,
@@ -46,12 +46,12 @@ const ui = {
   zh: {
     eyebrow: '周边景点',
     heroTitle: '纪念碑周边有什么？',
-    heroSub: `${SITE.cityZh}市中心、距纪念碑几步之遥的景点与美食小地图。`,
-    landmarksTitle: '几步之遥的景点',
-    foodsTitle: '广场附近的美食',
+    heroSub: '亚历山大景点与餐食建议；请逐一核对各目的地的路线。',
+    landmarksTitle: '适合延伸行程的景点',
+    foodsTitle: '餐食建议',
     foodsNote: guide.around.foodNote,
     transportTitle: '如何在景点间移动',
-    transportText: '所列景点皆步行不远，或从市中心乘短途出租车可达。从纪念碑出发，前往巴赫里与东港，轻松串成一条路线。',
+    transportText: '这些内容用于规划行程，并非已核实的连续路线。请分别核对每处目的地的距离、过街位置、准入条件与交通方式。',
     backHome: '返回参观指南 ↓',
     backHomeLabel: guide.nav.visit,
     sourcesTitle: guide.sources.eyebrow,
@@ -66,7 +66,7 @@ const pageUrl = Astro.site ? new URL(localizedPath(locale, '/nearby-attractions/
 const webpageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  '@id': `${SITE.url}/#nearby`,
+  '@id': `${pageUrl}#webpage`,
   url: pageUrl,
   name: ui.heroTitle,
   description: ui.heroSub,
@@ -91,7 +91,6 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
 <BaseLayout
   title={`${guide.nav.nearby} · ${entityName(locale)}`}
   description={ui.heroSub}
-  ogImageAlt={`${entityName(locale)} — ${guide.nav.nearby}`}
   locale={locale}
   path="/nearby-attractions/"
   jsonLd={[webpageJsonLd, breadcrumbJsonLd]}
@@ -99,13 +98,13 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
   <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
     <div class="container flex min-h-20 items-center justify-between gap-6">
       <a href={localizedPath(locale, '/')} aria-label={`${entityName(locale)} — ${homeLabel}`} class="flex shrink-0 items-center gap-3">
-        <img src="/brand/logo.svg" alt={`شعار ${entityName(locale)}`} class="h-14 w-auto" />
+        <img src="/brand/logo.svg" alt={`${guideUi[locale].logo} — ${entityName(locale)}`} class="h-14 w-auto" />
         <span class="brand-text">
           <strong>{entityName(locale)}</strong>
-          <small>{cityName(locale)} · {SITE.countryAr} · {SITE.plusCode}</small>
+          <small>{cityName(locale)} · {{ar:SITE.countryAr,en:SITE.countryEn,zh:SITE.countryZh}[locale]} · {SITE.plusCode}</small>
         </span>
       </a>
-      <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">📍</a>
+      <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer" aria-label={guideUi[locale].maps}>📍</a>
     </div>
     <div class="container flex items-center gap-2 py-1 text-xs">
       {otherLocales.map((l) => (
@@ -198,5 +197,6 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
         <a class="nav-link" href={localizedPath(locale, '/')}>{homeLabel} ↑</a>
       </div>
     </div>
+    <p class="container mt-5 text-sm text-slate-400">{guideUi[locale].disclaimer}</p>
   </footer>
 </BaseLayout>

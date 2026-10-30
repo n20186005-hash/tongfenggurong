@@ -1,5 +1,5 @@
 // Service Worker للموقع الإرشادي (تنقّل network-first مع بديل محلي عند انقطاع الشبكة).
-const CACHE_NAME = 'alex-memorial-2026-09-10';
+const CACHE_NAME = 'alex-memorial-2026-10-29';
 const OFFLINE_FALLBACK = '/';
 const PRECACHE = [
   '/',

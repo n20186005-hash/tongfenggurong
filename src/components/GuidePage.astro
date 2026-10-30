@@ -3,14 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import WeatherSection from './WeatherSection.astro';
 import { SITE, absoluteUrl } from '../data/site';
 import {
+  guideUi,
   type Locale,
   localizedPath,
   entityName,
   cityName
 } from '../i18n';
 import type { GuideContent } from '../content/types';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 
 interface Props {
   content: GuideContent;
@@ -33,27 +32,10 @@ const infoKickers = {
   location: { ar: 'الموقع', en: 'Location', zh: '位置' },
   entry: { ar: 'الدخول', en: 'Entry', zh: '入场' },
   duration: { ar: 'المدة المعتادة', en: 'Typical duration', zh: '建议时长' }
-}[locale];
+};
 
 const pageUrl = Astro.site ? new URL(localizedPath(locale, path), Astro.site).toString() : localizedPath(locale, path);
 const nearbyUrl = Astro.site ? new URL(localizedPath(locale, '/nearby-attractions/'), Astro.site).toString() : localizedPath(locale, '/nearby-attractions/');
-
-const PHOTOS = [
-  { local: '/images/memorial-front.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_01.jpg?width=1800', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
-  { local: '/images/memorial-columns.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_04.jpg?width=1400', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
-  { local: '/images/memorial-side.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Alexandria_Naval_Unknown_Soldier_Memorial_06.jpg?width=1400', credit: 'Saleh Abdelrazeq / Wikimedia Commons — CC BY-SA 4.0' },
-  { local: '/images/memorial-square.jpg', remote: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Monument_of_the_Navy_Unknown_Soldier_in_Alexandria_(6).jpg?width=1400', credit: 'Moro 2088 / Wikimedia Commons — CC BY-SA 3.0' }
-];
-
-const hasLocalPhoto = (p: string): boolean =>
-  existsSync(join(process.cwd(), 'public', p.replace(/^\//, '')));
-
-type Photo = (typeof PHOTOS)[number] & { src: string; alt: string };
-const photos: Photo[] = PHOTOS.map((p, i) => ({
-  ...p,
-  src: hasLocalPhoto(p.local) ? p.local : p.remote,
-  alt: content.photosAlt[i]
-})) as Photo[];
 
 const breadcrumbItems = [
   { name: homeLabel, url: localizedPath(locale, '/') },
@@ -66,11 +48,11 @@ const breadcrumbItems = [
 const attractionId = `${SITE.url}/#attraction`;
 const organizationId = `${SITE.url}/#organization`;
 const websiteId = `${SITE.url}/#website`;
-const webpageId = `${SITE.url}/#webpage`;
+const webpageId = `${pageUrl}#webpage`;
 
 const attractionJsonLd = {
   '@context': 'https://schema.org',
-  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@type': 'TouristAttraction',
   '@id': attractionId,
   name: entityName(locale),
   alternateName: [
@@ -83,9 +65,6 @@ const attractionJsonLd = {
   description: content.description,
   ...(pageUrl ? { url: pageUrl } : {}),
   hasMap: SITE.mapsShareUrl,
-  image: photos.map((p) => (p.src.startsWith('/') ? absoluteUrl(p.src) : p.src)),
-  isAccessibleForFree: true,
-  publicAccess: true,
   touristType: ['نصب تذكاري', 'معلم تاريخي', 'Memorial', 'Historic landmark', '纪念碑', '历史地标'],
   address: {
     '@type': 'PostalAddress',
@@ -96,13 +75,7 @@ const attractionJsonLd = {
     addressCountry: SITE.countryCode
   },
   geo: { '@type': 'GeoCoordinates', latitude: SITE.latitude, longitude: SITE.longitude },
-  openingHoursSpecification: [{
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((d) => `https://schema.org/${d}`),
-    opens: '00:00', closes: '23:59'
-  }],
-  aggregateRating: { '@type': 'AggregateRating', ratingValue: SITE.rating, reviewCount: SITE.reviewCount, bestRating: 5, worstRating: 1 },
-  sameAs: [SITE.mapsShareUrl, SITE.wikipediaUrl, SITE.wikidataUrl, SITE.govtTourismUrl]
+  sameAs: [SITE.mapsShareUrl, SITE.wikipediaUrl, SITE.wikidataUrl]
 };
 
 const organizationJsonLd = {
@@ -172,7 +145,7 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
 <BaseLayout
   title={content.title}
   description={content.description}
-  ogImageAlt={content.heroImageAlt}
+  ogImageAlt={{ar:'رسم تجريدي للبحر في الإسكندرية، مصر؛ ليس صورة للنصب',en:'Abstract sea illustration for Alexandria, Egypt; not a photograph of the memorial',zh:'埃及亚历山大海景抽象示意；并非纪念碑照片'}[locale]}
   locale={locale}
   path={path}
   jsonLd={[attractionJsonLd, organizationJsonLd, websiteJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd]}
@@ -180,13 +153,13 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
   <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
     <div class="container flex min-h-20 items-center justify-between gap-6">
       <a href={localizedPath(locale, '/')} aria-label={`${entityName(locale)} — ${homeLabel}`} class="flex shrink-0 items-center gap-3">
-        <img src="/brand/logo.svg" alt={`شعار ${entityName(locale)}`} class="h-14 w-auto" />
+        <img src="/brand/logo.svg" alt={`${guideUi[locale].logo} — ${entityName(locale)}`} class="h-14 w-auto" />
         <span class="brand-text">
           <strong>{entityName(locale)}</strong>
           <small>{cityName(locale)} · {countryName} · {SITE.plusCode}</small>
         </span>
       </a>
-      <nav aria-label="التنقل الرئيسي" class="hidden items-center gap-4 text-[13px] font-bold lg:flex xl:gap-6 xl:text-sm">
+      <nav aria-label={{ar:'التنقل الرئيسي',en:'Main navigation',zh:'主导航'}[locale]} class="hidden items-center gap-4 text-[13px] font-bold lg:flex xl:gap-6 xl:text-sm">
         <a class="nav-link" href={`#about`}>{content.nav.about}</a>
         <a class="nav-link" href={`#story`}>{content.nav.story}</a>
         <a class="nav-link" href={`#visit`}>{content.nav.visit}</a>
@@ -196,10 +169,10 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
       </nav>
       <div class="flex items-center gap-3">
         <a class="btn-ghost text-sm" href={nearbyUrl}>{content.nav.nearby} ↗</a>
-        <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">📍</a>
+        <a class="btn-ghost text-sm" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer" aria-label={guideUi[locale].maps}>📍</a>
       </div>
     </div>
-    <div class="container flex flex-wrap items-center gap-2 border-t border-white/5 py-2 text-xs lg:hidden">
+    <nav aria-label={{ar:'أقسام دليل الزيارة',en:'Visitor guide sections',zh:'参观指南章节'}[locale]} class="container mobile-section-nav">
       <a class="nav-link" href={`#about`}>{content.nav.about}</a>
       <a class="nav-link" href={`#story`}>{content.nav.story}</a>
       <a class="nav-link" href={`#visit`}>{content.nav.visit}</a>
@@ -207,7 +180,7 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
       <a class="nav-link" href={`#around`}>{content.nav.around}</a>
       <a class="nav-link" href={`#faq`}>{content.nav.faq}</a>
       <a class="nav-link" href={nearbyUrl}>{content.nav.nearby}</a>
-    </div>
+    </nav>
     <div class="container flex items-center gap-2 py-1 text-xs">
       {otherLocales.map((l) => (
         <a class="lang-switch" href={localizedPath(l, path)} hreflang={l}>{l === 'ar' ? 'العربية' : l === 'en' ? 'EN' : '中文'}</a>
@@ -216,8 +189,8 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
   </header>
 
   <main id="top">
-    <section class="relative min-h-[94vh] overflow-hidden pt-32 lg:pt-20">
-      <img src={photos[0].src} alt={content.heroImageAlt} fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" />
+    <section class="relative min-h-[94vh] overflow-hidden pt-56 lg:pt-20">
+      <img src={SITE.heroImage} alt={{ar:'رسم تجريدي للبحر في الإسكندرية، مصر؛ ليس صورة للنصب',en:'Abstract sea illustration for Alexandria, Egypt; not a photograph of the memorial',zh:'埃及亚历山大海景抽象示意；并非纪念碑照片'}[locale]} fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" />
       <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,11,16,.18),rgba(3,11,16,.62)_45%,rgba(3,11,16,.94)),linear-gradient(0deg,rgba(3,11,16,.92),transparent_45%)]"></div>
       <div class="absolute inset-y-0 right-[8%] hidden w-px bg-[#d2aa68]/35 lg:block"></div>
       <div class="container relative z-10 grid min-h-[calc(94vh-5rem)] items-end py-14 lg:grid-cols-[1.15fr_.85fr] lg:gap-12 lg:pb-20">
@@ -236,23 +209,23 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
         </div>
         <div class="mt-12 self-end lg:mt-0">
           <div class="shell-border grid overflow-hidden rounded-sm sm:grid-cols-2">
-            <div class="info-cell"><span class="info-kicker">{infoKickers.rating}</span><span class="info-value">{content.infoBox.rating}</span></div>
-            <div class="info-cell"><span class="info-kicker">{infoKickers.location}</span><span class="info-value">{content.infoBox.location}</span></div>
-            <div class="info-cell"><span class="info-kicker">{infoKickers.entry}</span><span class="info-value">{content.infoBox.entry}</span></div>
-            <div class="info-cell"><span class="info-kicker">{infoKickers.duration}</span><span class="info-value">{content.infoBox.duration}</span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.rating[locale]}</span><span class="info-value" dir="ltr">{content.infoBox.rating.replace(/ · [^·]+$/, '')} <bdi class="snapshot-date">{content.infoBox.rating.split(' · ').at(-1)}</bdi></span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.location[locale]}</span><span class="info-value">{content.infoBox.location}</span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.entry[locale]}</span><span class="info-value">{content.infoBox.entry}</span></div>
+            <div class="info-cell"><span class="info-kicker">{infoKickers.duration[locale]}</span><span class="info-value">{content.infoBox.duration}</span></div>
           </div>
         </div>
       </div>
-      <div class="absolute bottom-3 left-4 z-10 text-[10px] text-white/60">{photos[0].credit}</div>
+      <div class="absolute bottom-3 left-4 z-10 text-xs text-white/80"><a href="/images/harbour-illustration.svg">{{ar:'رسم توضيحي أصلي لهذا الدليل؛ ليس صورة',en:'Original illustration for this guide; not a photograph',zh:'本指南原创示意图；并非实景照片'}[locale]}</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC0</a></div>
     </section>
 
     <div class="brass-rule"></div>
 
     <section id="about" class="py-20 md:py-28">
       <div class="container">
-        <nav class="breadcrumb" aria-label="مسار التنقل داخل الموقع">
+        <nav class="breadcrumb" aria-label={{ar:'مسار التنقل داخل الموقع',en:'Breadcrumb navigation',zh:'面包屑导航'}[locale]}>
           <ol>
-            {breadcrumbItems.map((item, i) => (
+            {breadcrumbItems.map((item) => (
               <li><a href={item.url ?? '#'}>{item.name}</a></li>
             ))}
           </ol>
@@ -263,8 +236,8 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
             <h2 class="section-title">{content.about.title}</h2>
             {content.about.paras.map((p) => <p class="section-copy" set:html={p} />)}
             <div class="mt-7 flex flex-wrap gap-3">
-              <a class="btn-ghost" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{SITE.cityAr} ↗</a>
-              <a class="btn-ghost" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[0].label}</a>
+              <a class="btn-ghost" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{guideUi[locale].maps} ↗</a>
+              <a class="btn-ghost" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{({ar:SITE.govtTourismLabelAr,en:SITE.govtTourismLabelEn,zh:SITE.govtTourismLabelZh}[locale])}</a>
             </div>
           </div>
           <div class="shell-border p-6 md:p-8">
@@ -295,32 +268,6 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
               <p class="mt-2 text-slate-300" set:html={t.text} />
             </div>
           ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="pb-24 md:pb-32" aria-labelledby="gallery-heading">
-      <div class="container">
-        <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
-          <div>
-            <span class="eyebrow">{content.gallery.eyebrow}</span>
-            <h2 id="gallery-heading" class="section-title mb-0">{content.gallery.title}</h2>
-          </div>
-          <p class="max-w-md text-sm text-slate-400">{content.gallery.note}</p>
-        </div>
-        <div class="grid auto-rows-[220px] gap-3 md:grid-cols-12 md:auto-rows-[260px]">
-          <figure class="photo-frame m-0 md:col-span-7 md:row-span-2">
-            <img src={photos[1].src} alt={photos[1].alt} loading="lazy" decoding="async" />
-            <figcaption class="photo-caption">واجهة الأعمدة · {photos[1].credit}</figcaption>
-          </figure>
-          <figure class="photo-frame m-0 md:col-span-5">
-            <img src={photos[2].src} alt={photos[2].alt} loading="lazy" decoding="async" />
-            <figcaption class="photo-caption">{photos[2].alt}</figcaption>
-          </figure>
-          <figure class="photo-frame m-0 md:col-span-5">
-            <img src={photos[3].src} alt={photos[3].alt} loading="lazy" decoding="async" />
-            <figcaption class="photo-caption">{photos[3].alt}</figcaption>
-          </figure>
         </div>
       </div>
     </section>
@@ -392,21 +339,21 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
         </div>
         <p class="mt-5 text-sm text-slate-400" set:html={content.map.sourceNote}></p>
         <p class="mt-2 text-sm text-slate-400">
-          <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[0].label}</a>
+          <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{({ar:SITE.govtTourismLabelAr,en:SITE.govtTourismLabelEn,zh:SITE.govtTourismLabelZh}[locale])}</a>
           ·
-          <a class="source-link" href={SITE.alexandriaGovUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[1].label}</a>
+          <a class="source-link" href={SITE.alexandriaGovUrl} target="_blank" rel="noopener noreferrer">{({ar:SITE.alexandriaGovLabelAr,en:SITE.alexandriaGovLabelEn,zh:SITE.alexandriaGovLabelZh}[locale])}</a>
           ·
-          <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{SITE.cityAr} ↗</a>
+          <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{guideUi[locale].maps} ↗</a>
         </p>
       </div>
     </section>
 
-    <section class="pb-24 md:pb-32" aria-labelledby="parking-heading">
+    <section class="pb-24 md:pb-32" aria-label={{ar:'المواقف وتخطيط الطريق',en:'Parking and route planning',zh:'停车与路线规划'}[locale]}>
       <div class="container grid gap-8 lg:grid-cols-2">
         {content.parking.map((p) => (
           <div class="shell-border p-7 md:p-9">
             <span class="eyebrow">{p.eyebrow}</span>
-            <h2 id="parking-heading" class="mt-3 text-3xl font-black">{p.title}</h2>
+            <h2 class="mt-3 text-3xl font-black">{p.title}</h2>
             <p class="mt-4 text-slate-300" set:html={p.text} />
           </div>
         ))}
@@ -484,18 +431,18 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
   <footer class="border-t border-[#d2aa68]/20 bg-[#040e14] py-12">
     <div class="container grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
       <div>
-        <img src="/brand/logo.svg" alt={`شعار ${entityName(locale)}`} class="h-16 w-auto" loading="lazy" />
+        <img src="/brand/logo.svg" alt={`${guideUi[locale].logo} — ${entityName(locale)}`} class="h-16 w-auto" loading="lazy" />
         <div class="footer-nap">
           <strong>{entityName(locale)} ({SITE.fullNameEn})</strong>
-          <span>{SITE.streetAddressAr} {SITE.postalCode}، {SITE.countryAr}</span>
+          <span>{streetAddress} {SITE.postalCode} · {countryName}</span>
           <span>{SITE.plusCode} · {SITE.latitude}, {SITE.longitude}</span>
           <span>
-            <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{SITE.cityAr} ↗</a>
+            <a class="source-link" href={SITE.mapsShareUrl} target="_blank" rel="noopener noreferrer">{guideUi[locale].maps} ↗</a>
             ·
-            <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{content.sources.links[0].label}</a>
+            <a class="source-link" href={SITE.govtTourismUrl} target="_blank" rel="noopener noreferrer">{({ar:SITE.govtTourismLabelAr,en:SITE.govtTourismLabelEn,zh:SITE.govtTourismLabelZh}[locale])}</a>
           </span>
         </div>
-        <p class="mt-4 max-w-2xl text-sm text-slate-400">هذا موقع إرشادي مستقل وغير رسمي، ولا يتبع القوات البحرية المصرية أو أي جهة حكومية.</p>
+        <p class="mt-4 max-w-2xl text-sm text-slate-400">{guideUi[locale].disclaimer}</p>
         <p class="photo-credit">{content.sources.credit}</p>
       </div>
       <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400">

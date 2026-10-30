@@ -155,3 +155,10 @@ a { color: inherit; }
   .facts > div { grid-template-columns: 1fr; gap: .1rem; }
   .breadcrumb ol { font-size: .76rem; }
 }
+
+/* Four readable touch targets per row; native nav remains available without JS. */
+.mobile-section-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding-block: 6px; border-top: 1px solid rgba(255,255,255,.05); }
+.mobile-section-nav .nav-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 4px; font-size: 14px; line-height: 1.3; text-align: center; border-radius: 3px; }
+.nav-link:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.snapshot-date { white-space: nowrap; }
+@media (min-width: 1024px) { .mobile-section-nav { display: none; } }

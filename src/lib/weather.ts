@@ -78,7 +78,7 @@ export const kmhToBeaufort = (kmh: number): number => {
   const thresholds = [1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118];
   let level = 0;
   for (let i = 0; i < thresholds.length; i++) {
-    if (kmh >= thresholds[i]) level = i + 1;
+    if (kmh >= (thresholds[i] ?? Infinity)) level = i + 1;
   }
   return level;
 };
@@ -105,7 +105,7 @@ const adviceDict = {
   },
   plan: {
     rain: { ar: 'إن شاب المطر، اربط الزيارة بأروقة المنشية المغطّاة ومتاحف قريبة.', en: 'If rain appears, pair the visit with covered Mansheya arcades and nearby museums.', zh: '若遇雨，可将参观与曼希亚有顶廊道及附近博物馆结合。' },
-    pleasant: { ar: 'طقس مناسب للتصويف في الهواء الطلق ومشي الكورنيش.', en: 'Good conditions for open-air photos and a corniche walk.', zh: '天气适宜户外拍照与海滨步道散步。' },
+    pleasant: { ar: 'طقس مناسب للتصوير في الهواء الطلق ومشي الكورنيش.', en: 'Good conditions for open-air photos and a corniche walk.', zh: '天气适宜户外拍照与海滨步道散步。' },
     hot: { ar: 'ارتاد النصب مبكّراً أو بعد الغروب لتجنّب حرارة النهار.', en: 'Visit early or after sunset to avoid daytime heat.', zh: '建议清晨或日落后前往，避开白天高温。' }
   },
   items: {

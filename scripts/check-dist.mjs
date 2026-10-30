@@ -79,14 +79,14 @@ check('TouristAttraction موجود', Boolean(attraction));
 if (attraction) {
   check('@id للكيان', attraction['@id'] === 'https://tongfenggurong.com/#attraction');
   check('alternateName متعدد', Array.isArray(attraction.alternateName) && attraction.alternateName.length >= 3);
-  check('image مطلق', Array.isArray(attraction.image) && attraction.image.every((src) => src.startsWith('https://tongfenggurong.com/')), JSON.stringify(attraction.image));
-  check('isAccessibleForFree', attraction.isAccessibleForFree === true);
+  check('No illustration presented as attraction photo', !('image' in attraction));
+  check('No unverified admission claim', !('isAccessibleForFree' in attraction));
   check('PostalAddress كامل', attraction.address?.postalCode === '5361033' && attraction.address?.addressCountry === 'EG');
   check('geo إحداثيات', typeof attraction.geo?.latitude === 'number' && typeof attraction.geo?.longitude === 'number');
   check('hasMap = رابط المشاركة', attraction.hasMap === 'https://maps.app.goo.gl/Hzrwki23zawzREuz8');
   check('sameAs ≥ 3 روابط', (attraction.sameAs ?? []).length >= 3);
-  check('openingHoursSpecification', Array.isArray(attraction.openingHoursSpecification) && attraction.openingHoursSpecification.length > 0);
-  check('aggregateRating = 4.4 / 18296', attraction.aggregateRating?.ratingValue === 4.4 && attraction.aggregateRating?.reviewCount === 18296);
+  check('No unconditional structured opening hours', !('openingHoursSpecification' in attraction));
+  check('No third-party rating schema', !('aggregateRating' in attraction));
 }
 const faq = flat.find((node) => node['@type'] === 'FAQPage');
 const faqDetails = (html.match(/<details class="faq"/g) ?? []).length;
@@ -97,7 +97,7 @@ const breadcrumb = flat.find((node) => node['@type'] === 'BreadcrumbList');
 check('BreadcrumbList بخمسة مستويات', breadcrumb?.itemListElement?.length === 5);
 check('Organization/WebSite/WebPage موجودة', ['Organization', 'WebSite', 'WebPage'].every((type) => flat.some((node) => node['@type'] === type)));
 const webpage = flat.find((node) => node['@type'] === 'WebPage');
-check('WebPage dateModified = 2026-09-10', webpage?.dateModified === '2026-09-10');
+check('WebPage dateModified = 2026-10-29', webpage?.dateModified === '2026-10-29');
 
 // 5. العناوين والصور
 const h1s = [...html.matchAll(/<h1[^>]*>([\s\S]*?)<\/h1>/g)].map((match) => match[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
@@ -115,7 +115,7 @@ const requiredH2 = [
 requiredH2.forEach((heading) => check(`H2 «${heading}»`, h2s.some((item) => item.includes(heading))));
 const images = html.match(/<img\b[^>]*>/g) ?? [];
 check('كل الصور تحمل alt', images.every((tag) => (attr(tag, 'alt') ?? '').length > 3), `${images.length} صورة`);
-const heroImage = images.find((tag) => (attr(tag, 'src') ?? '').includes('memorial-front'));
+const heroImage = images.find((tag) => (attr(tag, 'src') ?? '').includes('harbour-illustration'));
 check('صورة الواجهة (Hero) محلية وموجودة', Boolean(heroImage) && existsSync(join(dist, attr(heroImage, 'src').replace(/^\//, ''))));
 check('وصف صورة الواجهة يربط الكيان بالمدينة والبلد', ['الإسكندرية', 'مصر'].every((word) => (attr(heroImage ?? '', 'alt') ?? '').includes(word)), attr(heroImage ?? '', 'alt'));
 const contentImages = images.filter((tag) => /(memorial|images)\//.test(attr(tag, 'src') ?? ''));
@@ -133,14 +133,14 @@ check('روابط رسمية .gov / جهة سياحية', html.includes('egypt.t
 // 7. الخصوصية والتحليلات
 check('GA4 داخل بوابة الموافقة فقط', html.includes('G-HXM22WWPKP') && html.includes("localStorage.getItem(key)"), '');
 check('لا تحميل مباشر لـ gtag في head', !/<script[^>]+src="https:\/\/www\.googletagmanager\.com/.test(html));
-check('بيان ملكية الصور', html.includes('جميع الصور المعروضة في هذا الموقع') || html.includes('جميع حقوق الصور'));
+check('بيان ملكية الصور', html.includes('CC0') && html.includes('/images/harbour-illustration.svg'));
 check('لا توجد بقايا AdSense أو عناوين تجريبية', !/ca-pub-|adsbygoogle|example\.com|localhost:/.test(html.replace(/localhost'\)/g, '')));
 
 // 8. ملفات النشر
 const requiredFiles = [
   'index.html', '404.html', 'robots.txt', 'sitemap-index.xml', 'manifest.webmanifest', 'sw.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png',
-  'images/memorial-front.jpg', 'images/memorial-columns.jpg', 'images/memorial-side.jpg', 'images/memorial-square.jpg',
+  'images/harbour-illustration.svg', 'PHOTO_SOURCES.md',
   'brand/logo.svg', 'favicon.svg', 'apple-touch-icon.png'
 ];
 requiredFiles.forEach((file) => check(`ملف ${file}`, existsSync(join(dist, file)) && statSync(join(dist, file)).size > 0));
@@ -152,7 +152,7 @@ const notFound = readFileSync(join(dist, '404.html'), 'utf8');
 check('صفحة 404 بلا فهرسة', notFound.includes('name="robots" content="noindex,follow"'));
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
 check('robots.txt يسمح بالزحف ويشير للخريطة', robots.includes('Allow: /') && robots.includes('tongfenggurong.com/sitemap-index.xml'));
-check('صور مضغوطة (أقل من 700KB للصورة الرئيسية)', statSync(join(dist, 'images/memorial-front.jpg')).size < 700 * 1024);
+check('صور مضغوطة (أقل من 700KB للصورة الرئيسية)', statSync(join(dist, 'images/harbour-illustration.svg')).size < 700 * 1024);
 
 console.log(`\n${passed} PASS / ${failures.length} FAIL`);
 if (failures.length) {

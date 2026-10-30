@@ -40,7 +40,7 @@ export const SITE = {
 
   // الإحداثيات (مركز الخريطة المضمّنة المقدّمة للمشروع)
   latitude: 31.199999,
-  longitude: 29.891177,
+  longitude: 29.8937569,
 
   // روابط الخرائط
   mapsShareUrl: 'https://maps.app.goo.gl/Hzrwki23zawzREuz8',
@@ -56,7 +56,7 @@ export const SITE = {
   alexandriaGovLabelAr: 'محافظة الإسكندرية — البوابة الرسمية',
   alexandriaGovLabelEn: 'Alexandria Governorate — Official Portal',
   alexandriaGovLabelZh: '亚历山大省政府官网',
-  monumentsUrl: 'https://egymonuments.gov.eg/monuments/qaitbay-citadel/',
+  monumentsUrl: 'https://egymonuments.gov.eg/monuments/qaitbay-fort/',
   monumentsLabelAr: 'وزارة السياحة والآثار — قلعة قايتباي',
   monumentsLabelEn: 'Ministry of Tourism & Antiquities — Qaitbay Citadel',
   monumentsLabelZh: '旅游与文物部 — 盖特贝城堡',
@@ -65,7 +65,7 @@ export const SITE = {
 
   // بيانات المراجعات على خرائط Google
   rating: 4.4,
-  reviewCount: 18296,
+  reviewCount: 18437,
 
   // المعالم المجاورة (تُستخدم في النص والوسوم الوصفية)
   nearbyLandmarksAr: ['قلعة قايتباي', 'مسجد أبو العباس المرسي'],
@@ -73,15 +73,15 @@ export const SITE = {
   nearbyLandmarksZh: ['盖特贝城堡', '阿布·阿巴斯·莫尔西清真寺'],
 
   // الصورة الرئيسية المستخدمة في og:image والبيانات المنظّمة
-  heroImage: '/images/memorial-front.jpg',
+  heroImage: '/images/harbour-illustration.svg',
   heroImageWidth: 1600,
-  heroImageHeight: 723,
+  heroImageHeight: 900,
 
   // التحليلات (لا تُحمّل قبل الموافقة)
   ga4Id: 'G-HXM22WWPKP',
 
   // تاريخ آخر تحديث للمحتوى
-  lastUpdated: '2026-09-10'
+  lastUpdated: '2026-10-29'
 } as const;
 
 /** يبني رابطاً مطلقاً داخل النطاق الرسمي. */

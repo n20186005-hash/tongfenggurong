@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { SITE, absoluteUrl } from '../data/site';
 import {
+  guideUi,
   type Locale,
   localeMeta,
   localizedPath,
@@ -36,7 +37,7 @@ const {
 const meta = localeMeta[locale];
 const canonical = Astro.site ? new URL(localizedPath(locale, path), Astro.site).toString() : undefined;
 const ogImageUrl = absoluteUrl(ogImage ?? SITE.heroImage);
-const ogImageAltText = ogImageAlt ?? `${entityName(locale)} في ${cityName(locale)}`;
+const ogImageAltText = ogImageAlt ?? { ar: 'رسم تجريدي للبحر في الإسكندرية، مصر؛ ليس صورة للنصب', en: 'Abstract sea illustration for Alexandria, Egypt; not a photograph of the memorial', zh: '埃及亚历山大抽象海景示意；并非纪念碑照片' }[locale];
 const alternates = hreflangAlternates(path);
 const ogSiteName = `${entityName(locale)} · ${cityName(locale)}`;
 const ogLocaleAlternates = (Object.keys(localeMeta) as Locale[])
@@ -85,12 +86,12 @@ const ogLocaleAlternates = (Object.keys(localeMeta) as Locale[])
   </head>
   <body>
     <slot />
-    <div id="cookie-panel" class="cookie-panel" hidden aria-live="polite" aria-label="إعدادات الخصوصية">
-      <strong>خصوصيتك أولاً</strong>
-      <p class="m-0 mt-1 text-sm text-slate-300">نستخدم قياس الزيارات عبر Google Analytics 4 فقط بعد موافقتك. لا يحتاج الموقع إلى حساب ولا يخزن بيانات في قاعدة بيانات.</p>
+    <div id="cookie-panel" class="cookie-panel" hidden aria-live="polite" aria-label={guideUi[locale].privacy}>
+      <strong>{guideUi[locale].privacyTitle}</strong>
+      <p class="m-0 mt-1 text-sm text-slate-300">{guideUi[locale].privacyText}</p>
       <div class="cookie-actions">
-        <button id="accept-analytics" class="btn-primary">السماح بالتحليلات</button>
-        <button id="reject-analytics" class="btn-ghost">المتابعة دون تحليلات</button>
+        <button id="accept-analytics" class="btn-primary">{guideUi[locale].accept}</button>
+        <button id="reject-analytics" class="btn-ghost">{guideUi[locale].reject}</button>
       </div>
     </div>
     <script is:inline>

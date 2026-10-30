@@ -55,18 +55,7 @@ pnpm deploy
 
 الموقع يفضّل تلقائياً الصور المحلية التالية إذا كانت موجودة:
 
-- `public/images/memorial-front.jpg`
-- `public/images/memorial-columns.jpg`
-- `public/images/memorial-side.jpg`
-- `public/images/memorial-square.jpg`
-
-وإذا لم تكن موجودة، يستخدم روابط Wikimedia Commons الأصلية كـ fallback حتى لا تنكسر الصفحة. لتنزيل النسخ المحلية مرة واحدة في بيئة متصلة بالإنترنت:
-
-```bash
-pnpm photos:download
-```
-
-انظر `PHOTO_SOURCES.md` للاعتمادات والتراخيص. لا تستبدل الاعتمادات إذا بقيت الصور المرخّصة من Commons.
+Current visual: `/images/harbour-illustration.svg`, an original abstract illustration under CC0. It is not a photograph or representation of the memorial. See the served `/PHOTO_SOURCES.md`. The previous external photographs and downloading workflow have been removed pending verification of underlying subject rights.
 
 ## تهيئة الأصول (اختياري — Windows)
 

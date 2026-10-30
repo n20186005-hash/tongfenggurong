@@ -1,3 +1,5 @@
+> Historical verification record below predates the 2026-10-29 image removal; it is not evidence of the current photo inventory. Current source and local checks govern the release.
+
 # تقرير التحقق
 
 ## فحوصات المصدر التي يمكن تنفيذها دون اتصال خارجي

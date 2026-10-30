@@ -65,3 +65,10 @@ export const cityName = (locale: Locale): string => {
   if (locale === 'zh') return SITE.cityZh;
   return SITE.cityAr;
 };
+
+/** Shared visible guide labels; these do not claim official operation or charity status. */
+export const guideUi = {
+  ar: { logo: 'شعار الدليل', maps: 'الموقع على خرائط Google', disclaimer: 'هذا دليل معلومات مستقل وغير رسمي لغرض غير ربحي، ولا يتبع القوات البحرية المصرية أو أي جهة حكومية.', privacy: 'إعدادات الخصوصية', privacyTitle: 'خصوصيتك أولاً', privacyText: 'نستخدم قياس الزيارات عبر Google Analytics 4 فقط بعد موافقتك. لا يحتاج الموقع إلى حساب ولا يخزن بيانات في قاعدة بيانات.', accept: 'السماح بالتحليلات', reject: 'المتابعة دون تحليلات' },
+  en: { logo: 'Visitor guide logo', maps: 'Location on Google Maps', disclaimer: 'This independent, unofficial guide provides information for non-profit purposes. It is not affiliated with the Egyptian Navy or any government body.', privacy: 'Privacy settings', privacyTitle: 'Your privacy', privacyText: 'We use Google Analytics 4 only after your consent. This site requires no account and does not store data in a database.', accept: 'Allow analytics', reject: 'Continue without analytics' },
+  zh: { logo: '参观指南标志', maps: '在 Google 地图中查看位置', disclaimer: '本指南为独立、非官方的非营利资讯指南，不隶属于埃及海军或任何政府机构。', privacy: '隐私设置', privacyTitle: '您的隐私', privacyText: '仅在您同意后使用 Google Analytics 4 统计访问情况。本网站无需账户，也不在数据库中储存数据。', accept: '允许访问统计', reject: '不启用统计并继续' }
+} as const;
