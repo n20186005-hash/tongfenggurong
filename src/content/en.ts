@@ -26,7 +26,7 @@ export const en: GuideContent = {
     ctaStory: 'Read the story'
   },
   infoBox: {
-    rating: '★ 4.4 / 5 · 18,437 reviews · 29 Oct 2026',
+    rating: '★ 4.4 / 5 · 18,450 reviews · 4 Nov 2026',
     location: 'Mansheya · Alexandria',
     entry: 'Check local access',
     duration: '15–30 minutes'
@@ -41,16 +41,16 @@ export const en: GuideContent = {
     ],
     factsTitle: 'Memorial & address facts',
     facts: [
-      { k: 'Memorial name', v: 'Alexandria Naval Unknown Soldier Memorial (النصب التذكاري للجندي البحري المجهول)' },
+      { k: 'Memorial name', v: 'Alexandria Naval Unknown Soldier Memorial' },
       { k: 'Common name', v: 'Unknown Soldier — Mansheya' },
       { k: 'City / Governorate', v: 'Alexandria — Alexandria Governorate, Egypt' },
       { k: 'Address', v: 'Al Gonday Al Maghool Sq., Al Mansheyah Al Kubra, Qesm Al Mansheyah, Alexandria 5361033' },
       { k: 'Plus Code', v: '5VXV+XG' },
       { k: 'Coordinates', v: '31.199999° N, 29.8937569° E' },
-      { k: 'Access hours', v: 'Google Maps lists 24-hour access (29 October 2026); no official schedule verified' },
+      { k: 'Access hours', v: 'Google Maps lists 24-hour access (4 November 2026); no official schedule verified' },
       { k: 'Cost', v: 'No official admission tariff verified; check posted local guidance' },
-      { k: 'Google Maps rating', v: '★ 4.4 from 18,437 reviews' },
-      { k: 'Last content update', v: '29 October 2026' }
+      { k: 'Google Maps rating', v: '★ 4.4 from 18,450 reviews' },
+      { k: 'Last content update', v: '4 November 2026' }
     ]
   },
   story: {
@@ -72,7 +72,7 @@ export const en: GuideContent = {
     intro: 'The memorial is not a closed museum and needs no long programme. Its strength is its position: you stand before a naval memory, then step straight out into Mansheya, the markets and the eastern harbour front.',
     cards: [
       { title: 'Tickets / cost', text: 'No official admission tariff has been verified. Check any posted charges and distinguish nearby paid activities from memorial access.' },
-      { title: 'Access hours', text: 'Google Maps displayed 24-hour access on 29 October 2026. This is a third-party listing, not an official guarantee; follow on-site security and ceremony restrictions.' },
+      { title: 'Access hours', text: 'Google Maps displayed 24-hour access on 4 November 2026. This is a third-party listing, not an official guarantee; follow on-site security and ceremony restrictions.' },
       { title: 'Best time', text: 'Morning for calm and photos; just before sunset for warm light on the stone; evening for the corniche atmosphere.' },
       { title: 'Good duration', text: '15–30 minutes for the memorial alone; two hours or more if combined with a Mansheya–Bahari walk.' }
     ],
@@ -91,7 +91,8 @@ export const en: GuideContent = {
     address: 'Address: Al Gonday Al Maghool Sq., Al Mansheyah Al Kubra, Qesm Al Mansheyah, Alexandria Governorate 5361033. Plus Code: 5VXV+XG.',
     cards: [
       { title: 'Check your starting point', text: 'If starting from Raml, Saint Catherine or Misr Station, check current services, the exact route and safe crossings before travelling. No station-to-memorial journey time is verified.' },
-      { title: 'By taxi', text: 'Show the memorial map pin and address to the driver; confirm the intended drop-off and fare before setting off.' }
+      { title: 'By taxi', text: 'Show the memorial map pin and address to the driver; confirm the intended drop-off and fare before setting off.' },
+      { title: 'By public transport', text: 'If you rely on buses or the tram, check the current line, stop and a safe drop-off before setting out; no specific routes have been verified.' }
     ],
     sourceNote: 'For updated official information, consult the official authorities and the Google Maps link below the map.'
   },
@@ -136,11 +137,14 @@ export const en: GuideContent = {
     { q: 'Is the memorial free to visit?', a: 'No official admission tariff has been verified. Check posted guidance on arrival; nearby commercial activities have separate prices.' },
     { q: 'What is the best time to visit?', a: 'Early morning is good for calm and photos; just before sunset the stone gets warmer light. In the evening the scene becomes more urban with the area lit up and the corniche moving.' },
     { q: 'How much time do I need?', a: 'Usually 15–30 minutes is enough to see the memorial, read its details and take photos; the visit can be extended by linking it with a Mansheya–Bahari walk.' },
-    { q: 'Is it open all day?', a: 'Google Maps displayed 24-hour access on 29 October 2026. This third-party listing is not an official schedule; follow security and ceremony restrictions on site.' },
+    { q: 'Is it open all day?', a: 'Google Maps displayed 24-hour access on 4 November 2026. This third-party listing is not an official schedule; follow security and ceremony restrictions on site.' },
     { q: 'How do I get there by public transport?', a: 'Treat Raml, Saint Catherine and Misr as possible starting points only. Check current services, the exact route, crossings and access before travelling. Direct vehicle drop-off is unverified: agree a safe permitted stopping point and check the final part of the journey.' },
     { q: 'Is there a dedicated car park?', a: 'Do not rely on a dedicated memorial car park. Street parking in Mansheya is limited and changes with congestion, so prefer a nearby public lot or a taxi if visiting at peak times.' },
     { q: 'Is it suitable for visitors with reduced mobility?', a: 'The memorial can be viewed from square level, but the design includes steps and raised platforms. It is best to assess the path on arrival and choose viewing points that rely less on stairs.' },
-    { q: `What are the nearby landmarks to ${SITE.shortNameEn}?`, a: 'Destinations to consider include Qaitbay Citadel, Abu al-Abbas al-Mursi Mosque, Kom El Dikka and Bibliotheca Alexandrina. Check the route, distance and access for each destination; this guide does not rank them by proximity.' }
+    { q: `What are the nearby landmarks to ${SITE.shortNameEn}?`, a: 'Destinations to consider include Qaitbay Citadel, Abu al-Abbas al-Mursi Mosque, Kom El Dikka and Bibliotheca Alexandrina. Check the route, distance and access for each destination; this guide does not rank them by proximity.' },
+    { q: 'Can I take photos?', a: 'Personal photography is generally allowed in the public square, but restrictions may apply inside any nearby building or during official ceremonies. Follow on-site guidance and security instructions; no official photography policy has been verified.' },
+    { q: 'Are official ceremonies held here?', a: 'The memorial is a place for wreath-laying and official ceremonies, and part of the square may be temporarily closed during them. No ceremony schedule has been verified; check locally before visiting.' },
+    { q: 'What is the best spot for photos?', a: 'The best wide angle is from the front of the square, where the memorial and its columns appear in full, and sunset gives the stone warm light. Avoid shooting during official ceremonies or in prohibited areas.' }
   ],
   sources: {
     eyebrow: 'Trusted sources',
@@ -149,7 +153,7 @@ export const en: GuideContent = {
     links: [
       { label: 'ICOM Egypt — Alexandria sightseeing brochure', url: 'https://www.usenghor-francophonie.org/wp-content/uploads/2018/06/ICOM-Alexandrie.pdf' },
       { label: 'Alexandria Archive — Khedive Ismail', url: 'https://www.alexandria-archive.com/article/162' },
-      { label: 'Google Maps — checked 29 October 2026', url: SITE.mapsShareUrl },
+      { label: 'Google Maps — checked 4 November 2026', url: SITE.mapsShareUrl },
       { label: 'Egyptian Tourism Authority ↗', url: SITE.govtTourismUrl },
       { label: 'Alexandria Governorate — Official Portal ↗', url: SITE.alexandriaGovUrl },
       { label: 'Ministry of Tourism & Antiquities — Qaitbay Citadel ↗', url: SITE.monumentsUrl },
@@ -157,7 +161,7 @@ export const en: GuideContent = {
       { label: 'Wikipedia — Naval memorial ↗', url: SITE.wikipediaUrl },
       { label: 'Wikidata — coordinates & identity ↗', url: SITE.wikidataUrl },
     ],
-    updated: 'Last content update: 29 October 2026.',
+    updated: 'Last content update: 4 November 2026.',
     credit: 'Original abstract sea illustration created for this guide, released under CC0; not a photograph or depiction of the memorial. Responsive display may crop the illustration.'
   }
 };

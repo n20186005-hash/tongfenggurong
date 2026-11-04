@@ -65,7 +65,7 @@ export const SITE = {
 
   // بيانات المراجعات على خرائط Google
   rating: 4.4,
-  reviewCount: 18437,
+  reviewCount: 18450,
 
   // المعالم المجاورة (تُستخدم في النص والوسوم الوصفية)
   nearbyLandmarksAr: ['قلعة قايتباي', 'مسجد أبو العباس المرسي'],
@@ -81,7 +81,7 @@ export const SITE = {
   ga4Id: 'G-HXM22WWPKP',
 
   // تاريخ آخر تحديث للمحتوى
-  lastUpdated: '2026-10-29'
+  lastUpdated: '2026-11-04'
 } as const;
 
 /** يبني رابطاً مطلقاً داخل النطاق الرسمي. */

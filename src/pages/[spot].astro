@@ -1,0 +1,11 @@
+---
+import SpotPage from '../components/SpotPage.astro';
+import { SPOT_SLUGS, type SpotSlug } from '../content/spots';
+
+export function getStaticPaths() {
+  return SPOT_SLUGS.map((slug) => ({ params: { spot: slug }, props: { slug } }));
+}
+
+const { slug } = Astro.props as { slug: SpotSlug };
+---
+<SpotPage slug={slug} locale="ar" />

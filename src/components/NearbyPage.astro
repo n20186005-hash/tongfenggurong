@@ -5,60 +5,14 @@ import { guideUi, type Locale, localizedPath, entityName, cityName } from '../i1
 import { ar } from '../content/ar';
 import { en } from '../content/en';
 import { zh } from '../content/zh';
+import { nearby } from '../content/nearby';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const guide = { ar, en, zh }[locale];
-
-const ui = {
-  ar: {
-    eyebrow: 'المعالم المجاورة',
-    heroTitle: 'ماذا حول النصب؟',
-    heroSub: 'أفكار لمعالم وطعام في الإسكندرية؛ تحقق من مسار كل وجهة على حدة.',
-    landmarksTitle: 'معالم لجولة ممتدة',
-    foodsTitle: 'أفكار للطعام',
-    foodsNote: guide.around.foodNote,
-    transportTitle: 'كيف تنتقل بينها',
-    transportText: 'هذه اقتراحات لتخطيط جولة، وليست مساراً موثقاً. تحقق من المسافة والمعابر وإمكان الوصول ووسيلة النقل لكل وجهة.',
-    backHome: 'العودة إلى دليل الزيارة ↓',
-    backHomeLabel: guide.nav.visit,
-    sourcesTitle: guide.sources.eyebrow,
-    sourcesText: guide.sources.intro,
-    updated: guide.sources.updated
-  },
-  en: {
-    eyebrow: 'Nearby sights',
-    heroTitle: 'What is around the memorial?',
-    heroSub: 'Ideas for sights and food in Alexandria; check the route to each destination.',
-    landmarksTitle: 'Sights for a longer city walk',
-    foodsTitle: 'Food ideas',
-    foodsNote: guide.around.foodNote,
-    transportTitle: 'How to move between them',
-    transportText: 'These are ideas for planning an outing, not a verified itinerary. Check the distance, crossings, access and transport for each destination separately.',
-    backHome: 'Back to the visitor guide ↓',
-    backHomeLabel: guide.nav.visit,
-    sourcesTitle: guide.sources.eyebrow,
-    sourcesText: guide.sources.intro,
-    updated: guide.sources.updated
-  },
-  zh: {
-    eyebrow: '周边景点',
-    heroTitle: '纪念碑周边有什么？',
-    heroSub: '亚历山大景点与餐食建议；请逐一核对各目的地的路线。',
-    landmarksTitle: '适合延伸行程的景点',
-    foodsTitle: '餐食建议',
-    foodsNote: guide.around.foodNote,
-    transportTitle: '如何在景点间移动',
-    transportText: '这些内容用于规划行程，并非已核实的连续路线。请分别核对每处目的地的距离、过街位置、准入条件与交通方式。',
-    backHome: '返回参观指南 ↓',
-    backHomeLabel: guide.nav.visit,
-    sourcesTitle: guide.sources.eyebrow,
-    sourcesText: guide.sources.intro,
-    updated: guide.sources.updated
-  }
-}[locale];
+const content = nearby[locale];
 
 const homeLabel = { ar: 'الرئيسية', en: 'Home', zh: '首页' }[locale];
 const pageUrl = Astro.site ? new URL(localizedPath(locale, '/nearby-attractions/'), Astro.site).toString() : localizedPath(locale, '/nearby-attractions/');
@@ -68,8 +22,8 @@ const webpageJsonLd = {
   '@type': 'WebPage',
   '@id': `${pageUrl}#webpage`,
   url: pageUrl,
-  name: ui.heroTitle,
-  description: ui.heroSub,
+  name: content.title,
+  description: content.description,
   inLanguage: locale === 'ar' ? 'ar-EG' : locale === 'en' ? 'en-US' : 'zh-CN',
   isPartOf: { '@id': `${SITE.url}/#website` },
   about: { '@id': `${SITE.url}/#attraction` },
@@ -82,18 +36,27 @@ const breadcrumbJsonLd = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: homeLabel, item: Astro.site ? new URL(localizedPath(locale, '/'), Astro.site).toString() : localizedPath(locale, '/') },
-    { '@type': 'ListItem', position: 2, name: guide.nav.nearby }
+    { '@type': 'ListItem', position: 2, name: content.eyebrow }
   ]
+};
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: content.faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a }
+  }))
 };
 const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale);
 ---
 
 <BaseLayout
-  title={`${guide.nav.nearby} · ${entityName(locale)}`}
-  description={ui.heroSub}
+  title={content.title}
+  description={content.description}
   locale={locale}
   path="/nearby-attractions/"
-  jsonLd={[webpageJsonLd, breadcrumbJsonLd]}
+  jsonLd={[webpageJsonLd, breadcrumbJsonLd, faqJsonLd]}
 >
   <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#06131c]/88 backdrop-blur-xl">
     <div class="container flex min-h-20 items-center justify-between gap-6">
@@ -116,23 +79,25 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
   <main id="top" class="pt-28">
     <section class="relative overflow-hidden py-20 md:py-28">
       <div class="container">
-        <span class="eyebrow">{ui.eyebrow}</span>
-        <h1 class="hero-title">{ui.heroTitle}</h1>
-        <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">{ui.heroSub}</p>
+        <span class="eyebrow">{content.eyebrow}</span>
+        <h1 class="hero-title">{content.hero.title}</h1>
+        <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">{content.hero.sub}</p>
+        <p class="hero-alias mt-4 max-w-2xl">{content.hero.lead}</p>
         <p class="mt-6">
-          <a class="btn-primary" href={localizedPath(locale, '/') + '#visit'}>{ui.backHome}</a>
+          <a class="btn-primary" href={localizedPath(locale, '/') + '#visit'}>{content.hero.cta}</a>
         </p>
       </div>
     </section>
 
-    <section class="py-16 md:py-20">
+    <section id="landmarks" class="py-16 md:py-20">
       <div class="container">
-        <span class="eyebrow">{ui.landmarksTitle}</span>
-        <h2 class="section-title">{ui.landmarksTitle}</h2>
-        <div class="mt-8 grid gap-6 md:grid-cols-2">
-          {guide.around.landmarks.map((l) => (
+        <span class="eyebrow">{content.landmarks.eyebrow}</span>
+        <h2 class="section-title">{content.landmarks.title}</h2>
+        <p class="section-copy mt-4 max-w-3xl">{content.landmarks.intro}</p>
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {content.landmarks.spots.map((l) => (
             <div class="shell-border p-6">
-              <small class="text-[#d2aa68]">{l.distance}</small>
+              <small class="text-[#d2aa68]">{l.tag} · {l.distance}</small>
               <h3 class="mt-1 text-2xl font-black">{l.name}</h3>
               <p class="mt-2 text-slate-300" set:html={l.desc} />
             </div>
@@ -141,48 +106,89 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
       </div>
     </section>
 
-    <section class="border-y border-[#d2aa68]/20 bg-[#081820] py-16 md:py-20">
+    <section id="foods" class="border-y border-[#d2aa68]/20 bg-[#081820] py-16 md:py-20">
       <div class="container">
-        <span class="eyebrow">{ui.foodsTitle}</span>
-        <h2 class="section-title">{ui.foodsTitle}</h2>
-        <div class="mt-8 grid gap-6 md:grid-cols-3">
-          {guide.around.foods.map((f) => (
-            <div class="shell-border p-6">
-              <small class="text-[#d2aa68]">{f.tag}</small>
-              <h3 class="mt-1 text-xl font-black">{f.name}</h3>
-              <p class="mt-2 text-slate-300" set:html={f.desc} />
+        <span class="eyebrow">{content.foods.eyebrow}</span>
+        <h2 class="section-title">{content.foods.title}</h2>
+        <p class="section-copy mt-4 max-w-3xl">{content.foods.intro}</p>
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {content.foods.items.map((f) => (
+            <div class="place-card">
+              <small>{f.tag}</small>
+              <strong>{f.name}</strong>
+              <p set:html={f.desc} />
             </div>
           ))}
         </div>
-        <p class="mt-5 text-xs text-slate-500">{ui.foodsNote}</p>
+        <p class="mt-5 text-xs text-slate-500">{content.foods.note}</p>
       </div>
     </section>
 
-    <section class="py-16 md:py-20">
-      <div class="container grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
-        <div>
-          <span class="eyebrow">{ui.transportTitle}</span>
-          <h2 class="section-title">{ui.transportTitle}</h2>
-          <p class="section-copy">{ui.transportText}</p>
-          <p class="mt-6"><a class="btn-ghost" href={localizedPath(locale, '/') + '#map'}>{guide.nav.around} ↗</a></p>
+    <section id="transport" class="py-16 md:py-20">
+      <div class="container">
+        <span class="eyebrow">{content.transport.eyebrow}</span>
+        <h2 class="section-title">{content.transport.title}</h2>
+        <p class="section-copy mt-4 max-w-3xl">{content.transport.intro}</p>
+        <div class="mt-8 grid gap-5 sm:grid-cols-2">
+          {content.transport.cards.map((c) => (
+            <div class="visit-card"><h3>{c.title}</h3><p set:html={c.text} /></div>
+          ))}
         </div>
-        <div class="map-wrap">
-          <iframe src={SITE.mapsEmbedSrc} title={ui.heroTitle} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="map-wrap mt-10">
+          <iframe src={SITE.mapsEmbedSrc} title={content.hero.title} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="mt-5">
+          <a class="btn-ghost" href={localizedPath(locale, '/') + '#map'}>{guide.nav.around} ↗</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="tips" class="border-y border-[#d2aa68]/20 bg-[#0a1c25] py-16 md:py-20">
+      <div class="container grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-start">
+        <div>
+          <span class="eyebrow">{content.tips.eyebrow}</span>
+          <h2 class="section-title">{content.tips.title}</h2>
+        </div>
+        <ul class="grid gap-4">
+          {content.tips.items.map((item) => (
+            <li class="shell-border flex items-start gap-3 p-4 text-slate-300">
+              <span class="text-[#d2aa68]">◆</span>
+              <span set:html={item} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" class="py-16 md:py-20">
+      <div class="container grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:gap-16">
+        <div>
+          <span class="eyebrow">{guide.nav.faq}</span>
+          <h2 class="section-title">{guide.nav.faq}</h2>
+          <p class="section-copy">{content.faq.length} {locale === 'ar' ? 'سؤالاً شائعاً' : locale === 'en' ? 'common questions' : '个常见问题'}</p>
+        </div>
+        <div>
+          {content.faq.map((item) => (
+            <details class="faq">
+              <summary>{item.q}</summary>
+              <p set:html={item.a} />
+            </details>
+          ))}
         </div>
       </div>
     </section>
 
     <section class="pb-20" aria-labelledby="sources-heading">
       <div class="container shell-border p-7 md:p-10">
-        <span class="eyebrow">{ui.sourcesTitle}</span>
-        <h2 id="sources-heading" class="mt-3 text-2xl font-black">{ui.sourcesTitle}</h2>
-        <p class="mt-3 max-w-3xl text-sm text-slate-400" set:html={ui.sourcesText} />
+        <span class="eyebrow">{guide.sources.eyebrow}</span>
+        <h2 id="sources-heading" class="mt-3 text-2xl font-black">{guide.sources.title}</h2>
+        <p class="mt-3 max-w-3xl text-sm text-slate-400" set:html={guide.sources.intro} />
         <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
           {guide.sources.links.map((l) => (
             <a class="source-link" href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a>
           ))}
         </div>
-        <p class="mt-6 text-xs text-slate-500">{ui.updated}</p>
+        <p class="mt-6 text-xs text-slate-500">{guide.sources.updated}</p>
       </div>
     </section>
   </main>

@@ -97,7 +97,7 @@ const breadcrumb = flat.find((node) => node['@type'] === 'BreadcrumbList');
 check('BreadcrumbList بخمسة مستويات', breadcrumb?.itemListElement?.length === 5);
 check('Organization/WebSite/WebPage موجودة', ['Organization', 'WebSite', 'WebPage'].every((type) => flat.some((node) => node['@type'] === type)));
 const webpage = flat.find((node) => node['@type'] === 'WebPage');
-check('WebPage dateModified = 2026-10-29', webpage?.dateModified === '2026-10-29');
+check('WebPage dateModified = 2026-11-04', webpage?.dateModified === '2026-11-04');
 
 // 5. العناوين والصور
 const h1s = [...html.matchAll(/<h1[^>]*>([\s\S]*?)<\/h1>/g)].map((match) => match[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
@@ -138,7 +138,9 @@ check('لا توجد بقايا AdSense أو عناوين تجريبية', !/ca-
 
 // 8. ملفات النشر
 const requiredFiles = [
-  'index.html', '404.html', 'robots.txt', 'sitemap-index.xml', 'manifest.webmanifest', 'sw.js',
+  'index.html', '404.html', 'en/index.html', 'zh/index.html',
+  'nearby-attractions/index.html', 'en/nearby-attractions/index.html', 'zh/nearby-attractions/index.html',
+  'robots.txt', 'sitemap-index.xml', 'manifest.webmanifest', 'sw.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png',
   'images/harbour-illustration.svg', 'PHOTO_SOURCES.md',
   'brand/logo.svg', 'favicon.svg', 'apple-touch-icon.png'
@@ -147,12 +149,66 @@ requiredFiles.forEach((file) => check(`ملف ${file}`, existsSync(join(dist, fi
 const sitemap = existsSync(join(dist, 'sitemap-index.xml')) ? readFileSync(join(dist, 'sitemap-index.xml'), 'utf8') : '';
 check('sitemap يشير إلى خرائط الموقع', sitemap.includes('sitemap-0.xml'));
 const sitemapUrls = existsSync(join(dist, 'sitemap-0.xml')) ? readFileSync(join(dist, 'sitemap-0.xml'), 'utf8') : '';
-check('sitemap يتضمن الصفحة الرئيسية فقط', sitemapUrls.includes('https://tongfenggurong.com/') && !sitemapUrls.includes('404'));
+
+// مسارات الصفحات المعروفة (بلا بادئة اللغة) والصفحات الست المستقلة للمعالم.
+const basePrefixes = { ar: '', en: 'en/', zh: 'zh/' };
+const spotSlugs = ['qaitbay-citadel', 'abu-al-abbas-al-mursi-mosque', 'bibliotheca-alexandrina', 'kom-el-dikka', 'pompeys-pillar', 'mansheya-market'];
+const corePaths = ['/', '/nearby-attractions/'];
+const sitemapExpected = Object.values(basePrefixes).flatMap((prefix) =>
+  [...corePaths, ...spotSlugs.map((s) => `/${s}/`)].map((p) => `https://tongfenggurong.com/${prefix}${p.replace(/^\//, '')}`)
+);
+check('sitemap يتضمن كل صفحات اللغات (الرئيسية + المعالم المجاورة + صفحات المعالم)', sitemapExpected.every((u) => sitemapUrls.includes(u)) && !sitemapUrls.includes('404'), `${(sitemapUrls.match(/<loc>/g) ?? []).length} رابط / متوقع ${sitemapExpected.length}`);
 const notFound = readFileSync(join(dist, '404.html'), 'utf8');
 check('صفحة 404 بلا فهرسة', notFound.includes('name="robots" content="noindex,follow"'));
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
 check('robots.txt يسمح بالزحف ويشير للخريطة', robots.includes('Allow: /') && robots.includes('tongfenggurong.com/sitemap-index.xml'));
 check('صور مضغوطة (أقل من 700KB للصورة الرئيسية)', statSync(join(dist, 'images/harbour-illustration.svg')).size < 700 * 1024);
+
+// 9. صفحات المعالم المستقلة: 6 معالم × 3 لغات = 18 صفحة
+//    تُفحص canonical و hreflang و lang و FAQ (المطابقة بين Schema والصفحة) وH1 وTouristAttraction.
+const localeMeta = {
+  ar: { prefix: '', htmlLang: 'ar', url: (s) => `https://tongfenggurong.com/${s}/` },
+  en: { prefix: 'en/', htmlLang: 'en', url: (s) => `https://tongfenggurong.com/en/${s}/` },
+  zh: { prefix: 'zh/', htmlLang: 'zh-Hans', url: (s) => `https://tongfenggurong.com/zh/${s}/` }
+};
+const readLdNodes = (page) =>
+  [...page.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
+    .map((m) => { try { return JSON.parse(m[1].replace(/&quot;/g, '"')); } catch { return {}; } });
+
+for (const slug of spotSlugs) {
+  for (const [locale, meta] of Object.entries(localeMeta)) {
+    const rel = `${meta.prefix}${slug}/index.html`;
+    const file = join(dist, rel);
+    if (!existsSync(file)) {
+      check(`صفحة المعلم ${rel}`, false, 'الملف غير موجود');
+      continue;
+    }
+    const page = readFileSync(file, 'utf8');
+    const pageUrl = meta.url(slug);
+    const nodes = readLdNodes(page);
+
+    const canonicalOk = page.includes(`<link rel="canonical" href="${pageUrl}"`);
+    const hreflangOk = ['ar', 'en', 'zh', 'x-default'].every((h) => page.includes(`hreflang="${h}"`));
+    const langOk = page.includes(`<html lang="${meta.htmlLang}"`);
+    const details = (page.match(/<details class="faq"/g) ?? []).length;
+    const faqNode = nodes.find((n) => n['@type'] === 'FAQPage');
+    const faqSchemaCount = faqNode?.mainEntity?.length ?? 0;
+    const faqOk = details >= 4 && faqSchemaCount === details;
+    const h1Count = (page.match(/<h1[^>]*>/g) ?? []).length;
+    const attractionNode = nodes.find((n) => [n['@type']].flat().includes('TouristAttraction'));
+    const attractionOk = attractionNode?.['@id'] === `${pageUrl}#attraction` && !('image' in (attractionNode ?? {}));
+    const backlinkOk = page.includes(`href="/${meta.prefix}"`) && page.includes(`href="/${meta.prefix}nearby-attractions/"`);
+    // لا يتسرّب نصّ عربي إلى صفحتي الإنجليزية والصينية سوى مبدّل اللغة (كلمة «العربية»).
+    const arabicCount = (page.match(/[\u0600-\u06FF]/g) ?? []).length;
+    const purityOk = locale === 'ar' ? true : arabicCount < 60;
+
+    check(
+      `صفحة المعلم ${rel} (canonical/hreflang/lang/FAQ/H1/JSON-LD/backlink)`,
+      canonicalOk && hreflangOk && langOk && faqOk && h1Count === 1 && attractionOk && backlinkOk && purityOk,
+      `canonical=${canonicalOk} hreflang=${hreflangOk} lang=${langOk} faq=${faqSchemaCount}/${details} h1=${h1Count} attraction=${attractionOk} backlink=${backlinkOk} عربي=${arabicCount}`
+    );
+  }
+}
 
 console.log(`\n${passed} PASS / ${failures.length} FAIL`);
 if (failures.length) {

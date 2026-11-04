@@ -65,7 +65,7 @@ const attractionJsonLd = {
   description: content.description,
   ...(pageUrl ? { url: pageUrl } : {}),
   hasMap: SITE.mapsShareUrl,
-  touristType: ['نصب تذكاري', 'معلم تاريخي', 'Memorial', 'Historic landmark', '纪念碑', '历史地标'],
+  touristType: { ar: ['نصب تذكاري', 'معلم تاريخي'], en: ['Memorial', 'Historic landmark'], zh: ['纪念碑', '历史地标'] }[locale],
   address: {
     '@type': 'PostalAddress',
     streetAddress,
@@ -85,8 +85,12 @@ const organizationJsonLd = {
   name: `${entityName(locale)} · ${visitGuideLabel}`,
   url: SITE.url,
   logo: absoluteUrl('/brand/logo.svg'),
-  description: `موقع إرشادي مستقل وغير رسمي لتعريف الزوار بـ${SITE.fullNameAr} في ${SITE.districtAr}، ${SITE.cityAr}، ${SITE.countryAr}.`,
-  slogan: 'ذاكرة على حافة المتوسط'
+  description: {
+    ar: `موقع إرشادي مستقل وغير رسمي لتعريف الزوار بـ${SITE.fullNameAr} في ${districtName}، ${SITE.cityAr}، ${countryName}.`,
+    en: `An independent, unofficial visitor guide to ${SITE.fullNameEn} in ${districtName}, ${SITE.cityEn}, ${countryName}.`,
+    zh: `关于${SITE.fullNameZh}的独立、非官方参观指南，位于${countryName}${SITE.cityZh}${districtName}。`
+  }[locale],
+  slogan: { ar: 'ذاكرة على حافة المتوسط', en: 'A memory on the edge of the Mediterranean', zh: '地中海之滨的记忆' }[locale]
 };
 
 const websiteJsonLd = {
