@@ -71,6 +71,27 @@ export interface SpotContent {
   faq: FaqItem[];
 }
 
+/**
+ * كتل موسّعة اختيارية لصفحة معلم مستقل وفق قالب صفحة المعلم الغني.
+ * تُستخدم في الصفحات التي أُثريت (كتاكومب كوم الشقافة، قصر المنتزه... إلخ).
+ * لا تتضمّن أي معلومات مُختلقة: المواعيد والأسعار تبقى «غير مُتحقَّق منها».
+ */
+export interface SpotExtras {
+  info: { eyebrow: string; title: string; items: SpotFact[]; note: string };
+  access: { eyebrow: string; title: string; intro: string; cards: NearbyCard[]; note: string };
+  charm: { eyebrow: string; title: string; intro: string; items: { title: string; paras: string[] }[] };
+  route: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    steps: { title: string; text: string }[];
+    notesTitle: string;
+    notes: string[];
+    note: string;
+  };
+  reviews: { eyebrow: string; title: string; text: string; cta: string };
+}
+
 export interface GuideContent {
   locale: Locale;
   title: string;

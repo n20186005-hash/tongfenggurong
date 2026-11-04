@@ -6,7 +6,8 @@
 
 - العربية `/` (افتراضية، بلا بادئة) · الإنجليزية `/en/` · الصينية `/zh/`
 - صفحة رئيسية لكل لغة + صفحة `nearby-attractions` (المعالم المجاورة) لكل لغة
-- ست صفحات مستقلة للمعالم (`/qaitbay-citadel/`, `/abu-al-abbas-al-mursi-mosque/`, `/bibliotheca-alexandrina/`, `/kom-el-dikka/`, `/pompeys-pillar/`, `/mansheya-market/`) لكل لغة — 18 صفحة
+- اثنتا عشرة صفحة مستقلة للمعالم (`/qaitbay-citadel/`, `/abu-al-abbas-al-mursi-mosque/`, `/bibliotheca-alexandrina/`, `/kom-el-dikka/`, `/pompeys-pillar/`, `/mansheya-market/`, `/catacombs-of-kom-el-shoqafa/`, `/montaza-palace/`, `/royal-jewelry-museum/`, `/stanley-bridge/`, `/alexandria-national-museum/`, `/anfushi-tombs/`) لكل لغة — 36 صفحة
+- ستّ من هذه الصفحات (كتاكومب كوم الشقافة، قصر المنتزه، متحف المجوهرات الملكية، جسر ستانلي، المتحف الوطني بالإسكندرية، مقابر الأنفوشي) مُثراة بكتل قالب صفحة المعلم الغني: البيانات الأساسية، الوصول، اكتشف المكان، مسار الزيارة، وتقييمات الزوّار (رابط حقيقي لخرائط Google دون محتوى مُختلق)
 - `hreflang` بديلة في `<head>` مع `x-default` تشير إلى العربية
 - تبديل لغة في الترويسة والتذييل يربط نفس المسار عبر اللغات (رابط داخلي)
 
@@ -83,7 +84,7 @@ pnpm assets:prepare
 | الاسم الرسمي في الترويسة والتذييل | موجود: الاسم العربي الكامل + الاسم الإنجليزي في `header` و`footer` (`.brand-text` / `.footer-nap`). |
 | تطابق NAP (الاسم/العنوان/الهاتف) | العنوان والرمز المختصر والإحداثيات مأخوذة من مصدر واحد `src/data/site.ts` وتظهر في بطاقة المعلومات، التذييل، وJSON-LD. لا يوجد هاتف معلن للكيان، لذلك لم يُختلق رقم. |
 | تحقق Search Console | يتطلب إضافة رمز التحقق الخاص بالمالك إلى `BaseLayout.astro` بعد تسجيل النطاق (لم يُدرج رمز وهمي). |
-| صفحات مستقلة قابلة للزحف | الصفحة الرئيسية `/` وصفحة `/nearby-attractions/` وست صفحات معالم مستقلة لكل لغة (ar/en/zh) مع `robots: index,follow,max-image-preview:large`، وصفحة `404` بـ`noindex`. |
+| صفحات مستقلة قابلة للزحف | الصفحة الرئيسية `/` وصفحة `/nearby-attractions/` واثنتا عشرة صفحة معالم مستقلة لكل لغة (ar/en/zh) مع `robots: index,follow,max-image-preview:large`، وصفحة `404` بـ`noindex`. |
 | البيانات المنظّمة | ست عقد JSON-LD: `TouristAttraction`+`LocalBusiness` (بـ`@id`)، `Organization`، `WebSite`، `WebPage`، `BreadcrumbList`، `FAQPage`. |
 | الاستشهادات المحلية | قسم المصادر + روابط رسمية `gov.eg` وWikimedia/Wikidata، مع `sameAs` في JSON-LD. |
 | HTTPS + إمكانية الوصول | الموقع ثابت عبر Cloudflare Workers Static Assets، ولا يوجد حجب في `robots.txt` (`Allow: /`). |

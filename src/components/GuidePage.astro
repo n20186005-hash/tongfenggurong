@@ -50,18 +50,24 @@ const organizationId = `${SITE.url}/#organization`;
 const websiteId = `${SITE.url}/#website`;
 const webpageId = `${pageUrl}#webpage`;
 
+// الاسم المؤهَّل بالمدينة: لا نُكرّر اسم المدينة إن كان الاسم يحتويها أصلاً (en/zh).
+const cityQualifiedName = entityName(locale).includes(cityName(locale))
+  ? entityName(locale)
+  : `${cityName(locale)} ${entityName(locale)}`;
+const alternateNames = [
+  SITE.shortNameAr, SITE.shortNameEn, SITE.shortNameZh,
+  cityQualifiedName,
+  SITE.fullNameAr, SITE.fullNameEn, SITE.fullNameZh,
+  'النصب التذكاري للجندي المجهول بالإسكندرية',
+  'Naval Unknown Soldier Memorial'
+].filter((name, index, list) => list.indexOf(name) === index);
+
 const attractionJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'TouristAttraction',
   '@id': attractionId,
   name: entityName(locale),
-  alternateName: [
-    SITE.shortNameAr, SITE.shortNameEn, SITE.shortNameZh,
-    `${cityName(locale)} ${entityName(locale)}`,
-    SITE.fullNameAr, SITE.fullNameEn, SITE.fullNameZh,
-    'النصب التذكاري للجندي المجهول بالإسكندرية',
-    'Naval Unknown Soldier Memorial'
-  ],
+  alternateName: alternateNames,
   description: content.description,
   ...(pageUrl ? { url: pageUrl } : {}),
   hasMap: SITE.mapsShareUrl,

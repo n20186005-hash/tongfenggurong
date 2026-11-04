@@ -150,9 +150,9 @@ const sitemap = existsSync(join(dist, 'sitemap-index.xml')) ? readFileSync(join(
 check('sitemap يشير إلى خرائط الموقع', sitemap.includes('sitemap-0.xml'));
 const sitemapUrls = existsSync(join(dist, 'sitemap-0.xml')) ? readFileSync(join(dist, 'sitemap-0.xml'), 'utf8') : '';
 
-// مسارات الصفحات المعروفة (بلا بادئة اللغة) والصفحات الست المستقلة للمعالم.
+// مسارات الصفحات المعروفة (بلا بادئة اللغة) وصفحات المعالم المستقلة.
 const basePrefixes = { ar: '', en: 'en/', zh: 'zh/' };
-const spotSlugs = ['qaitbay-citadel', 'abu-al-abbas-al-mursi-mosque', 'bibliotheca-alexandrina', 'kom-el-dikka', 'pompeys-pillar', 'mansheya-market'];
+const spotSlugs = ['qaitbay-citadel', 'abu-al-abbas-al-mursi-mosque', 'bibliotheca-alexandrina', 'kom-el-dikka', 'pompeys-pillar', 'mansheya-market', 'catacombs-of-kom-el-shoqafa', 'montaza-palace', 'royal-jewelry-museum', 'stanley-bridge', 'alexandria-national-museum', 'anfushi-tombs'];
 const corePaths = ['/', '/nearby-attractions/'];
 const sitemapExpected = Object.values(basePrefixes).flatMap((prefix) =>
   [...corePaths, ...spotSlugs.map((s) => `/${s}/`)].map((p) => `https://tongfenggurong.com/${prefix}${p.replace(/^\//, '')}`)
@@ -164,7 +164,7 @@ const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
 check('robots.txt يسمح بالزحف ويشير للخريطة', robots.includes('Allow: /') && robots.includes('tongfenggurong.com/sitemap-index.xml'));
 check('صور مضغوطة (أقل من 700KB للصورة الرئيسية)', statSync(join(dist, 'images/harbour-illustration.svg')).size < 700 * 1024);
 
-// 9. صفحات المعالم المستقلة: 6 معالم × 3 لغات = 18 صفحة
+// 9. صفحات المعالم المستقلة: 12 معلماً × 3 لغات = 36 صفحة
 //    تُفحص canonical و hreflang و lang و FAQ (المطابقة بين Schema والصفحة) وH1 وTouristAttraction.
 const localeMeta = {
   ar: { prefix: '', htmlLang: 'ar', url: (s) => `https://tongfenggurong.com/${s}/` },
@@ -206,6 +206,28 @@ for (const slug of spotSlugs) {
       `صفحة المعلم ${rel} (canonical/hreflang/lang/FAQ/H1/JSON-LD/backlink)`,
       canonicalOk && hreflangOk && langOk && faqOk && h1Count === 1 && attractionOk && backlinkOk && purityOk,
       `canonical=${canonicalOk} hreflang=${hreflangOk} lang=${langOk} faq=${faqSchemaCount}/${details} h1=${h1Count} attraction=${attractionOk} backlink=${backlinkOk} عربي=${arabicCount}`
+    );
+  }
+}
+
+// 10. صفحات المعالم المُثراة بقالب الصفحة الغني: 6 معالم × 3 لغات = 18 صفحة
+//    يجب أن تحتوي كل صفحة على الكتل الخمس: info/access/charm/route/reviews.
+const enrichedSlugs = ['catacombs-of-kom-el-shoqafa', 'montaza-palace', 'royal-jewelry-museum', 'stanley-bridge', 'alexandria-national-museum', 'anfushi-tombs'];
+const enrichedSections = ['info', 'access', 'charm', 'route', 'reviews'];
+for (const slug of enrichedSlugs) {
+  for (const [locale, meta] of Object.entries(localeMeta)) {
+    const rel = `${meta.prefix}${slug}/index.html`;
+    const file = join(dist, rel);
+    if (!existsSync(file)) {
+      check(`كتل الصفحة الغنية ${rel}`, false, 'الملف غير موجود');
+      continue;
+    }
+    const page = readFileSync(file, 'utf8');
+    const missing = enrichedSections.filter((id) => !page.includes(`<section id="${id}"`));
+    check(
+      `كتل الصفحة الغنية ${rel} (info/access/charm/route/reviews)`,
+      missing.length === 0,
+      missing.length ? `ناقص: ${missing.join(', ')}` : ''
     );
   }
 }
