@@ -210,9 +210,9 @@ for (const slug of spotSlugs) {
   }
 }
 
-// 10. صفحات المعالم المُثراة بقالب الصفحة الغني: 6 معالم × 3 لغات = 18 صفحة
+// 10. صفحات المعالم المُثراة بقالب الصفحة الغني: 12 معلم × 3 لغات = 36 صفحة
 //    يجب أن تحتوي كل صفحة على الكتل الخمس: info/access/charm/route/reviews.
-const enrichedSlugs = ['catacombs-of-kom-el-shoqafa', 'montaza-palace', 'royal-jewelry-museum', 'stanley-bridge', 'alexandria-national-museum', 'anfushi-tombs'];
+const enrichedSlugs = ['qaitbay-citadel', 'abu-al-abbas-al-mursi-mosque', 'bibliotheca-alexandrina', 'kom-el-dikka', 'pompeys-pillar', 'mansheya-market', 'catacombs-of-kom-el-shoqafa', 'montaza-palace', 'royal-jewelry-museum', 'stanley-bridge', 'alexandria-national-museum', 'anfushi-tombs'];
 const enrichedSections = ['info', 'access', 'charm', 'route', 'reviews'];
 for (const slug of enrichedSlugs) {
   for (const [locale, meta] of Object.entries(localeMeta)) {

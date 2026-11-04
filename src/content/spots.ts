@@ -3721,8 +3721,1172 @@ const anfushiExtrasZh: SpotExtras = {
   }
 };
 
-/** خرائط الكتل الموسّعة: المعالم الستة التي أُثريت بقالب الصفحة الغني. */
+// ————————————————————————————————————————————————————————————
+// كتل موسّعة: قلعة قايتباي (قالب صفحة المعلم الغني)
+// ————————————————————————————————————————————————————————————
+
+const qaitbayExtrasAr: SpotExtras = {
+  info: {
+    eyebrow: 'البيانات الأساسية',
+    title: 'البيانات الأساسية',
+    items: [
+      { k: 'الاسم الشائع', v: 'قلعة قايتباي' },
+      { k: 'النوع', v: 'قلعة · حصن' },
+      { k: 'الدولة', v: 'مصر' },
+      { k: 'المدينة', v: 'الإسكندرية' },
+      { k: 'المنطقة', v: 'طرف الميناء الشرقي' },
+      { k: 'الفترة', v: 'القرن الخامس عشر (العصر المملوكي)' },
+      { k: 'الباني', v: 'السلطان المملوكي الأشرف قايتباي' },
+      { k: 'المواعيد', v: 'غير مُتحقَّق منها — راجع الجهة الرسمية' },
+      { k: 'التذاكر', v: 'غير مُتحقَّق منها — راجع الجهة الرسمية' }
+    ],
+    note: 'نعرض ما يمكن التحقق منه فقط؛ المواعيد والأسعار متغيّرة وغير مُتحقَّق منها هنا.'
+  },
+  access: {
+    eyebrow: 'الوصول',
+    title: 'كيف تصل إلى القلعة',
+    intro: 'تقع القلعة عند طرف الميناء الشرقي شمال بحري؛ هذه خيارات عامة للتخطيط وليست تعليمات رسمية.',
+    cards: [
+      { title: 'من وسط المدينة', text: 'تقع القلعة شمال مركز المدينة عند الميناء الشرقي. زمن الرحلة غير مُتحقَّق منه؛ احسب وقتاً إضافياً للزحام.' },
+      { title: 'سيارة أجرة أو تطبيق نقل', text: 'الخيار الأسهل للوصول المباشر؛ أظهر الموقع على الخريطة واتفق على الأجرة أو راجع سعر التطبيق.' },
+      { title: 'النقل العام', text: 'قد تخدم بعض الخطوط المنطقة، لكن التفاصيل غير مُتحقَّق منها؛ اسأل محلياً.' },
+      { title: 'المشي', text: 'قد يكون المشي ممكناً ضمن بحري إن كنت قريباً؛ المسافات غير مُتحقَّق منها.' }
+    ],
+    note: 'تفاصيل المواصلات تتغيّر؛ راجع مصادر محلية قبل الانطلاق.'
+  },
+  charm: {
+    eyebrow: 'اكتشف المكان',
+    title: 'لماذا يستحق الزيارة',
+    intro: 'أربعة محاور لفهم قيمة الموقع.',
+    items: [
+      { title: 'التاريخ', paras: ['شُيّدت القلعة في القرن الخامس عشر بأمر السلطان المملوكي الأشرف قايتباي.', 'تقوم على موضع فنار الإسكندرية القديم (الفاروس)، الذي كان يُعدّ من عجائب الدنيا السبع القديمة.'] },
+      { title: 'العمارة', paras: ['أسوار حجرية سميكة وأبراج، وقد أُعيد استخدام كثير من أحجار الفنار القديم في بنائها بعد أن دمّكته الزلازل.'] },
+      { title: 'القيمة الثقافية', paras: ['جُدّدت في القرن التاسع عشر في عهد محمد علي، وتضم اليوم متحفاً بحرياً صغيراً.'] },
+      { title: 'التجربة', paras: ['الموقع مكشوف للشمس والريح البحرية، مع إطلالات واسعة على الميناء؛ احمل ماءً ووقاية من الشمس.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'مسار الزيارة',
+    title: 'مسار مقترح',
+    intro: 'مسار عام للتعريف، وقد تختلف تفاصيله بحسب تنظيم الموقع.',
+    steps: [
+      { title: 'الوصول إلى المدخل', text: 'الوصول إلى القلعة عند الميناء الشرقي والتحقق من مواعيد الافتتاح محلياً.' },
+      { title: 'الأسوار والأبراج', text: 'التجوّل بمحاذاة الأسوار الحجرية والأبراج مع إطلالات الميناء.' },
+      { title: 'المتحف البحري', text: 'زيارة المتحف الصغير داخل القلعة وتفقّد ساعاته.' },
+      { title: 'إطلالات الميناء', text: 'التوقف عند نقاط الإطلالة على البحر والمدينة.' },
+      { title: 'الخروج', text: 'العودة عبر المدخل الرئيسي.' }
+    ],
+    notesTitle: 'تنبيهات للزيارة',
+    notes: ['الموقع مكشوف؛ احمل ماءً ووقاية من الشمس.', 'احترم الأسوار والمنشآت وتجنّب الصعود في الأماكن غير المخصصة.', 'قد يقتضي بعض الأجزاء تذكرة؛ لم نتحقق من الأسعار.', 'المواعيد تتغيّر موسمياً وغير مُتحقَّق منها هنا.'],
+    note: 'هذا مسار عام للتخطيط فقط؛ المرجع هو تفاصيل الموقع الرسمية.'
+  },
+  reviews: {
+    eyebrow: 'تقييمات الزوّار',
+    title: 'تقييمات الزوّار',
+    text: 'لا ننشر تقييمات مُختلقة. يمكنك قراءة التقييمات الحقيقية المحدّثة على Google Maps.',
+    cta: 'قراءة التقييمات على Google Maps'
+  }
+};
+
+const qaitbayExtrasEn: SpotExtras = {
+  info: {
+    eyebrow: 'Basic information',
+    title: 'Basic information',
+    items: [
+      { k: 'Common name', v: 'Qaitbay Citadel' },
+      { k: 'Type', v: 'Fortress · citadel' },
+      { k: 'Country', v: 'Egypt' },
+      { k: 'City', v: 'Alexandria' },
+      { k: 'Area', v: 'Tip of the eastern harbour' },
+      { k: 'Period', v: '15th century (Mamluk era)' },
+      { k: 'Builder', v: 'Mamluk sultan Al-Ashraf Qa’it Bay' },
+      { k: 'Hours', v: 'Not verified — check the official body' },
+      { k: 'Tickets', v: 'Not verified — check the official body' }
+    ],
+    note: 'Only verifiable details are listed; hours and prices change and are not verified here.'
+  },
+  access: {
+    eyebrow: 'Getting there',
+    title: 'How to reach the citadel',
+    intro: 'The citadel sits at the tip of the eastern harbour, north of Bahari; these are general planning options, not official instructions.',
+    cards: [
+      { title: 'From the city centre', text: 'The citadel lies north of the centre at the eastern harbour. Travel time is not verified; allow extra for traffic.' },
+      { title: 'Taxi or ride-hailing', text: 'The easiest way to arrive directly; show the pin and agree the fare or check the app price.' },
+      { title: 'Public transport', text: 'Some routes may serve the area, but details are not verified; ask locally.' },
+      { title: 'On foot', text: 'Walking may be possible within Bahari if you are nearby; distances are not verified.' }
+    ],
+    note: 'Transport details change; check local sources before you travel.'
+  },
+  charm: {
+    eyebrow: 'Discover the place',
+    title: 'Why it is worth visiting',
+    intro: 'Four angles for understanding the site.',
+    items: [
+      { title: 'History', paras: ['The citadel was built in the 15th century by order of the Mamluk sultan Al-Ashraf Qa’it Bay.', 'It stands on the site of the ancient Pharos of Alexandria, counted among the Seven Wonders of the Ancient World.'] },
+      { title: 'Architecture', paras: ['Thick stone walls and towers; much of the stone came from the ancient lighthouse after earthquakes brought it down.'] },
+      { title: 'Cultural value', paras: ['Restored in the 19th century under Muhammad Ali Pasha, it now holds a small maritime museum.'] },
+      { title: 'The experience', paras: ['The site is exposed to sun and sea breeze, with wide harbour views; carry water and sun protection.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'Visit route',
+    title: 'A suggested route',
+    intro: 'A general route for orientation; details may vary with how the site is managed.',
+    steps: [
+      { title: 'Arrive at the entrance', text: 'Reach the citadel at the eastern harbour and confirm opening hours locally.' },
+      { title: 'Walls and towers', text: 'Walk alongside the stone walls and towers, with harbour views.' },
+      { title: 'Maritime museum', text: 'Visit the small museum inside the citadel and check its hours.' },
+      { title: 'Harbour views', text: 'Pause at the lookouts over the sea and the city.' },
+      { title: 'Exit', text: 'Return via the main entrance.' }
+    ],
+    notesTitle: 'Visit notes',
+    notes: ['The site is exposed; carry water and sun protection.', 'Respect the walls and structures and avoid climbing in unmarked areas.', 'Some parts may need a ticket; no prices are verified here.', 'Hours change with the season and are not verified here.'],
+    note: 'This is a general route for planning only; the official site details are the reference.'
+  },
+  reviews: {
+    eyebrow: 'Visitor reviews',
+    title: 'Visitor reviews',
+    text: 'We do not publish invented reviews. You can read real, up-to-date reviews on Google Maps.',
+    cta: 'Read reviews on Google Maps'
+  }
+};
+
+const qaitbayExtrasZh: SpotExtras = {
+  info: {
+    eyebrow: '基础信息',
+    title: '基础信息',
+    items: [
+      { k: '常见名称', v: '盖特贝城堡' },
+      { k: '景点类型', v: '城堡 · 要塞' },
+      { k: '国家', v: '埃及' },
+      { k: '城市', v: '亚历山大' },
+      { k: '区域', v: '东港尽头' },
+      { k: '时期', v: '15 世纪（马穆鲁克王朝）' },
+      { k: '建造者', v: '马穆鲁克苏丹阿什拉夫·盖特贝' },
+      { k: '开放时间', v: '未核实——请查阅官方机构' },
+      { k: '门票', v: '未核实——请查阅官方机构' }
+    ],
+    note: '仅列出可核实信息；开放时间与价格会变动，本文未核实。'
+  },
+  access: {
+    eyebrow: '交通方式',
+    title: '如何到达城堡',
+    intro: '城堡位于东港尽头、巴赫里以北；以下为一般性规划选项，并非官方说明。',
+    cards: [
+      { title: '从市中心出发', text: '城堡位于市中心以北的东港。用时本文未核实；请预留交通拥堵的额外时间。' },
+      { title: '出租车或网约车', text: '直达最省事的方式；出示地图定位，先谈好车费或确认应用报价。' },
+      { title: '公共交通', text: '附近可能有线路经过，但细节未核实；请向当地人询问。' },
+      { title: '步行', text: '若你在巴赫里附近，步行或可实现；距离本文未核实。' }
+    ],
+    note: '交通细节会变动；出行前请查阅当地来源。'
+  },
+  charm: {
+    eyebrow: '发现魅力',
+    title: '为什么值得一游',
+    intro: '从四个角度理解这处遗址的价值。',
+    items: [
+      { title: '历史', paras: ['城堡于 15 世纪由马穆鲁克苏丹阿什拉夫·盖特贝下令建造。', '它建于古亚历山大法罗斯灯塔旧址之上——那座灯塔曾位列古代世界七大奇迹。'] },
+      { title: '建筑特色', paras: ['厚实的石墙与塔楼；灯塔因地震倒塌后，其大量石料被重新用于城堡建造。'] },
+      { title: '文化价值', paras: ['19 世纪在穆罕默德·阿里帕夏时期得到修缮，如今内部设有一家小型海事博物馆。'] },
+      { title: '核心体验', paras: ['场地暴露于阳光与海风之中，港湾视野开阔；请带水并做好防晒。'] }
+    ]
+  },
+  route: {
+    eyebrow: '游览路线',
+    title: '建议路线',
+    intro: '一条用于了解方位的一般路线；细节可能随现场管理方式而变化。',
+    steps: [
+      { title: '抵达入口', text: '到达东港的城堡，并在现场确认开放时间。' },
+      { title: '城墙与塔楼', text: '沿石墙与塔楼行走，可俯瞰港湾。' },
+      { title: '海事博物馆', text: '参观城堡内的小型博物馆，并确认其开放时间。' },
+      { title: '港湾景观', text: '在观景点驻足，远眺大海与城市。' },
+      { title: '出口', text: '沿主入口返回。' }
+    ],
+    notesTitle: '游览须知',
+    notes: ['场地暴露，请带水并做好防晒。', '请爱护城墙与建筑，勿在未标区域攀爬。', '部分区域可能需要门票；本文未核实价格。', '开放时间随季节变动，本文未核实。'],
+    note: '以上仅为规划用的一般路线；请以官方现场信息为准。'
+  },
+  reviews: {
+    eyebrow: '游客评价',
+    title: '游客评价',
+    text: '我们不发布编造的评价。你可以在 Google Maps 上查看真实且实时更新的评价。',
+    cta: '在 Google Maps 查看评价'
+  }
+};
+
+// ————————————————————————————————————————————————————————————
+// كتل موسّعة: مسجد أبو العباس المرسي (قالب صفحة المعلم الغني)
+// ————————————————————————————————————————————————————————————
+
+const abbasExtrasAr: SpotExtras = {
+  info: {
+    eyebrow: 'البيانات الأساسية',
+    title: 'البيانات الأساسية',
+    items: [
+      { k: 'الاسم الشائع', v: 'مسجد أبو العباس المرسي' },
+      { k: 'النوع', v: 'مسجد · ضريح' },
+      { k: 'الدولة', v: 'مصر' },
+      { k: 'المدينة', v: 'الإسكندرية' },
+      { k: 'المنطقة', v: 'بحري · قرب الميناء الشرقي' },
+      { k: 'البناء الحالي', v: 'القرن العشرون' },
+      { k: 'الشخصية', v: 'أبو العباس المرسي (ولي صوفي أندلسي، ق 13م)' },
+      { k: 'المواعيد', v: 'غير مُتحقَّق منها — تراعى أوقات الصلاة والمناسبات' },
+      { k: 'الدخول', v: 'غير مُتحقَّق منه — راجع المكان' }
+    ],
+    note: 'نعرض ما يمكن التحقق منه فقط؛ أوقات الزيارة متغيّرة وغير مُتحقَّق منها هنا.'
+  },
+  access: {
+    eyebrow: 'الوصول',
+    title: 'كيف تصل إلى المسجد',
+    intro: 'يقع المسجد في بحري قرب الميناء الشرقي؛ هذه خيارات عامة للتخطيط وليست تعليمات رسمية.',
+    cards: [
+      { title: 'الموقع', text: 'في بحري قرب الميناء الشرقي، وقريب من قلعة قايتباي. الزمن من النصب غير مُتحقَّق منه.' },
+      { title: 'سيارة أجرة أو تطبيق نقل', text: 'أسهل وصول مباشر؛ اتفق على الوجهة قبل الانطلاق.' },
+      { title: 'النقل العام', text: 'قد تخدم المنطقة بعض الخطوط، لكن التفاصيل غير مُتحقَّق منها؛ اسأل محلياً.' },
+      { title: 'المشي', text: 'يقع ضمن بحري؛ المشي ممكن إن كنت قريباً، والمسافات غير مُتحقَّق منها.' }
+    ],
+    note: 'تفاصيل المواصلات تتغيّر؛ راجع مصادر محلية قبل الانطلاق.'
+  },
+  charm: {
+    eyebrow: 'اكتشف المكان',
+    title: 'لماذا يستحق الزيارة',
+    intro: 'أربعة محاور لفهم قيمة الموقع.',
+    items: [
+      { title: 'التاريخ', paras: ['سُمّي المسجد على الشيخ أبو العباس المرسي، ولي صوفي وُلد في الأندلس وعاش في الإسكندرية في القرن الثالث عشر.', 'أصبح من أبرز الشخصيات الصوفية في المدينة، وضريحه داخل المسجد.'] },
+      { title: 'العمارة', paras: ['البناء الحالي حديث نسبياً؛ أُعيد تشييده في القرن العشرين بقبة عالية ومآذن تُرى من بعيد.'] },
+      { title: 'القيمة الثقافية', paras: ['من أشهر معالم بحري، ويُعدّ مركزاً روحياً واجتماعياً في الحي.'] },
+      { title: 'التجربة', paras: ['الزيارة عادةً ممكنة خارج أوقات الصلاة؛ التزم باللباس المحتشم واتبع إرشادات المكان.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'مسار الزيارة',
+    title: 'مسار مقترح',
+    intro: 'مسار عام للتعريف، وقد تختلف تفاصيله بحسب أوقات الصلاة وتنظيم المكان.',
+    steps: [
+      { title: 'الوصول إلى الميدان', text: 'الوصول إلى بحري والتحقق من أوقات الزيارة عند المكان.' },
+      { title: 'المدخل والصحن', text: 'الدخول من المدخل الرئيسي وعبور الصحن.' },
+      { title: 'قاعة الصلاة', text: 'مشاهدة القبة والأعمدة والزخارف مع الالتزام بالهدوء.' },
+      { title: 'الضريح', text: 'التوقف عند ضريح الشيخ أبو العباس المرسي.' },
+      { title: 'الخروج', text: 'العودة عبر المدخل.' }
+    ],
+    notesTitle: 'تنبيهات للزيارة',
+    notes: ['الزم الهدوء واحترم المصلّين.', 'اخلع الحذاء حيث يُطلب، وارتدِ لباساً محتشماً.', 'قد يُمنع التصوير داخل قاعة الصلاة؛ اتبع اللافتات.', 'أوقات الزيارة تتغيّر مع الصلاة والمناسبات وغير مُتحقَّق منها هنا.'],
+    note: 'هذا مسار عام للتخطيط فقط؛ المرجع هو إرشادات المكان.'
+  },
+  reviews: {
+    eyebrow: 'تقييمات الزوّار',
+    title: 'تقييمات الزوّار',
+    text: 'لا ننشر تقييمات مُختلقة. يمكنك قراءة التقييمات الحقيقية المحدّثة على Google Maps.',
+    cta: 'قراءة التقييمات على Google Maps'
+  }
+};
+
+const abbasExtrasEn: SpotExtras = {
+  info: {
+    eyebrow: 'Basic information',
+    title: 'Basic information',
+    items: [
+      { k: 'Common name', v: 'Abu al-Abbas al-Mursi Mosque' },
+      { k: 'Type', v: 'Mosque · shrine' },
+      { k: 'Country', v: 'Egypt' },
+      { k: 'City', v: 'Alexandria' },
+      { k: 'Area', v: 'Bahari, near the eastern harbour' },
+      { k: 'Present building', v: '20th century' },
+      { k: 'Namesake', v: 'Abu al-Abbas al-Mursi (Andalusian Sufi, 13th c.)' },
+      { k: 'Hours', v: 'Not verified — prayer times and events apply' },
+      { k: 'Admission', v: 'Not verified — check with the site' }
+    ],
+    note: 'Only verifiable details are listed; visiting hours change and are not verified here.'
+  },
+  access: {
+    eyebrow: 'Getting there',
+    title: 'How to reach the mosque',
+    intro: 'The mosque is in Bahari near the eastern harbour; these are general planning options, not official instructions.',
+    cards: [
+      { title: 'Location', text: 'In Bahari near the eastern harbour, close to Qaitbay Citadel. The time from the memorial is not verified.' },
+      { title: 'Taxi or ride-hailing', text: 'The easiest way to arrive directly; agree the destination before setting off.' },
+      { title: 'Public transport', text: 'Some routes may serve the area, but details are not verified; ask locally.' },
+      { title: 'On foot', text: 'It sits within Bahari; walking suits if you are nearby, and distances are not verified.' }
+    ],
+    note: 'Transport details change; check local sources before you travel.'
+  },
+  charm: {
+    eyebrow: 'Discover the place',
+    title: 'Why it is worth visiting',
+    intro: 'Four angles for understanding the site.',
+    items: [
+      { title: 'History', paras: ['The mosque is named after Sheikh Abu al-Abbas al-Mursi, an Andalusian-born Sufi who lived in Alexandria in the 13th century.', 'He became one of the city’s best-known Sufi figures, and his tomb lies inside the mosque.'] },
+      { title: 'Architecture', paras: ['The present building is relatively recent; it was rebuilt in the 20th century with a tall dome and minarets visible from afar.'] },
+      { title: 'Cultural value', paras: ['One of Bahari’s best-known landmarks, it is a spiritual and social centre for the district.'] },
+      { title: 'The experience', paras: ['Visiting is usually possible outside prayer times; dress modestly and follow on-site guidance.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'Visit route',
+    title: 'A suggested route',
+    intro: 'A general route for orientation; details may vary with prayer times and site management.',
+    steps: [
+      { title: 'Arrive at the square', text: 'Reach Bahari and confirm visiting hours with the site.' },
+      { title: 'Entrance and courtyard', text: 'Enter through the main gate and cross the courtyard.' },
+      { title: 'Prayer hall', text: 'See the dome, columns and decoration, keeping quiet.' },
+      { title: 'The shrine', text: 'Pause at the tomb of Sheikh Abu al-Abbas al-Mursi.' },
+      { title: 'Exit', text: 'Return via the entrance.' }
+    ],
+    notesTitle: 'Visit notes',
+    notes: ['Keep quiet and respect worshippers.', 'Remove shoes where indicated and dress modestly.', 'Photography may be restricted inside the prayer hall; follow posted signs.', 'Visiting hours vary with prayer times and events and are not verified here.'],
+    note: 'This is a general route for planning only; the site’s own guidance is the reference.'
+  },
+  reviews: {
+    eyebrow: 'Visitor reviews',
+    title: 'Visitor reviews',
+    text: 'We do not publish invented reviews. You can read real, up-to-date reviews on Google Maps.',
+    cta: 'Read reviews on Google Maps'
+  }
+};
+
+const abbasExtrasZh: SpotExtras = {
+  info: {
+    eyebrow: '基础信息',
+    title: '基础信息',
+    items: [
+      { k: '常见名称', v: '阿布·阿巴斯·莫尔西清真寺' },
+      { k: '景点类型', v: '清真寺 · 陵墓' },
+      { k: '国家', v: '埃及' },
+      { k: '城市', v: '亚历山大' },
+      { k: '区域', v: '巴赫里 · 东港附近' },
+      { k: '现有建筑', v: '20 世纪' },
+      { k: '命名人物', v: '阿布·阿巴斯·莫尔西（13 世纪安达卢西亚苏菲圣者）' },
+      { k: '开放时间', v: '未核实——需遵循礼拜时间与活动安排' },
+      { k: '入场', v: '未核实——请咨询现场' }
+    ],
+    note: '仅列出可核实信息；参观时间会变动，本文未核实。'
+  },
+  access: {
+    eyebrow: '交通方式',
+    title: '如何到达清真寺',
+    intro: '清真寺位于东港附近的巴赫里；以下为一般性规划选项，并非官方说明。',
+    cards: [
+      { title: '位置', text: '位于东港附近的巴赫里，靠近盖特贝城堡。从纪念碑出发的用时本文未核实。' },
+      { title: '出租车或网约车', text: '直达最省事的方式；出发前先确认目的地。' },
+      { title: '公共交通', text: '附近可能有线路经过，但细节未核实；请向当地人询问。' },
+      { title: '步行', text: '它位于巴赫里范围内；在附近时步行可行，距离本文未核实。' }
+    ],
+    note: '交通细节会变动；出行前请查阅当地来源。'
+  },
+  charm: {
+    eyebrow: '发现魅力',
+    title: '为什么值得一游',
+    intro: '从四个角度理解这处遗址的价值。',
+    items: [
+      { title: '历史', paras: ['清真寺以前人谢赫阿布·阿巴斯·莫尔西命名——一位出生于安达卢西亚的苏菲圣者，13 世纪生活于此。', '他成为当地著名的苏菲人物，其陵墓就在寺内。'] },
+      { title: '建筑特色', paras: ['现有建筑相对较新；于 20 世纪重建，高耸的圆顶与宣礼塔远远便可望见。'] },
+      { title: '文化价值', paras: ['作为巴赫里最著名的地标之一，它是该区的精神与社交中心。'] },
+      { title: '核心体验', paras: ['通常可在礼拜时间之外参观；请着装得体并遵守现场指引。'] }
+    ]
+  },
+  route: {
+    eyebrow: '游览路线',
+    title: '建议路线',
+    intro: '一条用于了解方位的一般路线；细节可能随礼拜时间与现场管理方式而变化。',
+    steps: [
+      { title: '抵达广场', text: '到达巴赫里，并向现场确认参观时间。' },
+      { title: '入口与庭院', text: '从正门进入并穿过庭院。' },
+      { title: '礼拜殿', text: '观看圆顶、石柱与装饰，保持安静。' },
+      { title: '陵墓', text: '在谢赫阿布·阿巴斯·莫尔西陵墓前驻足。' },
+      { title: '出口', text: '沿入口返回。' }
+    ],
+    notesTitle: '游览须知',
+    notes: ['保持安静，尊重礼拜者。', '在要求处脱鞋，并着装得体。', '礼拜殿内可能限制拍照，请遵守告示。', '参观时间随礼拜与活动变动，本文未核实。'],
+    note: '以上仅为规划用的一般路线；请以现场指引为准。'
+  },
+  reviews: {
+    eyebrow: '游客评价',
+    title: '游客评价',
+    text: '我们不发布编造的评价。你可以在 Google Maps 上查看真实且实时更新的评价。',
+    cta: '在 Google Maps 查看评价'
+  }
+};
+
+// ————————————————————————————————————————————————————————————
+// كتل موسّعة: مكتبة الإسكندرية (قالب صفحة المعلم الغني)
+// ————————————————————————————————————————————————————————————
+
+const libraryExtrasAr: SpotExtras = {
+  info: {
+    eyebrow: 'البيانات الأساسية',
+    title: 'البيانات الأساسية',
+    items: [
+      { k: 'الاسم الشائع', v: 'مكتبة الإسكندرية' },
+      { k: 'النوع', v: 'مكتبة · مجمّع ثقافي' },
+      { k: 'الدولة', v: 'مصر' },
+      { k: 'المدينة', v: 'الإسكندرية' },
+      { k: 'المنطقة', v: 'الكورنيش، شرق المدينة' },
+      { k: 'الافتتاح', v: '2002' },
+      { k: 'في الداخل', v: 'قاعة قراءة · متاحف · قبة سماوية' },
+      { k: 'المواعيد', v: 'غير مُتحقَّق منها — راجع الموقع الرسمي' },
+      { k: 'التذاكر', v: 'غير مُتحقَّق منها — راجع الموقع الرسمي' }
+    ],
+    note: 'نعرض ما يمكن التحقق منه فقط؛ المواعيد والأسعار متغيّرة وغير مُتحقَّق منها هنا.'
+  },
+  access: {
+    eyebrow: 'الوصول',
+    title: 'كيف تصل إلى المكتبة',
+    intro: 'تقع المكتبة على الكورنيش شرق المدينة؛ هذه خيارات عامة للتخطيط وليست تعليمات رسمية.',
+    cards: [
+      { title: 'من وسط المدينة', text: 'تقع على الكورنيش شرقاً. زمن الرحلة غير مُتحقَّق منه؛ احسب وقتاً إضافياً للزحام.' },
+      { title: 'سيارة أجرة أو تطبيق نقل', text: 'خيار مريح للمسافة الأطول؛ أظهر الموقع على الخريطة واتفق على الأجرة.' },
+      { title: 'النقل العام', text: 'قد تخدم الخطوط المحيطة الكورنيش، لكن التفاصيل غير مُتحقَّق منها؛ اسأل محلياً.' },
+      { title: 'المشي', text: 'قد يكون المشي ممكناً على الكورنيش إن كنت قريباً؛ المسافات غير مُتحقَّق منها.' }
+    ],
+    note: 'تفاصيل المواصلات تتغيّر؛ راجع مصادر محلية قبل الانطلاق.'
+  },
+  charm: {
+    eyebrow: 'اكتشف المكان',
+    title: 'لماذا يستحق الزيارة',
+    intro: 'أربعة محاور لفهم قيمة الموقع.',
+    items: [
+      { title: 'التاريخ', paras: ['افتُتح المجمّع عام 2002 ليكون امتداداً لفكرة مكتبة الإسكندرية القديمة، أحد أشهر مراكز المعرفة في العالم القديم.'] },
+      { title: 'العمارة', paras: ['يتميّز بسقف قرصي مائل وواجهة من الجرانيت نُقشت عليها حروف من لغات متعددة.'] },
+      { title: 'القيمة الثقافية', paras: ['يضم متاحف وقاعات عرض وقبة سماوية، ويمثّل مشروعاً ثقافياً معاصراً للمدينة.'] },
+      { title: 'التجربة', paras: ['قاعة القراءة المدرّجة المطلة على البحر أبرز ما يراه الزائر؛ الأجزاء المفتوحة تختلف بحسب الأنشطة.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'مسار الزيارة',
+    title: 'مسار مقترح',
+    intro: 'مسار عام للتعريف، وقد تختلف تفاصيله بحسب تنظيم المجمّع وأنشطته.',
+    steps: [
+      { title: 'الوصول إلى المدخل', text: 'الوصول إلى المجمّع على الكورنيش والتحقق من المواعيد عند الاستقبال.' },
+      { title: 'الواجهة والرواق', text: 'مشاهدة الواجهة الجرانيتية والسقف القرصي من الخارج.' },
+      { title: 'قاعة القراءة', text: 'الدخول إلى قاعة القراءة المدرّجة وفق القواعد.' },
+      { title: 'المتاحف والقبة السماوية', text: 'زيارة المتاحف والقبة السماوية حسب الجدول المتاح.' },
+      { title: 'الخروج', text: 'العودة عبر المدخل.' }
+    ],
+    notesTitle: 'تنبيهات للزيارة',
+    notes: ['راجع الموقع الرسمي قبل الذهاب؛ لكل جزء مواعيد مختلفة.', 'قد تُطلب تذكرة لبعض الأقسام والأنشطة؛ لم نتحقق من الأسعار.', 'التزم بقواعد الهدوء داخل قاعات القراءة.', 'قد تُقيَّد الصور في أجزاء معينة؛ اتبع اللافتات.'],
+    note: 'هذا مسار عام للتخطيط فقط؛ المرجع هو تفاصيل المجمّع الرسمية.'
+  },
+  reviews: {
+    eyebrow: 'تقييمات الزوّار',
+    title: 'تقييمات الزوّار',
+    text: 'لا ننشر تقييمات مُختلقة. يمكنك قراءة التقييمات الحقيقية المحدّثة على Google Maps.',
+    cta: 'قراءة التقييمات على Google Maps'
+  }
+};
+
+const libraryExtrasEn: SpotExtras = {
+  info: {
+    eyebrow: 'Basic information',
+    title: 'Basic information',
+    items: [
+      { k: 'Common name', v: 'Bibliotheca Alexandrina' },
+      { k: 'Type', v: 'Library · cultural complex' },
+      { k: 'Country', v: 'Egypt' },
+      { k: 'City', v: 'Alexandria' },
+      { k: 'Area', v: 'Corniche, east of the centre' },
+      { k: 'Opened', v: '2002' },
+      { k: 'Inside', v: 'Reading hall · museums · planetarium' },
+      { k: 'Hours', v: 'Not verified — check the official website' },
+      { k: 'Tickets', v: 'Not verified — check the official website' }
+    ],
+    note: 'Only verifiable details are listed; hours and prices change and are not verified here.'
+  },
+  access: {
+    eyebrow: 'Getting there',
+    title: 'How to reach the library',
+    intro: 'The library stands on the corniche east of the centre; these are general planning options, not official instructions.',
+    cards: [
+      { title: 'From the city centre', text: 'It lies on the corniche to the east. Travel time is not verified; allow extra for traffic.' },
+      { title: 'Taxi or ride-hailing', text: 'A comfortable choice for the longer hop; show the pin and agree the fare.' },
+      { title: 'Public transport', text: 'Routes around the corniche may serve it, but details are not verified; ask locally.' },
+      { title: 'On foot', text: 'Walking along the corniche may suit if you are nearby; distances are not verified.' }
+    ],
+    note: 'Transport details change; check local sources before you travel.'
+  },
+  charm: {
+    eyebrow: 'Discover the place',
+    title: 'Why it is worth visiting',
+    intro: 'Four angles for understanding the site.',
+    items: [
+      { title: 'History', paras: ['The complex opened in 2002 as an echo of the idea of the ancient Library of Alexandria, among the most famous centres of knowledge in the ancient world.'] },
+      { title: 'Architecture', paras: ['It is known for a tilted, disc-shaped roof and a granite wall carved with characters from many scripts.'] },
+      { title: 'Cultural value', paras: ['It houses museums, exhibition spaces and a planetarium, and represents a contemporary cultural project for the city.'] },
+      { title: 'The experience', paras: ['The sea-facing, terraced reading hall is the highlight; the areas open to visitors vary with activities.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'Visit route',
+    title: 'A suggested route',
+    intro: 'A general route for orientation; details may vary with the complex’s management and activities.',
+    steps: [
+      { title: 'Arrive at the entrance', text: 'Reach the complex on the corniche and confirm hours at reception.' },
+      { title: 'Facade and atrium', text: 'See the granite facade and the disc-shaped roof from outside.' },
+      { title: 'Reading hall', text: 'Enter the terraced reading hall, following the rules.' },
+      { title: 'Museums and planetarium', text: 'Visit the museums and planetarium according to the available schedule.' },
+      { title: 'Exit', text: 'Return via the entrance.' }
+    ],
+    notesTitle: 'Visit notes',
+    notes: ['Check the official website before you go; each part keeps different hours.', 'Some sections and activities may need a ticket; no prices are verified here.', 'Observe quiet rules inside the reading halls.', 'Photography may be restricted in some parts; follow posted signs.'],
+    note: 'This is a general route for planning only; the complex’s official details are the reference.'
+  },
+  reviews: {
+    eyebrow: 'Visitor reviews',
+    title: 'Visitor reviews',
+    text: 'We do not publish invented reviews. You can read real, up-to-date reviews on Google Maps.',
+    cta: 'Read reviews on Google Maps'
+  }
+};
+
+const libraryExtrasZh: SpotExtras = {
+  info: {
+    eyebrow: '基础信息',
+    title: '基础信息',
+    items: [
+      { k: '常见名称', v: '亚历山大图书馆' },
+      { k: '景点类型', v: '图书馆 · 文化综合体' },
+      { k: '国家', v: '埃及' },
+      { k: '城市', v: '亚历山大' },
+      { k: '区域', v: '海滨，市中心以东' },
+      { k: '启用', v: '2002 年' },
+      { k: '内部', v: '阅览大厅 · 博物馆 · 天文馆' },
+      { k: '开放时间', v: '未核实——请查阅官网' },
+      { k: '门票', v: '未核实——请查阅官网' }
+    ],
+    note: '仅列出可核实信息；开放时间与价格会变动，本文未核实。'
+  },
+  access: {
+    eyebrow: '交通方式',
+    title: '如何到达图书馆',
+    intro: '图书馆位于市中心以东的海滨；以下为一般性规划选项，并非官方说明。',
+    cards: [
+      { title: '从市中心出发', text: '位于以东的海滨沿线。用时本文未核实；请预留交通拥堵的额外时间。' },
+      { title: '出租车或网约车', text: '较长距离的舒适选择；出示地图定位，先谈好车费。' },
+      { title: '公共交通', text: '海滨一带可能有线路经过，但细节未核实；请向当地人询问。' },
+      { title: '步行', text: '若你在附近，沿海滨步行或可实现；距离本文未核实。' }
+    ],
+    note: '交通细节会变动；出行前请查阅当地来源。'
+  },
+  charm: {
+    eyebrow: '发现魅力',
+    title: '为什么值得一游',
+    intro: '从四个角度理解这处遗址的价值。',
+    items: [
+      { title: '历史', paras: ['该综合体于 2002 年启用，延续古代世界最著名的知识中心之一——古亚历山大图书馆的理念。'] },
+      { title: '建筑特色', paras: ['以倾斜的圆盘状屋顶，以及刻有多种文字字符的花岗岩外墙著称。'] },
+      { title: '文化价值', paras: ['馆内设有博物馆、展览空间与天文馆，是这座城市当代的文化项目。'] },
+      { title: '核心体验', paras: ['面朝大海的阶梯式阅览大厅是最大亮点；开放区域随活动而变动。'] }
+    ]
+  },
+  route: {
+    eyebrow: '游览路线',
+    title: '建议路线',
+    intro: '一条用于了解方位的一般路线；细节可能随综合体的管理与活动而变化。',
+    steps: [
+      { title: '抵达入口', text: '到达海滨的综合体，并在接待处确认开放时间。' },
+      { title: '外墙与中庭', text: '在外侧观赏花岗岩外墙与圆盘状屋顶。' },
+      { title: '阅览大厅', text: '按规则进入阶梯式阅览大厅。' },
+      { title: '博物馆与天文馆', text: '按当前可用的场次参观博物馆与天文馆。' },
+      { title: '出口', text: '沿入口返回。' }
+    ],
+    notesTitle: '游览须知',
+    notes: ['出发前请查阅官网；各部分开放时间不同。', '部分区域与活动可能需要门票；本文未核实价格。', '阅览区域内请保持安静。', '部分区域可能限制拍照，请遵守告示。'],
+    note: '以上仅为规划用的一般路线；请以综合体官方信息为准。'
+  },
+  reviews: {
+    eyebrow: '游客评价',
+    title: '游客评价',
+    text: '我们不发布编造的评价。你可以在 Google Maps 上查看真实且实时更新的评价。',
+    cta: '在 Google Maps 查看评价'
+  }
+};
+
+// ————————————————————————————————————————————————————————————
+// كتل موسّعة: آثار كوم الدكة (قالب صفحة المعلم الغني)
+// ————————————————————————————————————————————————————————————
+
+const komElDikkaExtrasAr: SpotExtras = {
+  info: {
+    eyebrow: 'البيانات الأساسية',
+    title: 'البيانات الأساسية',
+    items: [
+      { k: 'الاسم الشائع', v: 'آثار كوم الدكة (المدرج الروماني)' },
+      { k: 'النوع', v: 'موقع أثري · مدرج روماني' },
+      { k: 'الدولة', v: 'مصر' },
+      { k: 'المدينة', v: 'الإسكندرية' },
+      { k: 'المنطقة', v: 'وسط المدينة الحديثة' },
+      { k: 'الفترة', v: 'العصر الروماني' },
+      { k: 'أبرز ما فيه', v: 'المدرج المسرحي وفسيفساء «فيلا الطيور»' },
+      { k: 'المواعيد', v: 'غير مُتحقَّق منها — راجع الجهة الرسمية' },
+      { k: 'التذاكر', v: 'غير مُتحقَّق منها — راجع الجهة الرسمية' }
+    ],
+    note: 'نعرض ما يمكن التحقق منه فقط؛ المواعيد والأسعار متغيّرة وغير مُتحقَّق منها هنا.'
+  },
+  access: {
+    eyebrow: 'الوصول',
+    title: 'كيف تصل إلى الموقع',
+    intro: 'يقع الموقع في قلب المدينة الحديثة؛ هذه خيارات عامة للتخطيط وليست تعليمات رسمية.',
+    cards: [
+      { title: 'من وسط المدينة', text: 'يقع ضمن النسيج العمراني الحديث، لذا الوصول قصير نسبياً إن كنت في المركز. الزمن غير مُتحقَّق منه.' },
+      { title: 'سيارة أجرة أو تطبيق نقل', text: 'خيار مباشر وسهل داخل المدينة؛ أظهر الموقع على الخريطة واتفق على الأجرة.' },
+      { title: 'النقل العام', text: 'قد تخدم المنطقة بعض الخطوط، لكن التفاصيل غير مُتحقَّق منها؛ اسأل محلياً.' },
+      { title: 'المشي', text: 'المشي مناسب إن كنت قريباً في وسط المدينة؛ المسافات غير مُتحقَّق منها.' }
+    ],
+    note: 'تفاصيل المواصلات تتغيّر؛ راجع مصادر محلية قبل الانطلاق.'
+  },
+  charm: {
+    eyebrow: 'اكتشف المكان',
+    title: 'لماذا يستحق الزيارة',
+    intro: 'أربعة محاور لفهم قيمة الموقع.',
+    items: [
+      { title: 'التاريخ', paras: ['بقايا من العصر الروماني محفوظة في قلب الإسكندرية الحديثة، وتُظهر طبقات المدينة القديمة تحت الحاضرة الحالية.'] },
+      { title: 'العمارة', paras: ['أبرز ما فيه مدرج مسرحي من الحجر والرخام بمدرّجات متتابعة، إلى جانب أعمدة وأجزاء من مبانٍ قديمة.'] },
+      { title: 'القيمة الثقافية', paras: ['يشتهر بفسيفساء «فيلا الطيور» التي تصوّر طيوراً بألوان زاهية، وهي من أبرز الفسيفساء الباقية في المدينة.'] },
+      { title: 'التجربة', paras: ['موقع مفتوح نسبياً وأقرب إلى تجربة أثرية مباشرة بين المباني الحديثة؛ الارتداء المريح والحذر على الأسطح غير المستوية مُستحسن.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'مسار الزيارة',
+    title: 'مسار مقترح',
+    intro: 'مسار عام للتعريف، وقد تختلف تفاصيله بحسب تنظيم الموقع.',
+    steps: [
+      { title: 'الوصول إلى المدخل', text: 'الوصول إلى الموقع في وسط المدينة والتحقق من مواعيد الافتتاح محلياً.' },
+      { title: 'المدرج المسرحي', text: 'التجوّل حول المدرّجات الحجرية والرخامية والنظر في تفاصيلها.' },
+      { title: 'الآثار المحيطة', text: 'مشاهدة الأعمدة وبقايا المباني داخل النطاق المخصص للزيارة.' },
+      { title: 'فسيفساء فيلا الطيور', text: 'التوقف عند فسيفساء الطيور وتفقّد أي لافتات توضيحية.' },
+      { title: 'الخروج', text: 'العودة عبر المدخل.' }
+    ],
+    notesTitle: 'تنبيهات للزيارة',
+    notes: ['الأسطح غير مستوية وقد توجد درجات؛ انتبه أثناء التنقل.', 'لا تلمس الفسيفساء والآثار المكشوفة.', 'قد تُطلب تذكرة؛ لم نتحقق من الأسعار.', 'المواعيد تتغيّر وغير مُتحقَّق منها هنا.'],
+    note: 'هذا مسار عام للتخطيط فقط؛ المرجع هو تفاصيل الموقع الرسمية.'
+  },
+  reviews: {
+    eyebrow: 'تقييمات الزوّار',
+    title: 'تقييمات الزوّار',
+    text: 'لا ننشر تقييمات مُختلقة. يمكنك قراءة التقييمات الحقيقية المحدّثة على Google Maps.',
+    cta: 'قراءة التقييمات على Google Maps'
+  }
+};
+
+const komElDikkaExtrasEn: SpotExtras = {
+  info: {
+    eyebrow: 'Basic information',
+    title: 'Basic information',
+    items: [
+      { k: 'Common name', v: 'Kom El Dikka (Roman amphitheatre)' },
+      { k: 'Type', v: 'Archaeological site · Roman amphitheatre' },
+      { k: 'Country', v: 'Egypt' },
+      { k: 'City', v: 'Alexandria' },
+      { k: 'Area', v: 'The modern city centre' },
+      { k: 'Period', v: 'Roman era' },
+      { k: 'Highlights', v: 'The Roman amphitheatre and the “Villa of the Birds” mosaic' },
+      { k: 'Hours', v: 'Not verified — check the official body' },
+      { k: 'Tickets', v: 'Not verified — check the official body' }
+    ],
+    note: 'Only verifiable details are listed; hours and prices change and are not verified here.'
+  },
+  access: {
+    eyebrow: 'Getting there',
+    title: 'How to reach the site',
+    intro: 'The site lies in the heart of the modern city; these are general planning options, not official instructions.',
+    cards: [
+      { title: 'From the city centre', text: 'It sits within the modern urban fabric, so the hop is short if you are central. Travel time is not verified.' },
+      { title: 'Taxi or ride-hailing', text: 'A direct, easy choice within the city; show the pin and agree the fare.' },
+      { title: 'Public transport', text: 'Some routes may serve the area, but details are not verified; ask locally.' },
+      { title: 'On foot', text: 'Walking suits if you are nearby in the centre; distances are not verified.' }
+    ],
+    note: 'Transport details change; check local sources before you travel.'
+  },
+  charm: {
+    eyebrow: 'Discover the place',
+    title: 'Why it is worth visiting',
+    intro: 'Four angles for understanding the site.',
+    items: [
+      { title: 'History', paras: ['Roman-era remains preserved in the heart of modern Alexandria, showing the old city’s layers beneath today’s streets.'] },
+      { title: 'Architecture', paras: ['Its highlight is a stone-and-marble amphitheatre with tiered seating, alongside columns and fragments of older buildings.'] },
+      { title: 'Cultural value', paras: ['It is known for the “Villa of the Birds” mosaic, which depicts birds in bright colours and is among the city’s notable surviving mosaics.'] },
+      { title: 'The experience', paras: ['A relatively open site that feels like direct archaeology among modern buildings; comfortable dress and care on uneven surfaces are advisable.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'Visit route',
+    title: 'A suggested route',
+    intro: 'A general route for orientation; details may vary with how the site is managed.',
+    steps: [
+      { title: 'Arrive at the entrance', text: 'Reach the site in the city centre and confirm opening hours locally.' },
+      { title: 'The amphitheatre', text: 'Walk around the stone and marble tiers and look at their detail.' },
+      { title: 'Surrounding remains', text: 'See the columns and building fragments within the visiting area.' },
+      { title: 'Villa of the Birds mosaic', text: 'Pause at the mosaic and check any explanatory signs.' },
+      { title: 'Exit', text: 'Return via the entrance.' }
+    ],
+    notesTitle: 'Visit notes',
+    notes: ['Surfaces are uneven and there may be steps; take care as you move.', 'Do not touch the mosaics or exposed antiquities.', 'A ticket may be required; no prices are verified here.', 'Hours change and are not verified here.'],
+    note: 'This is a general route for planning only; the official site details are the reference.'
+  },
+  reviews: {
+    eyebrow: 'Visitor reviews',
+    title: 'Visitor reviews',
+    text: 'We do not publish invented reviews. You can read real, up-to-date reviews on Google Maps.',
+    cta: 'Read reviews on Google Maps'
+  }
+};
+
+const komElDikkaExtrasZh: SpotExtras = {
+  info: {
+    eyebrow: '基础信息',
+    title: '基础信息',
+    items: [
+      { k: '常见名称', v: '科姆·迪卡（罗马剧场）' },
+      { k: '景点类型', v: '考古遗址 · 罗马剧场' },
+      { k: '国家', v: '埃及' },
+      { k: '城市', v: '亚历山大' },
+      { k: '区域', v: '现代市中心' },
+      { k: '时期', v: '罗马时期' },
+      { k: '亮点', v: '罗马剧场与「飞鸟别墅」马赛克' },
+      { k: '开放时间', v: '未核实——请查阅官方机构' },
+      { k: '门票', v: '未核实——请查阅官方机构' }
+    ],
+    note: '仅列出可核实信息；开放时间与价格会变动，本文未核实。'
+  },
+  access: {
+    eyebrow: '交通方式',
+    title: '如何到达遗址',
+    intro: '遗址位于现代市中心；以下为一般性规划选项，并非官方说明。',
+    cards: [
+      { title: '从市中心出发', text: '它处于现代城区之中，若你在中心地带路程较短。用时本文未核实。' },
+      { title: '出租车或网约车', text: '市内直达的便捷选择；出示地图定位，先谈好车费。' },
+      { title: '公共交通', text: '附近可能有线路经过，但细节未核实；请向当地人询问。' },
+      { title: '步行', text: '若你在市中心附近，步行可行；距离本文未核实。' }
+    ],
+    note: '交通细节会变动；出行前请查阅当地来源。'
+  },
+  charm: {
+    eyebrow: '发现魅力',
+    title: '为什么值得一游',
+    intro: '从四个角度理解这处遗址的价值。',
+    items: [
+      { title: '历史', paras: ['罗马时期的遗迹保存于现代亚历山大市中心，展现出今日街区之下的古城层叠。'] },
+      { title: '建筑特色', paras: ['最突出的是以石材与大理石砌成的阶梯式罗马剧场，四周还有石柱与旧建筑残件。'] },
+      { title: '文化价值', paras: ['以「飞鸟别墅」马赛克闻名，色彩明快地描绘飞鸟，是该市现存的著名马赛克之一。'] },
+      { title: '核心体验', paras: ['场地相对开放，能在现代建筑之间直接感受考古现场；建议穿着舒适，并留意不平整地面。'] }
+    ]
+  },
+  route: {
+    eyebrow: '游览路线',
+    title: '建议路线',
+    intro: '一条用于了解方位的一般路线；细节可能随现场管理方式而变化。',
+    steps: [
+      { title: '抵达入口', text: '到达市中心的遗址，并在现场确认开放时间。' },
+      { title: '罗马剧场', text: '沿石质与大理石阶梯绕行，观察其细节。' },
+      { title: '周边遗迹', text: '在参观范围内观看石柱与建筑残件。' },
+      { title: '飞鸟别墅马赛克', text: '在马赛克前驻足，查看相关说明牌。' },
+      { title: '出口', text: '沿入口返回。' }
+    ],
+    notesTitle: '游览须知',
+    notes: ['地面不平整且可能有台阶，行走时请留意。', '请勿触摸马赛克与裸露文物。', '可能需要门票；本文未核实价格。', '开放时间会变动，本文未核实。'],
+    note: '以上仅为规划用的一般路线；请以官方现场信息为准。'
+  },
+  reviews: {
+    eyebrow: '游客评价',
+    title: '游客评价',
+    text: '我们不发布编造的评价。你可以在 Google Maps 上查看真实且实时更新的评价。',
+    cta: '在 Google Maps 查看评价'
+  }
+};
+
+// ————————————————————————————————————————————————————————————
+// كتل موسّعة: عمود السواري / السرابيون (قالب صفحة المعلم الغني)
+// ————————————————————————————————————————————————————————————
+
+const pompeysPillarExtrasAr: SpotExtras = {
+  info: {
+    eyebrow: 'البيانات الأساسية',
+    title: 'البيانات الأساسية',
+    items: [
+      { k: 'الاسم الشائع', v: 'عمود السواري (العمود الروماني)' },
+      { k: 'النوع', v: 'أثر روماني · عمود' },
+      { k: 'الدولة', v: 'مصر' },
+      { k: 'المدينة', v: 'الإسكندرية' },
+      { k: 'المنطقة', v: 'حي كرموز' },
+      { k: 'الفترة', v: 'نهاية القرن الثالث الميلادي (عهد دقلديانوس)' },
+      { k: 'المادة', v: 'الجرانيت الأحمر' },
+      { k: 'السياق', v: 'داخل بقايا السرابيون' },
+      { k: 'المواعيد', v: 'غير مُتحقَّق منها — راجع الجهة الرسمية' },
+      { k: 'التذاكر', v: 'غير مُتحقَّق منها — راجع الجهة الرسمية' }
+    ],
+    note: 'نعرض ما يمكن التحقق منه فقط؛ المواعيد والأسعار متغيّرة وغير مُتحقَّق منها هنا.'
+  },
+  access: {
+    eyebrow: 'الوصول',
+    title: 'كيف تصل إلى الموقع',
+    intro: 'يقع الموقع في حي كرموز جنوب وسط المدينة؛ هذه خيارات عامة للتخطيط وليست تعليمات رسمية.',
+    cards: [
+      { title: 'الموقع', text: 'في حي كرموز على أرض مرتفعة نسبياً؛ الزمن من النصب غير مُتحقَّق منه.' },
+      { title: 'سيارة أجرة أو تطبيق نقل', text: 'الخيار الأسهل للوصول المباشر؛ أظهر الموقع على الخريطة واتفق على الأجرة.' },
+      { title: 'النقل العام', text: 'قد تخدم المنطقة بعض الخطوط، لكن التفاصيل غير مُتحقَّق منها؛ اسأل محلياً.' },
+      { title: 'المشي', text: 'الموقع داخل الحي وقد يتضمن درجات؛ المشي ممكن جزئياً، والمسافات غير مُتحقَّق منها.' }
+    ],
+    note: 'تفاصيل المواصلات تتغيّر؛ راجع مصادر محلية قبل الانطلاق.'
+  },
+  charm: {
+    eyebrow: 'اكتشف المكان',
+    title: 'لماذا يستحق الزيارة',
+    intro: 'أربعة محاور لفهم قيمة الموقع.',
+    items: [
+      { title: 'التاريخ', paras: ['عمود ضخم من الجرانيت الأحمر يعود إلى نهاية القرن الثالث الميلادي، ويُنسب إلى عهد الإمبراطور دقلديانوس.'] },
+      { title: 'العمارة', paras: ['يتكوّن من عمود واحد ضخم يقوم على قاعدة، ويُعدّ من أبرز الآثار الرومانية الباقية في المدينة.'] },
+      { title: 'القيمة الثقافية', paras: ['يقع بين بقايا السرابيون، ما يضعه في سياق المعابد والمعالم الرومانية القديمة في الإسكندرية.'] },
+      { title: 'التجربة', paras: ['الموقع على أرض مرتفعة وتتخلله درجات وأسطح غير مستوية، مع إمكانية إطلالة على محيط الحي؛ توخَّ الحذر أثناء التنقل.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'مسار الزيارة',
+    title: 'مسار مقترح',
+    intro: 'مسار عام للتعريف، وقد تختلف تفاصيله بحسب تنظيم الموقع.',
+    steps: [
+      { title: 'الوصول إلى المدخل', text: 'الوصول إلى الموقع في كرموز والتحقق من مواعيد الافتتاح محلياً.' },
+      { title: 'الصعود إلى الموقع', text: 'الصعود عبر الممرات والدرجات إلى الساحة الرئيسية.' },
+      { title: 'العمود', text: 'الوقوف عند العمود الجرانيتي ومشاهدة قاعدته من مسافة محترمة.' },
+      { title: 'بقايا السرابيون', text: 'تفقّد الأجزاء والنقوش المحيطة ضمن النطاق المخصص.' },
+      { title: 'الخروج', text: 'العودة عبر المدخل.' }
+    ],
+    notesTitle: 'تنبيهات للزيارة',
+    notes: ['توجد درجات وأسطح غير مستوية؛ انتبه أثناء الصعود والهبوط.', 'لا تصعد على القاعدة أو الآثار.', 'قد تُطلب تذكرة؛ لم نتحقق من الأسعار.', 'المواعيد تتغيّر وغير مُتحقَّق منها هنا.'],
+    note: 'هذا مسار عام للتخطيط فقط؛ المرجع هو تفاصيل الموقع الرسمية.'
+  },
+  reviews: {
+    eyebrow: 'تقييمات الزوّار',
+    title: 'تقييمات الزوّار',
+    text: 'لا ننشر تقييمات مُختلقة. يمكنك قراءة التقييمات الحقيقية المحدّثة على Google Maps.',
+    cta: 'قراءة التقييمات على Google Maps'
+  }
+};
+
+const pompeysPillarExtrasEn: SpotExtras = {
+  info: {
+    eyebrow: 'Basic information',
+    title: 'Basic information',
+    items: [
+      { k: 'Common name', v: 'Pompey’s Pillar' },
+      { k: 'Type', v: 'Roman monument · column' },
+      { k: 'Country', v: 'Egypt' },
+      { k: 'City', v: 'Alexandria' },
+      { k: 'Area', v: 'Karmouz district' },
+      { k: 'Period', v: 'Late 3rd century AD (reign of Diocletian)' },
+      { k: 'Material', v: 'Red granite' },
+      { k: 'Setting', v: 'Within the remains of the Serapeum' },
+      { k: 'Hours', v: 'Not verified — check the official body' },
+      { k: 'Tickets', v: 'Not verified — check the official body' }
+    ],
+    note: 'Only verifiable details are listed; hours and prices change and are not verified here.'
+  },
+  access: {
+    eyebrow: 'Getting there',
+    title: 'How to reach the site',
+    intro: 'The site is in Karmouz, south of the city centre; these are general planning options, not official instructions.',
+    cards: [
+      { title: 'Location', text: 'In Karmouz on relatively high ground; the time from the memorial is not verified.' },
+      { title: 'Taxi or ride-hailing', text: 'The easiest way to arrive directly; show the pin and agree the fare.' },
+      { title: 'Public transport', text: 'Some routes may serve the area, but details are not verified; ask locally.' },
+      { title: 'On foot', text: 'The site is within the district and may involve steps; walking works partly, and distances are not verified.' }
+    ],
+    note: 'Transport details change; check local sources before you travel.'
+  },
+  charm: {
+    eyebrow: 'Discover the place',
+    title: 'Why it is worth visiting',
+    intro: 'Four angles for understanding the site.',
+    items: [
+      { title: 'History', paras: ['A colossal red-granite column dating to the late 3rd century AD, associated with the reign of the emperor Diocletian.'] },
+      { title: 'Architecture', paras: ['It is a single massive column on a base, and stands among the most prominent surviving Roman monuments in the city.'] },
+      { title: 'Cultural value', paras: ['It lies among the remains of the Serapeum, placing it in the context of Alexandria’s ancient temples and Roman landmarks.'] },
+      { title: 'The experience', paras: ['The site sits on high ground with steps and uneven surfaces, and may offer views over the surrounding district; take care as you move.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'Visit route',
+    title: 'A suggested route',
+    intro: 'A general route for orientation; details may vary with how the site is managed.',
+    steps: [
+      { title: 'Arrive at the entrance', text: 'Reach the site in Karmouz and confirm opening hours locally.' },
+      { title: 'Climb to the site', text: 'Go up the paths and steps to the main courtyard.' },
+      { title: 'The column', text: 'Stop at the granite column and view its base from a respectful distance.' },
+      { title: 'Remains of the Serapeum', text: 'Look at the surrounding fragments and inscriptions within the visiting area.' },
+      { title: 'Exit', text: 'Return via the entrance.' }
+    ],
+    notesTitle: 'Visit notes',
+    notes: ['There are steps and uneven surfaces; take care going up and down.', 'Do not climb on the base or the antiquities.', 'A ticket may be required; no prices are verified here.', 'Hours change and are not verified here.'],
+    note: 'This is a general route for planning only; the official site details are the reference.'
+  },
+  reviews: {
+    eyebrow: 'Visitor reviews',
+    title: 'Visitor reviews',
+    text: 'We do not publish invented reviews. You can read real, up-to-date reviews on Google Maps.',
+    cta: 'Read reviews on Google Maps'
+  }
+};
+
+const pompeysPillarExtrasZh: SpotExtras = {
+  info: {
+    eyebrow: '基础信息',
+    title: '基础信息',
+    items: [
+      { k: '常见名称', v: '庞贝柱（萨拉皮雍）' },
+      { k: '景点类型', v: '罗马遗迹 · 石柱' },
+      { k: '国家', v: '埃及' },
+      { k: '城市', v: '亚历山大' },
+      { k: '区域', v: '卡尔穆兹区' },
+      { k: '时期', v: '公元 3 世纪末（戴克里先时期）' },
+      { k: '材质', v: '红色花岗岩' },
+      { k: '环境', v: '位于萨拉皮雍遗址之中' },
+      { k: '开放时间', v: '未核实——请查阅官方机构' },
+      { k: '门票', v: '未核实——请查阅官方机构' }
+    ],
+    note: '仅列出可核实信息；开放时间与价格会变动，本文未核实。'
+  },
+  access: {
+    eyebrow: '交通方式',
+    title: '如何到达遗址',
+    intro: '遗址位于市中心以南的卡尔穆兹区；以下为一般性规划选项，并非官方说明。',
+    cards: [
+      { title: '位置', text: '位于卡尔穆兹区、地势较高处；从纪念碑出发的用时本文未核实。' },
+      { title: '出租车或网约车', text: '直达最省事的方式；出示地图定位，先谈好车费。' },
+      { title: '公共交通', text: '附近可能有线路经过，但细节未核实；请向当地人询问。' },
+      { title: '步行', text: '遗址位于该区之内且可能涉及台阶；部分路段可步行，距离本文未核实。' }
+    ],
+    note: '交通细节会变动；出行前请查阅当地来源。'
+  },
+  charm: {
+    eyebrow: '发现魅力',
+    title: '为什么值得一游',
+    intro: '从四个角度理解这处遗址的价值。',
+    items: [
+      { title: '历史', paras: ['一根巨大的红色花岗岩石柱，可追溯至公元 3 世纪末，与戴克里先皇帝在位时期相关。'] },
+      { title: '建筑特色', paras: ['它以单根巨柱立于基座之上，是该市现存最突出的罗马遗迹之一。'] },
+      { title: '文化价值', paras: ['它位于萨拉皮雍遗址之中，因而被置于亚历山大古代神庙与罗马地标的脉络里。'] },
+      { title: '核心体验', paras: ['遗址地势较高，有台阶与不平整地面，或可眺望周边街区；行走时请留意安全。'] }
+    ]
+  },
+  route: {
+    eyebrow: '游览路线',
+    title: '建议路线',
+    intro: '一条用于了解方位的一般路线；细节可能随现场管理方式而变化。',
+    steps: [
+      { title: '抵达入口', text: '到达卡尔穆兹区的遗址，并在现场确认开放时间。' },
+      { title: '登临遗址', text: '沿通道与台阶登上主场地。' },
+      { title: '石柱', text: '在花岗岩石柱前驻足，保持距离观看其基座。' },
+      { title: '萨拉皮雍遗迹', text: '在参观范围内观看周边残件与铭文。' },
+      { title: '出口', text: '沿入口返回。' }
+    ],
+    notesTitle: '游览须知',
+    notes: ['有台阶与不平整地面，上下时请注意安全。', '请勿攀爬基座或文物。', '可能需要门票；本文未核实价格。', '开放时间会变动，本文未核实。'],
+    note: '以上仅为规划用的一般路线；请以官方现场信息为准。'
+  },
+  reviews: {
+    eyebrow: '游客评价',
+    title: '游客评价',
+    text: '我们不发布编造的评价。你可以在 Google Maps 上查看真实且实时更新的评价。',
+    cta: '在 Google Maps 查看评价'
+  }
+};
+
+// ————————————————————————————————————————————————————————————
+// كتل موسّعة: سوق المنشية (قالب صفحة المعلم الغني)
+// ————————————————————————————————————————————————————————————
+
+const mansheyaMarketExtrasAr: SpotExtras = {
+  info: {
+    eyebrow: 'البيانات الأساسية',
+    title: 'البيانات الأساسية',
+    items: [
+      { k: 'الاسم الشائع', v: 'سوق المنشية' },
+      { k: 'النوع', v: 'حي تجاري · سوق شعبي' },
+      { k: 'الدولة', v: 'مصر' },
+      { k: 'المدينة', v: 'الإسكندرية' },
+      { k: 'المنطقة', v: 'حول ميدان النصب بالمنشية' },
+      { k: 'الطابع', v: 'دكاكين قديمة · حياة شارع · مقاهٍ' },
+      { k: 'المواعيد', v: 'غير مُتحقَّق منها — يختلف بحسب النشاط' },
+      { k: 'التذاكر', v: 'غير مُتحقَّق منها — المكان مفتوح للعامة' }
+    ],
+    note: 'نعرض ما يمكن التحقق منه فقط؛ المواعيد متغيّرة وغير مُتحقَّق منها هنا.'
+  },
+  access: {
+    eyebrow: 'الوصول',
+    title: 'كيف تصل إلى السوق',
+    intro: 'يمتد السوق حول ميدان النصب مباشرة؛ هذه خيارات عامة للتخطيط وليست تعليمات رسمية.',
+    cards: [
+      { title: 'من النصب مباشرة', text: 'السوق يحيط بالميدان المحيط بالنصب، لذا الوصول مشياً من المركز المباشر هو الأنسب.' },
+      { title: 'سيارة أجرة أو تطبيق نقل', text: 'ممكن للوصول إلى أطراف المنطقة، مع توقّع الزحام؛ نزول قريب من الميدان والتنقل مشياً.' },
+      { title: 'النقل العام', text: 'المنطقة على مقربة من مسارات نقل عام رئيسية، لكن التفاصيل غير مُتحقَّق منها؛ اسأل محلياً.' },
+      { title: 'المشي', text: 'المشي هو وسيلة التجول الأنسب داخل الحواري المزدحمة؛ المسافات غير مُتحقَّق منها.' }
+    ],
+    note: 'تفاصيل المواصلات تتغيّر؛ راجع مصادر محلية قبل الانطلاق.'
+  },
+  charm: {
+    eyebrow: 'اكتشف المكان',
+    title: 'لماذا يستحق الزيارة',
+    intro: 'أربعة محاور لفهم الطباع المحلي.',
+    items: [
+      { title: 'التاريخ', paras: ['حي تجاري قديم في قلب الإسكندرية، وقد ظل ميدان المنشية مركزاً للحياة العامة والتجارية في المدينة.'] },
+      { title: 'الطابع', paras: ['حياة سوق يومية من دكاكين قديمة وبسطات وواجهات محلات ومقاهٍ بسيطة، لا معلم مُعدّ للزوّار.'] },
+      { title: 'القيمة الثقافية', paras: ['يُظهر الوجه اليومي للمدينة بعيداً عن المسارات التقليدية، ويجاور منطقة الأحياء والمباني العتيقة.'] },
+      { title: 'التجربة', paras: ['اذهب من أجل الأجواء والحركة والملاحظة، لا من أجل التصميم؛ احتفظ بأغراضك واتفق على السعر قبل الشراء.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'مسار الزيارة',
+    title: 'مسار مقترح',
+    intro: 'مسار عام للتعريف، وقد تختلف تفاصيله بحسب الزحام وأوقات نشاط الدكاكين.',
+    steps: [
+      { title: 'البدء من الميدان', text: 'البدء من ميدان النصب حيث يحيط السوق بالميدان.' },
+      { title: 'الحواري الرئيسية', text: 'التجول في الشوارع الرئيسية المزدحمة ومشاهدة الواجهات والدكاكين.' },
+      { title: 'الأسواق الجانبية', text: 'الدخول في بعض الأزقة الجانبية حيث البسطات والمحلات المتخصصة.' },
+      { title: 'استراحة قصيرة', text: 'التوقف في أحد المقاهي البسيطة للملاحظة والراحة.' },
+      { title: 'الخروج', text: 'العودة إلى الميدان عبر الحواري الأقل ازدحاماً.' }
+    ],
+    notesTitle: 'تنبيهات للزيارة',
+    notes: ['احتفظ بأغراضك الشخصية وانتبه في المناطق المزدحمة.', 'اتفق على السعر قبل الشراء حيث يقتضي الأمر.', 'القسم الأكبر من المكان مساحة عامة مفتوحة لا معلم مُعدّ للزوّار.', 'المواعيد تختلف بحسب النشاط وغير مُتحقَّق منها هنا.'],
+    note: 'هذا مسار عام للتخطيط فقط؛ المرجع هو الملاحظة الميدانية والمرونة.'
+  },
+  reviews: {
+    eyebrow: 'تقييمات الزوّار',
+    title: 'تقييمات الزوّار',
+    text: 'لا ننشر تقييمات مُختلقة. يمكنك قراءة التقييمات الحقيقية المحدّثة على Google Maps.',
+    cta: 'قراءة التقييمات على Google Maps'
+  }
+};
+
+const mansheyaMarketExtrasEn: SpotExtras = {
+  info: {
+    eyebrow: 'Basic information',
+    title: 'Basic information',
+    items: [
+      { k: 'Common name', v: 'Mansheya market quarter' },
+      { k: 'Type', v: 'Commercial quarter · street market' },
+      { k: 'Country', v: 'Egypt' },
+      { k: 'City', v: 'Alexandria' },
+      { k: 'Area', v: 'Around the memorial square, Mansheya' },
+      { k: 'Character', v: 'Old shops · street life · cafés' },
+      { k: 'Hours', v: 'Not verified — varies with activity' },
+      { k: 'Tickets', v: 'Not verified — the area is open to the public' }
+    ],
+    note: 'Only verifiable details are listed; hours change and are not verified here.'
+  },
+  access: {
+    eyebrow: 'Getting there',
+    title: 'How to reach the market',
+    intro: 'The market runs right around the memorial square; these are general planning options, not official instructions.',
+    cards: [
+      { title: 'From the memorial', text: 'The market surrounds the square around the memorial, so arriving on foot from the centre is most direct.' },
+      { title: 'Taxi or ride-hailing', text: 'Possible to the edge of the area, but expect traffic; get out near the square and continue on foot.' },
+      { title: 'Public transport', text: 'The area is close to major public-transport routes, but details are not verified; ask locally.' },
+      { title: 'On foot', text: 'Walking is the best way around the busy lanes; distances are not verified.' }
+    ],
+    note: 'Transport details change; check local sources before you travel.'
+  },
+  charm: {
+    eyebrow: 'Discover the place',
+    title: 'Why it is worth visiting',
+    intro: 'Four angles for understanding the local character.',
+    items: [
+      { title: 'History', paras: ['An old commercial quarter in the heart of Alexandria; Mansheya square has long been a centre of the city’s public and commercial life.'] },
+      { title: 'Character', paras: ['Daily market life of old shops, street stalls, shopfronts and simple cafés — not a site set up for visitors.'] },
+      { title: 'Cultural value', paras: ['It shows the city’s everyday face away from the usual routes, next to older neighbourhoods and buildings.'] },
+      { title: 'The experience', paras: ['Go for the atmosphere, movement and people-watching rather than design; keep your belongings close and agree the price before buying.'] }
+    ]
+  },
+  route: {
+    eyebrow: 'Visit route',
+    title: 'A suggested route',
+    intro: 'A general route for orientation; details may vary with crowds and when the shops are busy.',
+    steps: [
+      { title: 'Start at the square', text: 'Begin at the memorial square, which the market surrounds.' },
+      { title: 'Main lanes', text: 'Wander the busy main streets and look at the shopfronts and stalls.' },
+      { title: 'Side markets', text: 'Duck into some of the side alleys where the stalls and specialist shops are.' },
+      { title: 'A short break', text: 'Pause at one of the simple cafés to watch and rest.' },
+      { title: 'Exit', text: 'Return to the square via the quieter lanes.' }
+    ],
+    notesTitle: 'Visit notes',
+    notes: ['Keep your belongings close and stay aware in crowded areas.', 'Agree the price before buying where relevant.', 'Most of the area is open public space, not a site set up for visitors.', 'Hours vary with activity and are not verified here.'],
+    note: 'This is a general route for planning only; on-the-ground observation and flexibility are the reference.'
+  },
+  reviews: {
+    eyebrow: 'Visitor reviews',
+    title: 'Visitor reviews',
+    text: 'We do not publish invented reviews. You can read real, up-to-date reviews on Google Maps.',
+    cta: 'Read reviews on Google Maps'
+  }
+};
+
+const mansheyaMarketExtrasZh: SpotExtras = {
+  info: {
+    eyebrow: '基础信息',
+    title: '基础信息',
+    items: [
+      { k: '常见名称', v: '曼希亚集市街区' },
+      { k: '景点类型', v: '商业街区 · 集市' },
+      { k: '国家', v: '埃及' },
+      { k: '城市', v: '亚历山大' },
+      { k: '区域', v: '曼希亚纪念碑广场周边' },
+      { k: '特色', v: '老店铺 · 街市生活 · 咖啡馆' },
+      { k: '时间', v: '未核实——随营业活动而变动' },
+      { k: '门票', v: '未核实——该区域对公众开放' }
+    ],
+    note: '仅列出可核实信息；时间会变动，本文未核实。'
+  },
+  access: {
+    eyebrow: '交通方式',
+    title: '如何到达集市',
+    intro: '集市就围绕纪念碑广场展开；以下为一般性规划选项，并非官方说明。',
+    cards: [
+      { title: '从纪念碑出发', text: '集市环绕着纪念碑所在的广场，因此从中心步行前往最为直接。' },
+      { title: '出租车或网约车', text: '可到区域边缘，但需预期拥堵；在广场附近下车后步行进入。' },
+      { title: '公共交通', text: '该区域靠近主要公交线路，但细节未核实；请向当地人询问。' },
+      { title: '步行', text: '穿梭于拥挤街巷，步行是最合适的方式；距离本文未核实。' }
+    ],
+    note: '交通细节会变动；出行前请查阅当地来源。'
+  },
+  charm: {
+    eyebrow: '发现魅力',
+    title: '为什么值得一游',
+    intro: '从四个角度理解这里的市井气质。',
+    items: [
+      { title: '历史', paras: ['这里是亚历山大市中心的老商业街区，曼希亚广场长期是城市公共与商业生活的中心。'] },
+      { title: '特色', paras: ['老店铺、摊贩、门面与简朴咖啡馆构成日常市集生活——它并非为游客设置的景点。'] },
+      { title: '文化价值', paras: ['它呈现出常规路线之外的城市日常面貌，与周边较老的街区与建筑相邻。'] },
+      { title: '核心体验', paras: ['来这里看的是氛围、人潮与生活，而非设计；请保管好随身物品，购买前先谈好价格。'] }
+    ]
+  },
+  route: {
+    eyebrow: '游览路线',
+    title: '建议路线',
+    intro: '一条用于了解方位的一般路线；细节可能随人流与店铺营业时间而变化。',
+    steps: [
+      { title: '从广场开始', text: '从纪念碑广场出发，集市就环绕着广场展开。' },
+      { title: '主要街巷', text: '漫步于拥挤的主街，观看门面与摊位。' },
+      { title: '侧边市集', text: '拐入部分侧巷，那里有摊贩与专门店铺。' },
+      { title: '短暂歇脚', text: '在简朴的咖啡馆停下，观察并休息片刻。' },
+      { title: '出口', text: '沿较安静的街巷返回广场。' }
+    ],
+    notesTitle: '游览须知',
+    notes: ['在拥挤区域请保管好随身物品并保持警觉。', '需要时请在购买前谈好价格。', '该区域大部分是开放的公共空间，并非为游客设置的景点。', '时间随营业活动变动，本文未核实。'],
+    note: '以上仅为规划用的一般路线；请以现场观察与灵活调整为准。'
+  },
+  reviews: {
+    eyebrow: '游客评价',
+    title: '游客评价',
+    text: '我们不发布编造的评价。你可以在 Google Maps 上查看真实且实时更新的评价。',
+    cta: '在 Google Maps 查看评价'
+  }
+};
+
+/** خرائط الكتل الموسّعة: المعالم الاثنا عشر التي أُثريت بقالب الصفحة الغني. */
 export const spotExtras: Partial<Record<SpotSlug, Record<Locale, SpotExtras>>> = {
+  'qaitbay-citadel': { ar: qaitbayExtrasAr, en: qaitbayExtrasEn, zh: qaitbayExtrasZh },
+  'abu-al-abbas-al-mursi-mosque': { ar: abbasExtrasAr, en: abbasExtrasEn, zh: abbasExtrasZh },
+  'bibliotheca-alexandrina': { ar: libraryExtrasAr, en: libraryExtrasEn, zh: libraryExtrasZh },
+  'kom-el-dikka': { ar: komElDikkaExtrasAr, en: komElDikkaExtrasEn, zh: komElDikkaExtrasZh },
+  'pompeys-pillar': { ar: pompeysPillarExtrasAr, en: pompeysPillarExtrasEn, zh: pompeysPillarExtrasZh },
+  'mansheya-market': { ar: mansheyaMarketExtrasAr, en: mansheyaMarketExtrasEn, zh: mansheyaMarketExtrasZh },
   'catacombs-of-kom-el-shoqafa': { ar: shoqafaExtrasAr, en: shoqafaExtrasEn, zh: shoqafaExtrasZh },
   'montaza-palace': { ar: montazaExtrasAr, en: montazaExtrasEn, zh: montazaExtrasZh },
   'royal-jewelry-museum': { ar: jewelryExtrasAr, en: jewelryExtrasEn, zh: jewelryExtrasZh },

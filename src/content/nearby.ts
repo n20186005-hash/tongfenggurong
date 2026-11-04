@@ -23,36 +23,42 @@ export const nearbyAr: NearbyContent = {
         tag: 'قلعة · ميناء',
         distance: 'عند طرف الميناء الشرقي',
         name: 'قلعة قايتباي',
+        slug: 'qaitbay-citadel',
         desc: 'قلعة مملوكية شُيّدت في القرن الخامس عشر عند طرف الميناء الشرقي، في موضع فنار الإسكندرية القديم. تتوقع أسواراً حجرية سميكة وإطلالات على البحر ومتحفاً بحرياً صغيراً في الداخل. المواعيد والتذاكر تتغير موسمياً — تأكد قبل السفر.'
       },
       {
         tag: 'مسجد',
         distance: 'نحو بحري',
         name: 'مسجد أبو العباس المرسي',
+        slug: 'abu-al-abbas-al-mursi-mosque',
         desc: 'أشهر مساجد بحري، وتتميّز قبتها العالية ومآذنها في أفق الميناء. يُرحَّب بالزوار عادة خارج أوقات الصلاة؛ التزم باللباس المحتشم واتبع إرشادات المكان بشأن الأحذية والتصوير.'
       },
       {
         tag: 'مكتبة · ثقافة',
         distance: 'شرقاً على الكورنيش',
         name: 'مكتبة الإسكندرية',
+        slug: 'bibliotheca-alexandrina',
         desc: 'مكتبة ومجمّع ثقافي حديث على الكورنيش، يستلهم فكرة مكتبة الإسكندرية القديمة. يضم متاحف وقاعات عرض وقبة سماوية؛ راجع صفحة الزيارة للمواعيد الحالية وأوقات الجولات المرشدة.'
       },
       {
         tag: 'موقع روماني',
         distance: 'وسط المدينة',
         name: 'آثار كوم الدكة',
+        slug: 'kom-el-dikka',
         desc: 'موقع أثري روماني في قلب المدينة الحديثة، أشهر ما فيه المدرج المسرحي وفسيفساء «فيلا الطيور». محطة قصيرة تضيف طبقة مختلفة تماماً من تاريخ الإسكندرية.'
       },
       {
         tag: 'أثر روماني',
         distance: 'حي كرموز',
         name: 'عمود السواري (العمود الروماني)',
+        slug: 'pompeys-pillar',
         desc: 'عمود شاهق من الجرانيت الأحمر يعود إلى العصر الروماني، يقع بين بقايا السرابيوم. الموقع على أرض مرتفعة وتتخلله درجات وأسطح غير مستوية، فتوخَّ الحذر أثناء التنقل.'
       },
       {
         tag: 'أسواق · حياة يومية',
         distance: 'حول الميدان',
         name: 'سوق المنشية',
+        slug: 'mansheya-market',
         desc: 'القلب التجاري المزدحم حول النصب مباشرة — دكاكين قديمة وحياة شارع وإسكندرية اليومية، لا معلم مُعدّ للزوار. اذهب من أجل الأجواء، واحتفظ بأغراضك، واتفق على السعر قبل الشراء.'
       }
     ]
@@ -122,36 +128,42 @@ export const nearbyEn: NearbyContent = {
         tag: 'Fortress · harbour',
         distance: 'Eastern harbour tip',
         name: 'Qaitbay Citadel',
+        slug: 'qaitbay-citadel',
         desc: 'A Mamluk fortress raised in the 15th century at the tip of the eastern harbour, on the site of the ancient Pharos of Alexandria. Expect thick stone walls, sea views and a small maritime museum inside. Hours and tickets change with the season — confirm before travelling.'
       },
       {
         tag: 'Mosque',
         distance: 'Toward Bahari',
         name: 'Abu al-Abbas al-Mursi Mosque',
+        slug: 'abu-al-abbas-al-mursi-mosque',
         desc: 'Bahari’s best-known mosque, whose tall dome and minarets stand out across the harbour skyline. Visitors are usually welcome outside prayer times; dress modestly and follow on-site guidance on shoes and photography.'
       },
       {
         tag: 'Library · culture',
         distance: 'East on the corniche',
         name: 'Bibliotheca Alexandrina',
+        slug: 'bibliotheca-alexandrina',
         desc: 'A modern library and cultural complex on the corniche, echoing the idea of the ancient Library of Alexandria. It houses museums, exhibition spaces and a planetarium; check the visit page for current hours and guided-tour times.'
       },
       {
         tag: 'Roman site',
         distance: 'City centre',
         name: 'Kom El Dikka',
+        slug: 'kom-el-dikka',
         desc: 'A Roman-era archaeological site in the middle of the modern city, best known for its amphitheatre and the mosaics of the “Villa of the Birds”. A compact stop that adds a very different layer of Alexandria’s history.'
       },
       {
         tag: 'Roman monument',
         distance: 'Karmouz district',
         name: 'Pompey’s Pillar',
+        slug: 'pompeys-pillar',
         desc: 'A towering column of red granite from the Roman period, standing among the remains of the Serapeum. The site sits on higher ground with steps and uneven surfaces, so take care when walking around.'
       },
       {
         tag: 'Markets · daily life',
         distance: 'Around the square',
         name: 'Mansheya market quarter',
+        slug: 'mansheya-market',
         desc: 'The busy commercial heart right around the memorial — old shops, street life and everyday Alexandria rather than a staged attraction. Go for the atmosphere, watch your belongings and agree prices before buying.'
       }
     ]
@@ -221,36 +233,42 @@ export const nearbyZh: NearbyContent = {
         tag: '城堡 · 港湾',
         distance: '东港尽头',
         name: '盖特贝城堡',
+        slug: 'qaitbay-citadel',
         desc: '马穆鲁克城堡，建于 15 世纪，位于东港尽头、古亚历山大法罗斯灯塔旧址。内有厚实石墙、海景以及一座小型海事博物馆。开放时间与门票随季节变化——出行前请确认。'
       },
       {
         tag: '清真寺',
         distance: '往巴赫里方向',
         name: '阿布·阿巴斯·莫尔西清真寺',
+        slug: 'abu-al-abbas-al-mursi-mosque',
         desc: '巴赫里最著名的清真寺，高耸的圆顶与宣礼塔在港湾天际线中十分醒目。通常可在礼拜时间之外参观；请着装得体，并遵守现场关于鞋履与拍照的规定。'
       },
       {
         tag: '图书馆 · 文化',
         distance: '海滨向东',
         name: '亚历山大图书馆',
+        slug: 'bibliotheca-alexandrina',
         desc: '海滨上的现代图书馆与文化综合体，延续古亚历山大图书馆的理念。馆内设有博物馆、展览空间与天文馆；请查看参观页面了解当前开放时间与导览场次。'
       },
       {
         tag: '罗马遗址',
         distance: '市中心',
         name: '科姆·迪卡（罗马剧场）',
+        slug: 'kom-el-dikka',
         desc: '位于现代城市中心的罗马时代考古遗址，以露天剧场和「飞鸟别墅」马赛克闻名。一处简短停留，为亚历山大历史增添截然不同的一层。'
       },
       {
         tag: '罗马遗迹',
         distance: '卡尔穆兹区',
         name: '庞贝柱（萨拉皮雍）',
+        slug: 'pompeys-pillar',
         desc: '罗马时期的红色花岗岩巨柱，矗立于萨拉皮雍遗址之间。遗址位于地势较高处，有台阶与不平整地面，行走时请注意安全。'
       },
       {
         tag: '集市 · 市井',
         distance: '广场周边',
         name: '曼希亚集市街区',
+        slug: 'mansheya-market',
         desc: '紧邻纪念碑的热闹商业核心——老店铺、街头生活与日常的亚历山大，而非为游客打造的景点。为氛围而来，注意随身物品，购买前先议价。'
       }
     ]

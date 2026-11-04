@@ -15,6 +15,7 @@ const guide = { ar, en, zh }[locale];
 const content = nearby[locale];
 
 const homeLabel = { ar: 'الرئيسية', en: 'Home', zh: '首页' }[locale];
+const detailsLabel = { ar: 'تفاصيل المعلم', en: 'View details', zh: '查看详情' }[locale];
 const pageUrl = Astro.site ? new URL(localizedPath(locale, '/nearby-attractions/'), Astro.site).toString() : localizedPath(locale, '/nearby-attractions/');
 
 const webpageJsonLd = {
@@ -95,13 +96,18 @@ const otherLocales = (['ar', 'en', 'zh'] as Locale[]).filter((l) => l !== locale
         <h2 class="section-title">{content.landmarks.title}</h2>
         <p class="section-copy mt-4 max-w-3xl">{content.landmarks.intro}</p>
         <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {content.landmarks.spots.map((l) => (
-            <div class="shell-border p-6">
-              <small class="text-[#d2aa68]">{l.tag} · {l.distance}</small>
-              <h3 class="mt-1 text-2xl font-black">{l.name}</h3>
-              <p class="mt-2 text-slate-300" set:html={l.desc} />
-            </div>
-          ))}
+          {content.landmarks.spots.map((l) => {
+            const href = l.slug ? localizedPath(locale, `/${l.slug}/`) : null;
+            const Tag = href ? 'a' : 'div';
+            return (
+              <Tag class="shell-border block p-6 transition hover:border-[#d2aa68]/60" {...(href ? { href } : {})}>
+                <small class="text-[#d2aa68]">{l.tag} · {l.distance}</small>
+                <h3 class="mt-1 text-2xl font-black">{l.name}</h3>
+                <p class="mt-2 text-slate-300" set:html={l.desc} />
+                {href && <span class="mt-3 inline-block text-sm font-semibold text-[#d2aa68]">{detailsLabel} →</span>}
+              </Tag>
+            );
+          })}
         </div>
       </div>
     </section>

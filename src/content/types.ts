@@ -23,6 +23,8 @@ export interface NearbySpot {
   distance: string;
   name: string;
   desc: string;
+  /** مُعرِّف الصفحة المستقلة للمعلم إن وُجدت، لربط البطاقة بها. */
+  slug?: string;
 }
 
 /** بطاقة إرشادية قصيرة (عنوان + نص) في صفحة المعالم المجاورة. */
