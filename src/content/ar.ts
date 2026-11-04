@@ -5,7 +5,13 @@ export const ar: GuideContent = {
   locale: 'ar',
   title: `${SITE.fullNameAr} (${SITE.cityAr}) – دليل الزيارة والموقع`,
   description: `اكتشف النصب التذكاري للجندي البحري المجهول، المعلم الشهير في ${SITE.cityAr}، ${SITE.governorateAr}، ${SITE.countryAr}. اطّلع على الموقع والخريطة، وتفاصيل الزيارة، و${SITE.nearbyLandmarksAr[0]} و${SITE.nearbyLandmarksAr[1]}، ونصائح الوصول.`,
-  heroImageAlt: 'رسم تجريدي أصلي للبحر في الإسكندرية، مصر؛ ليس صورة للنصب',
+  heroImageAlt: `${SITE.fullNameAr} – المنظر الرئيسي في ${SITE.cityAr}، ${SITE.countryAr}`,
+  photosAlt: [
+    `${SITE.fullNameAr} – المنظر الرئيسي في ${SITE.cityAr}، ${SITE.countryAr}`,
+    `تفاصيل الأعمدة والكتابات في ${SITE.fullNameAr} بالمنشية، ${SITE.cityAr}`,
+    `منظور جانبي لـ${SITE.fullNameAr} في ${SITE.cityAr}`,
+    `${SITE.fullNameAr} كما يبدو من ميدان المنشية في ${SITE.cityAr}`
+  ],
   nav: {
     about: 'نبذة',
     story: 'الحكاية',
@@ -64,6 +70,11 @@ export const ar: GuideContent = {
       { when: 'منتصف الستينيات · الجندي البحري المجهول', text: 'صدر قرار التحويل في الستينيات، واستقر الاسم والوظيفة التذكارية المرتبطة بالقوات البحرية وشهداء المعارك البحرية.' },
       { when: 'اليوم · نقطة ذاكرة في المشهد اليومي', text: 'يبقى النصب جزءاً من الحياة اليومية في المنشية، وفي الوقت نفسه إطاراً للمراسم ووضع أكاليل الزهور في مناسبات رسمية.' }
     ]
+  },
+  gallery: {
+    eyebrow: 'تفاصيل الحجر',
+    title: 'النصب كما تراه من الميدان.',
+    note: 'صور حقيقية موثقة من Wikimedia Commons. تظهر الاعتمادات والتراخيص مع كل صورة.'
   },
   visit: {
     eyebrow: 'الزيارة والموقع',
@@ -162,6 +173,6 @@ export const ar: GuideContent = {
       { label: 'Wikidata — الإحداثيات والهوية ↗', url: SITE.wikidataUrl },
     ],
     updated: 'آخر تحديث للمحتوى: 4 نوفمبر 2026.',
-    credit: 'رسم تجريدي أصلي للبحر أُنشئ لهذا الدليل بترخيص CC0؛ ليس صورة أو تصويراً للنصب. قد يُقصّ في العرض المتجاوب.'
+    credit: 'الصور المستخدمة في هذا الموقع صور حقيقية للنصب من Wikimedia Commons، وجميع حقوق الصور وملكيتها الفكرية تعود لمصوّريها الأصليين حسب التراخيص الموضحة مع كل صورة وفي ملف PHOTO_SOURCES.md.'
   }
 };

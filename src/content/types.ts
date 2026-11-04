@@ -99,6 +99,8 @@ export interface GuideContent {
   title: string;
   description: string;
   heroImageAlt: string;
+  /** نصوص بديلة للصور الأربع (بالترتيب: واجهة/أعمدة/جانبي/ميدان). */
+  photosAlt: [string, string, string, string];
   nav: {
     about: string;
     story: string;
@@ -137,6 +139,11 @@ export interface GuideContent {
     sub: string;
     intro: string;
     timeline: { when: string; text: string }[];
+  };
+  gallery: {
+    eyebrow: string;
+    title: string;
+    note: string;
   };
   visit: {
     eyebrow: string;

@@ -5,7 +5,13 @@ export const en: GuideContent = {
   locale: 'en',
   title: `${SITE.fullNameEn} (${SITE.cityEn}) – Visitor Guide & Location`,
   description: `Discover the ${SITE.fullNameEn}, a landmark in ${SITE.cityEn}, ${SITE.governorateEn}, ${SITE.countryEn}. Find the location and map, visit details, ${SITE.nearbyLandmarksEn[0]} and ${SITE.nearbyLandmarksEn[1]}, and how to get there.`,
-  heroImageAlt: 'Original abstract sea illustration for Alexandria, Egypt; not a photograph of the memorial',
+  heroImageAlt: `${SITE.fullNameEn} – the main view in ${SITE.cityEn}, ${SITE.countryEn}`,
+  photosAlt: [
+    `${SITE.fullNameEn} – the main view in ${SITE.cityEn}, ${SITE.countryEn}`,
+    `Column and inscription details of the ${SITE.fullNameEn} in Mansheya, ${SITE.cityEn}`,
+    `A side perspective of the ${SITE.fullNameEn} in ${SITE.cityEn}`,
+    `The ${SITE.fullNameEn} as seen from Mansheya Square in ${SITE.cityEn}`
+  ],
   nav: {
     about: 'About',
     story: 'Story',
@@ -64,6 +70,11 @@ export const en: GuideContent = {
       { when: 'Mid-1960s · The Naval Unknown Soldier', text: 'The conversion decision was issued in the 1960s, and the name and commemorative function linked to the naval forces and fallen in sea battles settled in.' },
       { when: 'Today · A memory point in daily life', text: 'The monument remains part of daily life in Mansheya, while also framing official ceremonies and wreath-laying on state occasions.' }
     ]
+  },
+  gallery: {
+    eyebrow: 'Stone details',
+    title: 'The memorial as you see it from the square.',
+    note: 'Real photos documented from Wikimedia Commons. Credits and licences appear with each photo.'
   },
   visit: {
     eyebrow: 'Visit & location',
@@ -162,6 +173,6 @@ export const en: GuideContent = {
       { label: 'Wikidata — coordinates & identity ↗', url: SITE.wikidataUrl },
     ],
     updated: 'Last content update: 4 November 2026.',
-    credit: 'Original abstract sea illustration created for this guide, released under CC0; not a photograph or depiction of the memorial. Responsive display may crop the illustration.'
+    credit: 'The images used on this site are real photos of the memorial from Wikimedia Commons; all image rights and intellectual property belong to their original photographers under the licences shown with each photo and in PHOTO_SOURCES.md.'
   }
 };

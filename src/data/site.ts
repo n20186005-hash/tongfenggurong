@@ -73,9 +73,9 @@ export const SITE = {
   nearbyLandmarksZh: ['盖特贝城堡', '阿布·阿巴斯·莫尔西清真寺'],
 
   // الصورة الرئيسية المستخدمة في og:image والبيانات المنظّمة
-  heroImage: '/images/harbour-illustration.svg',
+  heroImage: '/images/memorial-front.jpg',
   heroImageWidth: 1600,
-  heroImageHeight: 900,
+  heroImageHeight: 723,
 
   // التحليلات (لا تُحمّل قبل الموافقة)
   ga4Id: 'G-HXM22WWPKP',

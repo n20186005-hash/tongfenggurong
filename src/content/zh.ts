@@ -5,7 +5,13 @@ export const zh: GuideContent = {
   locale: 'zh',
   title: `${SITE.fullNameZh}（${SITE.cityZh}）— 参观指南与位置`,
   description: `认识${SITE.fullNameZh}——${SITE.cityZh}、${SITE.governorateZh}、${SITE.countryZh}的著名地标。查看位置与地图、参观详情、${SITE.nearbyLandmarksZh[0]}与${SITE.nearbyLandmarksZh[1]}，以及交通方式。`,
-  heroImageAlt: '埃及亚历山大原创抽象海景示意；并非纪念碑照片',
+  heroImageAlt: `${SITE.fullNameZh} —— ${SITE.cityZh}、${SITE.countryZh}的主要景观`,
+  photosAlt: [
+    `${SITE.fullNameZh} —— ${SITE.cityZh}、${SITE.countryZh}的主要景观`,
+    `${SITE.fullNameZh}在曼希亚的柱式与铭文细节，${SITE.cityZh}`,
+    `${SITE.fullNameZh}在${SITE.cityZh}的侧面视角`,
+    `从曼希亚广场望见的${SITE.fullNameZh}`
+  ],
   nav: {
     about: '简介',
     story: '历史',
@@ -64,6 +70,11 @@ export const zh: GuideContent = {
       { when: '1960 年代中期 · 海军无名烈士', text: '改设决定于 1960 年代作出，名称与纪念职能最终固定为与海军及海战阵亡者相关。' },
       { when: '今日 · 日常生活中的记忆点', text: '纪念碑仍是曼希亚日常生活的组成部分，同时也是官方典礼与献花仪式的背景。' }
     ]
+  },
+  gallery: {
+    eyebrow: '石质细节',
+    title: '从广场望见的纪念碑。',
+    note: '图片为 Wikimedia Commons 上的真实照片，每张均附作者与许可信息。'
   },
   visit: {
     eyebrow: '参观与位置',
@@ -162,6 +173,6 @@ export const zh: GuideContent = {
       { label: 'Wikidata — 坐标与身份 ↗', url: SITE.wikidataUrl },
     ],
     updated: '内容更新：2026 年 11 月 4 日。',
-    credit: '本指南原创抽象海景示意，采用 CC0；并非纪念碑照片或建筑形态示意。响应式展示可能裁剪画面。'
+    credit: '本网站所用图片为 Wikimedia Commons 上纪念碑的真实照片，图片版权与知识产权归原作者所有，许可见各图说明及 PHOTO_SOURCES.md。'
   }
 };

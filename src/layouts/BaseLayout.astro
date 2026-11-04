@@ -37,7 +37,7 @@ const {
 const meta = localeMeta[locale];
 const canonical = Astro.site ? new URL(localizedPath(locale, path), Astro.site).toString() : undefined;
 const ogImageUrl = absoluteUrl(ogImage ?? SITE.heroImage);
-const ogImageAltText = ogImageAlt ?? { ar: 'رسم تجريدي للبحر في الإسكندرية، مصر؛ ليس صورة للنصب', en: 'Abstract sea illustration for Alexandria, Egypt; not a photograph of the memorial', zh: '埃及亚历山大抽象海景示意；并非纪念碑照片' }[locale];
+const ogImageAltText = ogImageAlt ?? `${entityName(locale)} في ${cityName(locale)}`;
 const alternates = hreflangAlternates(path);
 const ogSiteName = `${entityName(locale)} · ${cityName(locale)}`;
 const ogLocaleAlternates = (Object.keys(localeMeta) as Locale[])
